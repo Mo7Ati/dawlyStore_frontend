@@ -16,6 +16,8 @@ import { FaqSection } from './components/faq-section'
 import { LandingFooter } from './components/footer'
 import { LandingThemeCustomizer, LandingThemeCustomizerTrigger } from './components/landing-theme-customizer'
 import { AboutSection } from './components/about-section'
+import { ShopByCategories } from './components/shop-by-category'
+import ProductList from './components/product-list'
 
 export function LandingPageContent() {
   const [themeCustomizerOpen, setThemeCustomizerOpen] = React.useState(false)
@@ -29,16 +31,19 @@ export function LandingPageContent() {
       <main>
         <HeroSection />
         <LogoCarousel />
-        <StatsSection />
-        <AboutSection />
+        {/* <StatsSection /> */}
+        {/* <AboutSection /> */}
+        <ShopByCategories />
         <FeaturesSection />
-        <TeamSection />
-        <PricingSection />
-        <TestimonialsSection />
-        <BlogSection />
-        <FaqSection />
+
+        <ProductList />
+        {/* <TeamSection /> */}
+        {/* <PricingSection /> */}
+        {/* <TestimonialsSection /> */}
+        {/* <BlogSection /> */}
+        {/* <FaqSection /> */}
         <CTASection />
-        <ContactSection />
+        {/* <ContactSection /> */}
       </main>
 
       {/* Footer */}

@@ -75,7 +75,7 @@ export function LandingFooter() {
     <footer className="border-t bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Newsletter Section */}
-        <div className="mb-16">
+        {/* <div className="mb-16">
           <div className="mx-auto max-w-2xl text-center">
             <h3 className="text-2xl font-bold mb-4">Stay updated</h3>
             <p className="text-muted-foreground mb-6">
@@ -103,7 +103,7 @@ export function LandingFooter() {
               </form>
             </Form>
           </div>
-        </div>
+        </div> */}
 
         {/* Main Footer Content */}
         <div className="grid gap-8 grid-cols-4 lg:grid-cols-6">
