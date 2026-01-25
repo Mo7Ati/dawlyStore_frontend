@@ -6,8 +6,10 @@ import { ArrowRight, Play, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { DotPattern } from '@/components/dot-pattern'
+import { HeroSectionData } from '@/types/home-types'
 
-export function HeroSection() {
+export function HeroSection({ data }: { data: HeroSectionData }) {
+  const { title, description } = data
   return (
     <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-background to-background/80 pt-16 sm:pt-20 pb-16">
       {/* Background Pattern */}
@@ -22,38 +24,36 @@ export function HeroSection() {
           <div className="mb-8 flex justify-center">
             <Badge variant="outline" className="px-4 py-2 border-foreground">
               <Star className="w-3 h-3 mr-2 fill-current" />
-              New: Premium Template Collection
+              New: Featured Stores
               <ArrowRight className="w-3 h-3 ml-2" />
             </Badge>
           </div>
 
           {/* Main Headline */}
           <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            Build Better
-            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              {" "}Web Applications{" "}
-            </span>
-            with Ready-Made Components
+            {title}
+            {/* <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              
+            </span> */}
           </h1>
 
           {/* Subheading */}
           <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            Accelerate your development with our curated collection of blocks, templates, landing pages,
-            and admin dashboards. From free components to complete solutions, built with shadcn/ui.
+            {description}
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" className="text-base cursor-pointer" asChild>
               <Link href="/auth/sign-up">
-                Get Started Free
+                Browse Stores
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" size="lg" className="text-base cursor-pointer" asChild>
               <a href="#">
                 <Play className="mr-2 h-4 w-4" />
-                Watch Demo
+                Start Selling
               </a>
             </Button>
           </div>

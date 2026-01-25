@@ -1,22 +1,25 @@
-"use client";
+import type { Metadata } from 'next'
+import { HomePage } from './(home)/components/home-content'
+import { getSections } from '@/services/sections-api'
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+// Metadata for the landing page
+export const metadata: Metadata = {
+  title: 'ShadcnStore - Modern Admin Dashboard Template',
+  description: 'A beautiful and comprehensive admin dashboard template built with React, Next.js, TypeScript, and shadcn/ui. Perfect for building modern web applications.',
+  keywords: ['admin dashboard', 'react', 'nextjs', 'typescript', 'shadcn/ui', 'tailwind css'],
+  openGraph: {
+    title: 'ShadcnStore - Modern Admin Dashboard Template',
+    description: 'A beautiful and comprehensive admin dashboard template built with React, Next.js, TypeScript, and shadcn/ui.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ShadcnStore - Modern Admin Dashboard Template',
+    description: 'A beautiful and comprehensive admin dashboard template built with React, Next.js, TypeScript, and shadcn/ui.',
+  },
+}
 
-export default function HomePage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.replace("/dashboard");
-  }, [router]);
-
-  // Show a loading state while redirecting
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-        <p className="text-muted-foreground mt-2">Redirecting to dashboard...</p>
-      </div>
-    </div>
-  );
+export default async function LandingPage() {
+  const { data: sections } = await getSections()
+  return <HomePage sections={sections} />
 }

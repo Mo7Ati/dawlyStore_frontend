@@ -7,14 +7,14 @@ export function middleware(request: NextRequest) {
   // For example: authentication, redirects, etc.
   
   // Example: Redirect /login to /auth/sign-in
-  if (request.nextUrl.pathname === '/login') {
-    return NextResponse.redirect(new URL('/auth/sign-in', request.url))
-  }
+  // if (request.nextUrl.pathname === '/login') {
+  //   return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+  // }
   
   // Example: Redirect /register to /auth/sign-up
-  if (request.nextUrl.pathname === '/register') {
-    return NextResponse.redirect(new URL('/auth/sign-up', request.url))
-  }
+  // if (request.nextUrl.pathname === '/register') {
+  //   return NextResponse.redirect(new URL('/auth/sign-up', request.url))
+  // }
   
   return NextResponse.next()
 }
