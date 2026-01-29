@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { HomePage } from './(home)/components/home-content'
 import { getSections } from '@/services/sections-api'
+import { HomePage } from '@/components/home/home-content'
 
 // Metadata for the landing page
 export const metadata: Metadata = {

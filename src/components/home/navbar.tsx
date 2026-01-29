@@ -25,9 +25,9 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import { Logo } from '@/components/logo'
-import { MegaMenu } from '@/app/(home)/components/mega-menu'
 import { ModeToggle } from '@/components/mode-toggle'
 import { useTheme } from '@/hooks/use-theme'
+import { MegaMenu } from './mega-menu'
 
 const navigationItems = [
   { name: 'Home', href: '#hero' },

@@ -5,7 +5,7 @@ import { Product } from '@/types/product'
 import Image from 'next/image'
 import { use } from 'react'
 
-  
+
 export function ProductOverview({ productPromise }: { productPromise: Promise<Response<Product>> }) {
   const { data: product } = use(productPromise)
 

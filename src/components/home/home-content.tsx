@@ -1,11 +1,11 @@
 "use client"
 
 import React from 'react'
-import { LandingNavbar } from "@/app/(home)/components/navbar"
-import { LandingThemeCustomizer, LandingThemeCustomizerTrigger } from "@/app/(home)/components/landing-theme-customizer"
 import SectionsRenderer from './sections-renderer'
 import { Section } from '@/types/home-types'
-import { LandingFooter } from '@/app/(home)/components/footer'
+import { LandingNavbar } from './navbar'
+import { LandingFooter } from './footer'
+import { LandingThemeCustomizer, LandingThemeCustomizerTrigger } from './landing-theme-customizer'
 
 interface HomePageProps {
   sections: Section[]
@@ -16,16 +16,8 @@ export function HomePage({ sections }: HomePageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <LandingNavbar />
-
       {/* Main Content */}
-      <main>
-        <SectionsRenderer sections={sections} />
-      </main>
-
-      {/* Footer */}
-      <LandingFooter />
+      <SectionsRenderer sections={sections} />
 
       {/* Theme Customizer */}
       <LandingThemeCustomizerTrigger onClick={() => setThemeCustomizerOpen(true)} />

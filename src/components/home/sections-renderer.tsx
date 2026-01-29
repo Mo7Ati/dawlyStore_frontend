@@ -1,10 +1,10 @@
-import { ShopByCategories } from "@/app/(home)/components/shop-by-category"
-import ProductList from "@/app/(home)/components/product-list"
-import { HeroSection } from "@/app/(home)/components/hero-section"
-import { FeaturesSection } from "@/app/(home)/components/features-section"
-import { CTASection } from "@/app/(home)/components/cta-section"
-import { Section } from '@/types/home-types'
-import { StoreList } from "@/app/(home)/components/store-list"
+import { Section } from "@/types/home-types"
+import { HeroSection } from "@/components/home/hero-section"
+import { FeaturesSection } from "@/components/home/features-section"
+import { StoreList } from "@/components/home/store-list"
+import { CTASection } from "@/components/home/cta-section"
+import ProductList from "@/components/home/product-list"
+import ShopByCategories from "@/components/home/shop-by-category"
 
 const SectionsRenderer = ({ sections }: { sections: Section[] }) => {
     // Sort sections by order
