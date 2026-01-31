@@ -1,8 +1,8 @@
-import { ProductListSectionData } from '@/types/home-types'
 import ProductCard from './product-card'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { Product } from '@/types/product'
 
-const ProductList = ({ data }: { data: ProductListSectionData[] }) => {
+const ProductList = ({ data }: { data: Product[] }) => {
     const isMobile = useIsMobile();
     if (isMobile) {
         data = data.slice(0, 5);

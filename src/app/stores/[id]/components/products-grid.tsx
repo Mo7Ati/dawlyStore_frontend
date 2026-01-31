@@ -1,14 +1,26 @@
-import { ProductBase } from "@/types/general"
-import { Category } from "@/services/stores/store-types"
-import StoreProductCard from "./store-product-card"
 import ProductCard from "@/components/home/product-card"
+import { debounce, parseAsInteger, parseAsString, useQueryState } from "nuqs"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Product } from "@/types/product"
+import { Store } from "@/types/store"
+import { Category } from "@/types/general"
 
 interface ProductsGridProps {
-    products: Record<string, ProductBase[]>
+    products: Product[]
     categories: Category[]
+    store: Store
 }
 
-export default function ProductsGrid({ products, categories }: ProductsGridProps) {
+export default function ProductsGrid({ products, categories, store }: ProductsGridProps) {
+    const [search, setSearch] = useQueryState('search', parseAsString.withOptions({ shallow: false }))
+    const [category, setCategory] = useQueryState('category', parseAsString.withOptions({ shallow: false }))
+    const [minPrice, setMinPrice] = useQueryState('minPrice', parseAsInteger.withOptions({ shallow: false }))
+    const [maxPrice, setMaxPrice] = useQueryState('maxPrice', parseAsInteger.withOptions({ shallow: false }))
+
+    console.log(Object.entries(products));
+
     return (
         <section className="py-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -40,11 +52,15 @@ export default function ProductsGrid({ products, categories }: ProductsGridProps
 
                                 {/* Search */}
                                 <div className="mb-6">
-                                    <label className="mb-2 block text-sm font-medium">
+                                    <Label className="mb-2 block text-sm font-medium">
                                         Search
-                                    </label>
+                                    </Label>
                                     <div className="relative">
-                                        <input
+                                        <Input
+                                            value={search || ''}
+                                            onChange={(e) => setSearch(e.target.value, {
+                                                limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
+                                            })}
                                             className="pl-10 h-9 w-full rounded-md border bg-transparent px-3 text-sm"
                                             placeholder="Search products..."
                                         />
@@ -55,17 +71,19 @@ export default function ProductsGrid({ products, categories }: ProductsGridProps
 
                                 {/* Categories */}
                                 <div className="mb-6">
-                                    <label className="mb-3 block text-sm font-medium">
+                                    <Label htmlFor="categories" className="mb-3 block text-sm font-medium">
                                         Categories
-                                    </label>
+                                    </Label>
                                     <div className="grid grid-cols-2 gap-2">
                                         {categories.map((cat) => (
-                                            <button
+                                            <Button
                                                 key={cat.id}
                                                 className="rounded-md border p-2 text-xs hover:bg-accent text-left cursor-pointer"
+                                                onClick={() => setCategory(cat.id)}
+                                                variant={category === cat.id ? "default" : "outline"}
                                             >
                                                 {cat.name}
-                                            </button>
+                                            </Button>
                                         ))}
                                     </div>
                                 </div>
@@ -74,19 +92,27 @@ export default function ProductsGrid({ products, categories }: ProductsGridProps
 
                                 {/* Price Range */}
                                 <div className="mb-6">
-                                    <label className="mb-3 block text-sm font-medium">
+                                    <Label className="mb-3 block text-sm font-medium">
                                         Price Range
-                                    </label>
+                                    </Label>
                                     <div className="flex gap-2">
-                                        <input
+                                        <Input
                                             type="number"
                                             placeholder="Min"
                                             className="h-9 w-full rounded-md border px-3 text-sm"
+                                            value={minPrice || ''}
+                                            onChange={(e) => setMinPrice(Number(e.target.value), {
+                                                limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
+                                            })}
                                         />
-                                        <input
+                                        <Input
                                             type="number"
                                             placeholder="Max"
                                             className="h-9 w-full rounded-md border px-3 text-sm"
+                                            value={maxPrice || ''}
+                                            onChange={(e) => setMaxPrice(Number(e.target.value), {
+                                                limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
+                                            })}
                                         />
                                     </div>
                                 </div>
@@ -115,19 +141,16 @@ export default function ProductsGrid({ products, categories }: ProductsGridProps
                         </div> */}
 
                         {/* Grid */}
+                        {/*  */}
                         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                             {
-                                Object.entries(products).map(([category, products]) => (
-                                    <>
-                                        <div
-                                            key={category}
-                                            className="bg-card rounded-xl border shadow-sm flex flex-col items-center py-4"
-                                        >
-                                            <div className="px-4">
-                                                <ProductCard product={products[0]} />
-                                            </div>
-                                        </div>
-                                    </>
+                                products.map((product) => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                        storeId={store.id}
+                                        storeName={store.name}
+                                    />
                                 ))
                             }
                         </div>

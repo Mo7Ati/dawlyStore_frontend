@@ -2,10 +2,10 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, MapPin, Store } from 'lucide-react';
-import { StoreListSectionData } from '@/types/home-types';
-import { StoreBase, ViewMode } from '@/services/stores/store-types';
+import { ViewMode } from '@/services/stores/store-types';
+import { Store as StoreType } from '@/types/store';
 
-const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreBase, viewMode: ViewMode }) => {
+const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: ViewMode }) => {
 
     const statusConfig = {
         open: {
@@ -24,7 +24,9 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreBase, viewMode: V
             dotColor: 'bg-amber-500',
         },
     };
-    const currentStatus = statusConfig[store.status || 'open'];
+
+    
+    const currentStatus = statusConfig[store.is_active ? 'open' : 'closed'];
     // Grid View (Vertical Layout)
     if (viewMode === 'grid') {
         return (
@@ -61,7 +63,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreBase, viewMode: V
                     <div className="space-y-3">
                         {/* Address */}
                         <div className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center">
+                            <div className="shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center">
                                 <MapPin className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -72,7 +74,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreBase, viewMode: V
 
                         {/* Delivery Time */}
                         <div className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center">
+                            <div className="shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center">
                                 <Clock className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -92,7 +94,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreBase, viewMode: V
             <div className="p-5">
                 <div className="flex items-center gap-6">
                     {/* Logo Section */}
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                         <div className="w-24 h-24 rounded-xl overflow-hidden border">
                             <img
                                 src={store.image_url.toString()}

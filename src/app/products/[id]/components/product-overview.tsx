@@ -1,15 +1,21 @@
 'use client'
 
+import { useState, use, useMemo } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Check } from 'lucide-react'
 import { Response } from '@/types/general'
 import { Product } from '@/types/product'
-import Image from 'next/image'
-import { use } from 'react'
-
+import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
+import { CartItemOption, CartItemAddition } from '@/stores/cart/cart-types'
+import { cn } from '@/lib/utils'
 
 export function ProductOverview({ productPromise }: { productPromise: Promise<Response<Product>> }) {
   const { data: product } = use(productPromise)
 
+
   const {
+    id,
     name,
     description,
     price,
@@ -19,15 +25,48 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
     image_url,
     additions,
     options,
+    store,
+    category,
   } = product
 
+  console.log(product);
+  
+  // State for selected option (single selection)
+  const [selectedOption, setSelectedOption] = useState<CartItemOption | null>(null)
 
+  // State for selected additions (multiple selection)
+  const [selectedAdditions, setSelectedAdditions] = useState<CartItemAddition[]>([])
+
+  // Toggle addition selection
+  const toggleAddition = (addition: { id: string; name: string; price: number }) => {
+    setSelectedAdditions((prev) => {
+      const exists = prev.find((a) => a.id === addition.id)
+      if (exists) {
+        return prev.filter((a) => a.id !== addition.id)
+      }
+      return [...prev, { id: addition.id, name: addition.name, price: addition.price }]
+    })
+  }
+
+  // Check if an addition is selected
+  const isAdditionSelected = (additionId: string) => {
+    return selectedAdditions.some((a) => a.id === additionId)
+  }
+
+  // Calculate total price including option and additions
+  const totalPrice = useMemo(() => {
+    let total = price
+    if (selectedOption) {
+      total += selectedOption.price
+    }
+    total += selectedAdditions.reduce((sum, add) => sum + add.price, 0)
+    return total
+  }, [price, selectedOption, selectedAdditions])
 
   return (
-    <section className="py-8 sm:py-16 lg:py-24">
+    <section className="py-8 sm:py-16 lg:py-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 xl:gap-24">
-
           {/* LEFT – GALLERY */}
           <div className="flex flex-col gap-6">
             <div className="relative w-full overflow-hidden rounded-md bg-gray-100 h-[560px]">
@@ -39,41 +78,29 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                 priority
               />
             </div>
-
-            {/* <div className="flex justify-between gap-4">
-              {thumbnailImages.slice(0, 4).map((img, index) => (
-                <button
-                  key={`${img.url}-${index}`}
-                  type="button"
-                  className="overflow-hidden rounded-md border hover:ring-2 hover:ring-primary transition"
-                >
-                  <Image
-                    src={img.url}
-                    alt={img.alt || name}
-                    width={120}
-                    height={120}
-                    className="object-cover"
-                  />
-                </button>
-              ))}
-            </div> */}
           </div>
 
           {/* RIGHT – DETAILS */}
           <div className="space-y-6 py-5">
 
-            {/* Breadcrumb */}
-            {/* {breadcrumb && (
-              <nav className="text-muted-foreground text-sm">
-                {breadcrumb} / <span className="text-foreground">{name}</span>
-              </nav>
-            )} */}
-
-            <h1 className="text-3xl font-semibold">{name}</h1>
+            {/* Breadcrumb with Store & Category */}
+            <nav className="text-muted-foreground text-sm flex items-center gap-1">
+              <Link href={`/stores/${store.id}`} className="hover:text-foreground transition">
+                {store.name}
+              </Link>
+              <span>{">"}</span>
+              <Link href={`/stores/${store.id}?category=${category.id}`} className="hover:text-foreground transition">
+                {category.name}
+              </Link>
+              <span>{">"}</span>
+              <span className="text-foreground">{name}</span>
+            </nav>
 
             {/* Rating */}
             <div className="flex w-fit items-center gap-2 rounded border px-3 py-1.5">
-              {/* <span className="text-lg font-medium">{rating?.value?.toFixed(1)}</span> */}
+              {rating?.value && (
+                <span className="text-lg font-medium">4.8</span> //{rating.value.toFixed(1)}
+              )}
               <span className="text-muted-foreground text-sm">
                 {rating?.count} Reviews
               </span>
@@ -82,7 +109,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             {/* Price */}
             <div className="flex items-center gap-3">
               <h4 className="text-3xl font-bold">
-                ${price.toFixed(2)}
+                ${totalPrice.toFixed(2)}
               </h4>
               {compare_price && compare_price > price && (
                 <>
@@ -104,32 +131,71 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
 
             <hr />
 
-            {/* Colors */}
-            {options.length > 0 && (
-              <div className="flex items-center gap-6">
-                <h4 className="text-lg font-semibold">Color:</h4>
-                <div className="flex gap-3">
+            {/* Options (Single Selection) */}
+            {options && options.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="text-lg font-semibold">
+                  Options
+                  {selectedOption && (
+                    <span className="ml-2 text-sm font-normal text-muted-foreground">
+                      — {selectedOption.name} {selectedOption.price > 0 && `(+$${selectedOption.price.toFixed(2)})`}
+                    </span>
+                  )}
+                </h4>
+                <div className="flex flex-wrap gap-3">
                   {options.map((option) => (
-                    <span
+                    <button
                       key={option.id}
-                      className={`size-5 rounded-full  border cursor-pointer`} //bg-${color}-500
-                    />
+                      onClick={() => setSelectedOption(
+                        selectedOption?.id === option.id ? null : { id: option.id, name: option.name, price: option.price }
+                      )}
+                      className={cn(
+                        "rounded-md border px-4 py-2 text-sm font-medium transition",
+                        selectedOption?.id === option.id
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "hover:border-primary hover:bg-primary/10"
+                      )}
+                    >
+                      {option.name}
+                      {option.price > 0 && (
+                        <span className="ml-1 text-xs opacity-70">+${option.price.toFixed(2)}</span>
+                      )}
+                    </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Sizes */}
-            {additions.length > 0 && (
-              <div className="flex items-center gap-6">
-                <h4 className="text-lg font-semibold">Size:</h4>
-                <div className="flex gap-3">
+            {/* Additions (Multiple Selection) */}
+            {additions && additions.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="text-lg font-semibold">
+                  Additions
+                  {selectedAdditions.length > 0 && (
+                    <span className="ml-2 text-sm font-normal text-muted-foreground">
+                      — {selectedAdditions.length} selected
+                    </span>
+                  )}
+                </h4>
+                <div className="flex flex-wrap gap-3">
                   {additions.map((addition) => (
                     <button
                       key={addition.id}
-                      className="rounded-md border px-3 py-1.5 text-sm font-medium hover:bg-primary hover:text-primary-foreground transition"
+                      onClick={() => toggleAddition(addition)}
+                      className={cn(
+                        "flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition",
+                        isAdditionSelected(addition.id)
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "hover:border-primary hover:bg-primary/10"
+                      )}
                     >
+                      {isAdditionSelected(addition.id) && (
+                        <Check className="h-4 w-4" />
+                      )}
                       {addition.name}
+                      {addition.price > 0 && (
+                        <span className="text-xs opacity-70">+${addition.price.toFixed(2)}</span>
+                      )}
                     </button>
                   ))}
                 </div>
@@ -137,13 +203,23 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             )}
 
             {/* Actions */}
-            <div className="flex gap-4">
-              <button
-                className="flex-1 rounded-md bg-primary px-6 py-2 text-primary-foreground hover:bg-primary/90 transition"
-              >
-                Add to Cart
-              </button>
-              <button className="flex-1 rounded-md bg-secondary px-6 py-2 hover:bg-secondary/80 transition">
+            <div className="flex gap-4 pt-2">
+              <AddToCartButton
+                product={{
+                  id: id.toString(),
+                  name,
+                  image_url,
+                  price,
+                  comparePrice: compare_price,
+                  discountPercentage: discount_percentage,
+                }}
+                store={store}
+                selectedOptions={selectedOption ? [selectedOption] : []}
+                selectedAdditions={selectedAdditions}
+                showQuantityControls
+                className="flex-1"
+              />
+              <button className="rounded-md bg-secondary px-6 py-2 hover:bg-secondary/80 transition">
                 Wish List
               </button>
             </div>
@@ -162,7 +238,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
               <div className="flex items-center gap-6 px-6 py-4">
                 <span className="text-lg font-semibold">Return Delivery</span>
                 <span className="text-muted-foreground text-sm">
-                  Free 30 Days Delivery Returns. <a className="underline">Details</a>
+                  Free 30 Days Delivery Returns. <a className="underline cursor-pointer">Details</a>
                 </span>
               </div>
             </div>

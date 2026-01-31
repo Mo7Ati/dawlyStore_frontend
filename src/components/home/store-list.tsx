@@ -28,10 +28,10 @@ type CarouselApi = {
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
 import StoreCard from './store-card'
-import { StoreListSectionData } from '@/types/home-types'
+import { Store } from '@/types/store'
 
 
-export function StoreList({ data }: { data: StoreListSectionData[] }) {
+export function StoreList({ data }: { data: Store[] }) {
     const [api, setApi] = React.useState<CarouselApi | null>(null)
     const [current, setCurrent] = React.useState(0)
 

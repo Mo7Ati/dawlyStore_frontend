@@ -7,6 +7,7 @@ import ProductList from "@/components/home/product-list"
 import ShopByCategories from "@/components/home/shop-by-category"
 
 const SectionsRenderer = ({ sections }: { sections: Section[] }) => {
+    console.log(sections);
     // Sort sections by order
     const sortedSections = [...sections].sort((a, b) => a.order - b.order)
 

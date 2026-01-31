@@ -28,6 +28,9 @@ import { Logo } from '@/components/logo'
 import { ModeToggle } from '@/components/mode-toggle'
 import { useTheme } from '@/hooks/use-theme'
 import { MegaMenu } from './mega-menu'
+import CartCard from '../cart-card'
+import { CartIcon } from '@/app/cart/components/cart-icon'
+import { CartDrawer } from '@/app/cart/components/cart-drawer'
 
 const navigationItems = [
   { name: 'Home', href: '#hero' },
@@ -74,6 +77,7 @@ const smoothScrollTo = (targetId: string) => {
 export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [solutionsOpen, setSolutionsOpen] = useState(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
   const { setTheme, theme } = useTheme()
 
   return (
@@ -138,6 +142,12 @@ export function LandingNavbar() {
               Dashboard
             </Link>
           </Button> */}
+
+          <div className="relative">
+            <CartIcon className='cursor-pointer' onClick={() => setIsCartOpen(!isCartOpen)} />
+            <CartCard isOpen={isCartOpen} setIsOpen={setIsCartOpen} />
+            {/* <CartDrawer /> */}
+          </div>
 
           <Button variant="ghost" asChild className="cursor-pointer">
             <Link href="/auth/sign-in">Sign In</Link>
@@ -271,6 +281,6 @@ export function LandingNavbar() {
           </SheetContent>
         </Sheet>
       </div>
-    </header>
+    </header >
   )
 }

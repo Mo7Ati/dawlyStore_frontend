@@ -1,14 +1,13 @@
 'use client'
 
 import { Response } from '@/types/general'
-import { type StoreOverview } from '@/services/stores/store-types'
 import { use } from 'react'
 import StoreHeader from './store-header'
-import CategoryTabs from './category-tabs'
 import ProductsGrid from './products-grid'
+import { Store } from '@/types/store'
 
 interface StoreOverviewProps {
-    storePromise: Promise<Response<StoreOverview>>
+    storePromise: Promise<Response<Store>>
 }
 
 const StoreOverview = ({ storePromise }: StoreOverviewProps) => {
@@ -28,8 +27,9 @@ const StoreOverview = ({ storePromise }: StoreOverviewProps) => {
                     /> */}
 
                     <ProductsGrid
-                        categories={store.categories}
-                        products={store.products}
+                        categories={store.categories ?? []}
+                        products={store.products ?? []}
+                        store={store}
                     />
                 </div>
             </div>

@@ -1,0 +1,30 @@
+import { Rating, StoreCategory, Category } from "./general"
+import { Product } from "./product"
+
+export type Store = {
+    id: string
+    name: string
+    address: string | null
+    description: string | null
+
+    keywords: string[] | string | null
+    social_media: Record<string, string> | null
+
+    email: string | null
+    phone: string | null
+
+    category_id: string | null
+    delivery_time: string | null
+
+    delivery_area_polygon: unknown | null
+    is_active: boolean
+
+    rating: Rating
+
+    created_at: string | null
+    image_url: string
+
+    category?: StoreCategory
+    products?: Product[]
+    categories?: Category[]
+}
