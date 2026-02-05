@@ -16,7 +16,6 @@ import {
   resourceItems,
   MenuItem,
 } from "@/config/mega-menu-data"
-import { getCategoryIcon } from "@/config/category-icons"
 import { getStoreCategories } from "@/services/stores/store-service"
 import { StoreCategory } from "@/types/general"
 
@@ -151,7 +150,7 @@ function MobileCategoriesList({ onItemClick }: MobileCategoriesListProps) {
   return (
     <>
       {categories.map((category) => {
-        const Icon = getCategoryIcon(category.name)
+        // const Icon = getCategoryIcon(category.name)
         return (
           <Link
             key={category.id}
@@ -164,7 +163,7 @@ function MobileCategoriesList({ onItemClick }: MobileCategoriesListProps) {
               "focus:bg-accent focus:outline-none"
             )}
           >
-            <Icon className="h-4 w-4 text-muted-foreground" />
+            {/* <Icon className="h-4 w-4 text-muted-foreground" /> */}
             <span>{category.name}</span>
           </Link>
         )

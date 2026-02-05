@@ -10,7 +10,6 @@ import {
   resourceItems,
   MenuItem,
 } from "@/config/mega-menu-data"
-import { getCategoryIcon } from "@/config/category-icons"
 import { getStoreCategories } from "@/services/stores/store-service"
 import { StoreCategory } from "@/types/general"
 import { Grid3X3 } from "lucide-react"
@@ -104,8 +103,6 @@ interface CategoryLinkProps {
 }
 
 function CategoryLink({ category }: CategoryLinkProps) {
-  const Icon = getCategoryIcon(category.name)
-
   return (
     <Link
       href={`/stores?category=${category.id}`}
@@ -115,7 +112,7 @@ function CategoryLink({ category }: CategoryLinkProps) {
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       )}
     >
-      <Icon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+      {/* <Icon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" /> */}
       <span className="text-sm text-foreground group-hover:text-primary transition-colors">
         {category.name}
       </span>
