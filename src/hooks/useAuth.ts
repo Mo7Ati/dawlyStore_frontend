@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import api from '@/lib/api'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Customer } from '@/types/auth'
 import { Response } from '@/types/general'
 import { AxiosError } from 'axios'
@@ -33,16 +33,16 @@ interface ResetPasswordProps {
 export const useAuth = () => {
     const router = useRouter()
 
-    const { data: user, error, mutate } = useSWR('/me', () =>
+    const { data: user, error, mutate , isLoading } = useSWR('/me', () =>
         api
             .get<Response<Customer>>('/me')
             .then(res => res.data.data)
             .catch(error => { throw error }),
         {
-            revalidateOnFocus: false,      // Don't refetch when window gains focus
-            revalidateOnReconnect: false,  // Don't refetch on network reconnect
-            shouldRetryOnError: false,     // Don't retry on 401/errors
-            dedupingInterval: 5000,        // Dedupe requests within 5 seconds
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+            shouldRetryOnError: false,
+            dedupingInterval: 5000,
         }
     )
 
@@ -70,7 +70,6 @@ export const useAuth = () => {
             router.push('/')
         } catch (error) {
             const axiosError = error as AxiosError<Response<null>>
-            // Access the message field from Laravel API response
             if (axiosError.response?.data) {
                 setMessage(axiosError.response.data.message)
             } else {
@@ -119,6 +118,7 @@ export const useAuth = () => {
 
     return {
         user,
+        isLoading,
         register,
         login,
         forgotPassword,

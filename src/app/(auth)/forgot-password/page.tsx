@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ForgotPasswordForm } from './components/forgot-password-form'
 
-const ForgotPasswordPage1: React.FC = () => {
+const ForgotPasswordPage1 = () => {
 
   return (
     <section className='from-background to-muted/50 relative isolate flex min-h-dvh w-full items-center justify-center overflow-hidden bg-linear-to-br'>
@@ -49,6 +49,7 @@ const ForgotPasswordPage1: React.FC = () => {
               <CardDescription>Enter your email address to reset your password</CardDescription>
             </CardHeader>
 
+            {/* Forgot Password Form */}
             <ForgotPasswordForm />
           </>
         </Card>

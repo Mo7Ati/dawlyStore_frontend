@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, Github, LayoutDashboard, ChevronDown, X, Moon, Sun } from 'lucide-react'
+import { Menu, Github, LayoutDashboard, X, Moon, Sun, User, LogOut, Settings, CreditCard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   NavigationMenu,
@@ -20,48 +20,45 @@ import {
   SheetTitle
 } from '@/components/ui/sheet'
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Logo } from '@/components/logo'
 import { ModeToggle } from '@/components/mode-toggle'
 import { useTheme } from '@/hooks/use-theme'
+import { useAuth } from '@/hooks/useAuth'
 import { MegaMenu } from './mega-menu'
+import { MobileMegaMenu } from './mobile-mega-menu'
 import CartCard from '../cart-card'
 import { CartIcon } from '@/app/cart/components/cart-icon'
-import { CartDrawer } from '@/app/cart/components/cart-drawer'
+import { useRouter } from 'next/navigation'
+
+// ============================================================================
+// Navigation Configuration
+// ============================================================================
 
 const navigationItems = [
-  { name: 'Home', href: '#hero' },
-  { name: 'Features', href: '#features' },
-  { name: 'Solutions', href: '#features', hasMegaMenu: true },
-  { name: 'Team', href: '#team' },
-  { name: 'Pricing', href: '#pricing' },
+  { name: 'Home', href: '/' },
+  { name: 'Features', href: '/#features' },
+  { name: 'Marketplace', href: '/marketplace', hasMegaMenu: true },
   { name: 'FAQ', href: '#faq' },
   { name: 'Contact', href: '#contact' },
 ]
 
-// Solutions menu items for mobile
-const solutionsItems = [
-  { title: 'Browse Products' },
-  { name: 'Free Blocks', href: '#free-blocks' },
-  { name: 'Premium Templates', href: '#premium-templates' },
-  { name: 'Admin Dashboards', href: '#admin-dashboards' },
-  { name: 'Landing Pages', href: '#landing-pages' },
-  { title: 'Categories' },
-  { name: 'E-commerce', href: '#ecommerce' },
-  { name: 'SaaS Dashboards', href: '#saas-dashboards' },
-  { name: 'Analytics', href: '#analytics' },
-  { name: 'Authentication', href: '#authentication' },
-  { title: 'Resources' },
-  { name: 'Documentation', href: '#docs' },
-  { name: 'Component Showcase', href: '#showcase' },
-  { name: 'GitHub Repository', href: '#github' },
-  { name: 'Design System', href: '#design-system' }
-]
+// ============================================================================
+// Utility Functions
+// ============================================================================
 
-// Smooth scroll function
+/**
+ * Smooth scroll to a target element by ID
+ */
 const smoothScrollTo = (targetId: string) => {
   if (targetId.startsWith('#')) {
     const element = document.querySelector(targetId)
@@ -74,11 +71,39 @@ const smoothScrollTo = (targetId: string) => {
   }
 }
 
+// ============================================================================
+// Main Navbar Component
+// ============================================================================
+
 export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [solutionsOpen, setSolutionsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const { setTheme, theme } = useTheme()
+  const { user, logout, isLoading } = useAuth()
+  const router = useRouter()
+
+  // Auth loading state: user is undefined while SWR is fetching
+  // Once fetched, user will be either the Customer object or null (if not authenticated)
+  const isAuthLoading = user === undefined
+
+  /**
+   * Handle closing the mobile menu when an item is clicked
+   */
+  const handleMobileItemClick = () => {
+    setIsOpen(false)
+  }
+
+  /**
+   * Get user initials for avatar fallback
+   */
+  const getUserInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(part => part[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
@@ -100,7 +125,10 @@ export function LandingNavbar() {
               <NavigationMenuItem key={item.name}>
                 {item.hasMegaMenu ? (
                   <>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-primary focus:text-primary cursor-pointer">
+                    <NavigationMenuTrigger
+                      className="bg-transparent hover:bg-transparent focus:bg-transparent data-[active]:bg-transparent data-[state=open]:bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-primary focus:text-primary cursor-pointer"
+                      aria-label={`${item.name} menu`}
+                    >
                       {item.name}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -115,7 +143,7 @@ export function LandingNavbar() {
                       if (item.href.startsWith('#')) {
                         smoothScrollTo(item.href)
                       } else {
-                        window.location.href = item.href
+                        router.push(item.href)
                       }
                     }}
                   >
@@ -130,37 +158,68 @@ export function LandingNavbar() {
         {/* Desktop CTA */}
         <div className="hidden xl:flex items-center space-x-2">
           <ModeToggle variant="ghost" />
-          {/* <Button variant="ghost" size="icon" asChild className="cursor-pointer">
-            <a href="https://github.com/silicondeck/shadcn-dashboard-landing-template" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
-              <Github className="h-5 w-5" />
-            </a>
-          </Button> */}
-
-          {/* <Button variant="outline" asChild className="cursor-pointer">
-            <Link href="/dashboard" target="_blank" rel="noopener noreferrer">
-              <LayoutDashboard className="h-4 w-4 mr-2" />
-              Dashboard
-            </Link>
-          </Button> */}
 
           <div className="relative">
             <CartIcon className='cursor-pointer' onClick={() => setIsCartOpen(!isCartOpen)} />
             <CartCard isOpen={isCartOpen} setIsOpen={setIsCartOpen} />
-            {/* <CartDrawer /> */}
           </div>
 
-          <Button variant="ghost" asChild className="cursor-pointer">
-            <Link href="/login">Sign In</Link>
-          </Button>
-          {/* <Button asChild className="cursor-pointer">
-            <Link href="/auth/sign-up">Get Started</Link>
-          </Button> */}
+          {/* Auth State: Loading / Authenticated / Not Authenticated */}
+          <div>
+            {isLoading ? (
+              // Skeleton while checking auth state
+              <Skeleton className="h-9 w-9 rounded-full" />
+            ) : user ? (
+              // User Profile Dropdown
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="cursor-pointer rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
+                        {getUserInitials(user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" sideOffset={8}>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user.name}</p>
+                      <p className="text-xs text-muted-foreground leading-none">{user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link href="/profile">
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                    onClick={() => logout()}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              // Sign In Button
+              <Button variant="ghost" asChild className="cursor-pointer">
+                <Link href="/login">Sign In</Link>
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Mobile Menu */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="xl:hidden">
-            <Button variant="ghost" size="icon" className="cursor-pointer">
+            <Button variant="ghost" size="icon" className="cursor-pointer" aria-label="Open menu">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </Button>
@@ -180,6 +239,7 @@ export function LandingNavbar() {
                       size="icon"
                       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                       className="cursor-pointer h-8 w-8"
+                      aria-label="Toggle theme"
                     >
                       <Moon className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                       <Sun className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -189,7 +249,7 @@ export function LandingNavbar() {
                         <Github className="h-4 w-4" />
                       </a>
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="cursor-pointer h-8 w-8">
+                    <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="cursor-pointer h-8 w-8" aria-label="Close menu">
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
@@ -198,84 +258,103 @@ export function LandingNavbar() {
 
               {/* Navigation Links */}
               <div className="flex-1 overflow-y-auto">
-                <nav className="p-6 space-y-1">
-                  {navigationItems.map((item) => (
-                    <div key={item.name}>
-                      {item.hasMegaMenu ? (
-                        <Collapsible open={solutionsOpen} onOpenChange={setSolutionsOpen}>
-                          <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-3 text-base font-medium rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer">
-                            {item.name}
-                            <ChevronDown className={`h-4 w-4 transition-transform ${solutionsOpen ? 'rotate-180' : ''}`} />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent className="pl-4 space-y-1">
-                            {solutionsItems.map((solution, index) => (
-                              solution.title ? (
-                                <div
-                                  key={`title-${index}`}
-                                  className="px-4 mt-5 py-2 text-xs font-semibold text-muted-foreground/50 uppercase tracking-wider"
-                                >
-                                  {solution.title}
-                                </div>
-                              ) : (
-                                <a
-                                  key={solution.name}
-                                  href={solution.href}
-                                  className="flex items-center px-4 py-2 text-sm rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                                  onClick={(e) => {
-                                    setIsOpen(false)
-                                    if (solution.href?.startsWith('#')) {
-                                      e.preventDefault()
-                                      setTimeout(() => smoothScrollTo(solution.href), 100)
-                                    }
-                                  }}
-                                >
-                                  {solution.name}
-                                </a>
-                              )
-                            ))}
-                          </CollapsibleContent>
-                        </Collapsible>
-                      ) : (
-                        <a
-                          href={item.href}
-                          className="flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                          onClick={(e) => {
-                            setIsOpen(false)
-                            if (item.href.startsWith('#')) {
-                              e.preventDefault()
-                              setTimeout(() => smoothScrollTo(item.href), 100)
-                            }
-                          }}
-                        >
-                          {item.name}
-                        </a>
-                      )}
-                    </div>
+                <nav className="p-4 space-y-1" aria-label="Mobile navigation">
+                  {/* Static Navigation Items */}
+                  {navigationItems.filter(item => !item.hasMegaMenu).map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className="flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer"
+                      onClick={(e) => {
+                        setIsOpen(false)
+                        if (item.href.startsWith('#')) {
+                          e.preventDefault()
+                          setTimeout(() => smoothScrollTo(item.href), 100)
+                        }
+                      }}
+                    >
+                      {item.name}
+                    </a>
                   ))}
+
+                  {/* Marketplace Mega Menu (Accordion Style) */}
+                  <div className="pt-4 border-t mt-4">
+                    <h3 className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Marketplace
+                    </h3>
+                    <MobileMegaMenu onItemClick={handleMobileItemClick} />
+                  </div>
                 </nav>
               </div>
 
               {/* Footer Actions */}
               <div className="border-t p-6 space-y-4">
+                {isAuthLoading ? (
+                  // Skeleton while checking auth state
+                  <div className="space-y-3">
+                    <Skeleton className="h-11 w-full rounded-md" />
+                    <div className="grid grid-cols-2 gap-3">
+                      <Skeleton className="h-11 w-full rounded-md" />
+                      <Skeleton className="h-11 w-full rounded-md" />
+                    </div>
+                  </div>
+                ) : user ? (
+                  // Authenticated User Actions
+                  <div className="space-y-3">
+                    {/* User Info */}
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
+                      <Avatar className="h-10 w-10">
+                        <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+                          {getUserInitials(user.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{user.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                      </div>
+                    </div>
 
-                {/* Primary Actions */}
-                <div className="space-y-3">
-                  <Button variant="outline" size="lg" asChild className="w-full cursor-pointer">
-                    <Link href="/dashboard">
-                      <LayoutDashboard className="size-4" />
-                      Dashboard
-                    </Link>
-                  </Button>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <Button variant="outline" size="lg" asChild className="cursor-pointer">
-                      <Link href="/auth/sign-in">Sign In</Link>
+                    {/* Action Buttons */}
+                    <Button variant="outline" size="lg" asChild className="w-full cursor-pointer">
+                      <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                        <LayoutDashboard className="size-4" />
+                        Dashboard
+                      </Link>
                     </Button>
-                    <Button asChild size="lg" className="cursor-pointer" >
-                      <Link href="/auth/sign-up">Get Started</Link>
+
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="w-full cursor-pointer text-destructive hover:text-destructive"
+                      onClick={() => {
+                        setIsOpen(false)
+                        logout()
+                      }}
+                    >
+                      <LogOut className="size-4" />
+                      Log out
                     </Button>
                   </div>
-                </div>
+                ) : (
+                  // Guest Actions
+                  <div className="space-y-3">
+                    <Button variant="outline" size="lg" asChild className="w-full cursor-pointer">
+                      <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                        <LayoutDashboard className="size-4" />
+                        Dashboard
+                      </Link>
+                    </Button>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button variant="outline" size="lg" asChild className="cursor-pointer">
+                        <Link href="/login" onClick={() => setIsOpen(false)}>Sign In</Link>
+                      </Button>
+                      <Button asChild size="lg" className="cursor-pointer">
+                        <Link href="/register" onClick={() => setIsOpen(false)}>Get Started</Link>
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </SheetContent>

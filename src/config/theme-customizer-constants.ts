@@ -1,9 +1,9 @@
-import type { 
-  SidebarVariant, 
-  SidebarCollapsibleOption, 
-  SidebarSideOption, 
-  RadiusOption, 
-  BrandColor 
+import type {
+  SidebarVariant,
+  SidebarCollapsibleOption,
+  SidebarSideOption,
+  RadiusOption,
+  BrandColor
 } from '@/types/theme-customizer'
 
 // Radius options
