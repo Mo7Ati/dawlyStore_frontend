@@ -31,8 +31,6 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Logo } from '@/components/logo'
-import { ModeToggle } from '@/components/mode-toggle'
-import { useTheme } from '@/hooks/use-theme'
 import { useAuth } from '@/hooks/useAuth'
 import { MegaMenu } from './mega-menu'
 import { MobileMegaMenu } from './mobile-mega-menu'
@@ -78,7 +76,6 @@ const smoothScrollTo = (targetId: string) => {
 export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const { setTheme, theme } = useTheme()
   const { user, logout, isLoading } = useAuth()
   const router = useRouter()
 
@@ -157,7 +154,7 @@ export function LandingNavbar() {
 
         {/* Desktop CTA */}
         <div className="hidden xl:flex items-center space-x-2">
-          <ModeToggle variant="ghost" />
+          {/* <ModeToggle variant="ghost" /> */}
 
           <div className="relative">
             <CartIcon className='cursor-pointer' onClick={() => setIsCartOpen(!isCartOpen)} />
@@ -237,7 +234,7 @@ export function LandingNavbar() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                      // onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                       className="cursor-pointer h-8 w-8"
                       aria-label="Toggle theme"
                     >
