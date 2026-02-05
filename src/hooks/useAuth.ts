@@ -30,10 +30,10 @@ interface ResetPasswordProps {
     token: string
 }
 
-export const useAuth = () => {
+export const useAuth1 = () => {
     const router = useRouter()
 
-    const { data: user, error, mutate , isLoading } = useSWR('/me', () =>
+    const { data: user, error, mutate, isLoading } = useSWR('/me', () =>
         api
             .get<Response<Customer>>('/me')
             .then(res => res.data.data)
@@ -52,12 +52,14 @@ export const useAuth = () => {
         try {
             await api.post('/register', registerData)
             mutate()
+            localStorage.setItem('isAuthenticated', 'true')
             router.push('/')
         } catch (error) {
             const axiosError = error as AxiosError<Response<null>>
             if (axiosError.response?.status === 422) {
                 setMessage(axiosError.response.data.message)
             }
+            localStorage.setItem('isAuthenticated', 'false')
         }
     }
 
@@ -67,6 +69,7 @@ export const useAuth = () => {
         try {
             await api.post('/login', loginData)
             mutate()
+            localStorage.setItem('isAuthenticated', 'true')
             router.push('/')
         } catch (error) {
             const axiosError = error as AxiosError<Response<null>>
@@ -75,6 +78,7 @@ export const useAuth = () => {
             } else {
                 setMessage('An unexpected error occurred')
             }
+            localStorage.setItem('isAuthenticated', 'false')
         }
     }
 
@@ -112,6 +116,7 @@ export const useAuth = () => {
             await api.post('/logout').then(() => mutate())
         }
 
+        localStorage.setItem('isAuthenticated', 'false')
         window.location.pathname = '/login'
     }
 

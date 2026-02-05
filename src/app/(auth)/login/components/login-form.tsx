@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/auth-context';
 
 // Define the form schema with Zod
 const loginFormSchema = z.object({
@@ -60,11 +60,8 @@ export function LoginForm() {
 
     try {
       await login({
-        setMessage: setErrorMessage,
-        loginData: {
-          email: data.email,
-          password: data.password,
-        },
+        email: data.email,
+        password: data.password,
       })
     } finally {
       setIsLoading(false)

@@ -9,16 +9,9 @@ import { Product } from '@/types/product'
 import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
 import { CartItemOption, CartItemAddition } from '@/stores/cart/cart-types'
 import { cn } from '@/lib/utils'
-import { useAuth } from '@/hooks/useAuth'
 
 export function ProductOverview({ productPromise }: { productPromise: Promise<Response<Product>> }) {
   const { data: product } = use(productPromise)
-
-  // const { customer } = useAuth({
-  //   middleware: 'auth',
-  // })
-
-  // console.log(customer);
 
   const {
     id,
@@ -35,7 +28,6 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
     category,
   } = product
 
-  console.log(product);
 
   // State for selected option (single selection)
   const [selectedOption, setSelectedOption] = useState<CartItemOption | null>(null)

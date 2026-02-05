@@ -31,12 +31,13 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Logo } from '@/components/logo'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/auth-context'
 import { MegaMenu } from './mega-menu'
 import { MobileMegaMenu } from './mobile-mega-menu'
 import CartCard from '../cart-card'
 import { CartIcon } from '@/app/cart/components/cart-icon'
 import { useRouter } from 'next/navigation'
+import { ModeToggle } from '../toggle-theme'
 
 // ============================================================================
 // Navigation Configuration
@@ -76,12 +77,12 @@ const smoothScrollTo = (targetId: string) => {
 export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const { user, logout, isLoading } = useAuth()
+  const { customer, logout } = useAuth()
   const router = useRouter()
 
   // Auth loading state: user is undefined while SWR is fetching
   // Once fetched, user will be either the Customer object or null (if not authenticated)
-  const isAuthLoading = user === undefined
+  // const isAuthLoading = user === undefined
 
   /**
    * Handle closing the mobile menu when an item is clicked
@@ -154,7 +155,7 @@ export function LandingNavbar() {
 
         {/* Desktop CTA */}
         <div className="hidden xl:flex items-center space-x-2">
-          {/* <ModeToggle variant="ghost" /> */}
+          <ModeToggle />
 
           <div className="relative">
             <CartIcon className='cursor-pointer' onClick={() => setIsCartOpen(!isCartOpen)} />
@@ -162,7 +163,7 @@ export function LandingNavbar() {
           </div>
 
           {/* Auth State: Loading / Authenticated / Not Authenticated */}
-          <div>
+          {/* <div>
             {isLoading ? (
               // Skeleton while checking auth state
               <Skeleton className="h-9 w-9 rounded-full" />
@@ -210,7 +211,7 @@ export function LandingNavbar() {
                 <Link href="/login">Sign In</Link>
               </Button>
             )}
-          </div>
+          </div> */}
         </div>
 
         {/* Mobile Menu */}
@@ -286,7 +287,7 @@ export function LandingNavbar() {
 
               {/* Footer Actions */}
               <div className="border-t p-6 space-y-4">
-                {isAuthLoading ? (
+                {false ? ( // TODO: Change to customer
                   // Skeleton while checking auth state
                   <div className="space-y-3">
                     <Skeleton className="h-11 w-full rounded-md" />
@@ -295,19 +296,19 @@ export function LandingNavbar() {
                       <Skeleton className="h-11 w-full rounded-md" />
                     </div>
                   </div>
-                ) : user ? (
+                ) : false ? ( // TODO: Change to customer
                   // Authenticated User Actions
                   <div className="space-y-3">
                     {/* User Info */}
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/50">
                       <Avatar className="h-10 w-10">
                         <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                          {getUserInitials(user.name)}
+                          {/* {getUserInitials(user.name)} */}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{user.name}</p>
-                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        {/* <p className="text-sm font-medium truncate">{user.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p> */}
                       </div>
                     </div>
 
@@ -353,6 +354,7 @@ export function LandingNavbar() {
                   </div>
                 )}
               </div>
+
             </div>
           </SheetContent>
         </Sheet>

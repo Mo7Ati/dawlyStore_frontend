@@ -19,8 +19,6 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
     const [minPrice, setMinPrice] = useQueryState('minPrice', parseAsInteger.withOptions({ shallow: false }))
     const [maxPrice, setMaxPrice] = useQueryState('maxPrice', parseAsInteger.withOptions({ shallow: false }))
 
-    console.log(Object.entries(products));
-
     return (
         <section className="py-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

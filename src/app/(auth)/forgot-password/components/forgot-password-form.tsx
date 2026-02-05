@@ -16,7 +16,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/auth-context'
 
 // Define the form schema with Zod
 const forgotPasswordFormSchema = z.object({
@@ -50,10 +50,7 @@ export function ForgotPasswordForm() {
     setSuccessMessage(null)
 
     try {
-      await forgotPassword({
-        setMessage: setErrorMessage,
-        email: data.email,
-      })
+      await forgotPassword(data.email)
       // If no error was set, show success message
       if (!errorMessage) {
         setSuccessMessage('If an account exists with this email, you will receive a password reset link.')

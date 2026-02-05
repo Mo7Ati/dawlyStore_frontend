@@ -41,7 +41,6 @@ const secondaryFeatures = [
 ]
 
 export function FeaturesSection({ features }: { features: FeaturesSectionData[] }) {
-  console.log(features);
 
   return (
     <section id="features" className="py-24 sm:py-32 bg-muted/30">

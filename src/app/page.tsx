@@ -20,7 +20,9 @@ export const metadata: Metadata = {
 }
 
 export default async function LandingPage() {
-  const { data: sections } = await getSections()
+  const { data: sections, extra } = await getSections()
+  console.log(extra);
+
   return (
     <HomePage sections={sections} />
   )

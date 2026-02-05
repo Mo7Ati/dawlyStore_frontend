@@ -11,27 +11,16 @@ const api = axios.create({
 
 api.defaults.withCredentials = true;
 
-api.interceptors.response.use(
-  (response) => {
-    return response
-  },
-  (error) => {
-    console.error('API Error:', error.response?.status)
-    switch (error.response?.status) {
-      case 401:
-        break;
-      case 403:
-        break;
-      case 404:
-        // router.push('/errors/not-found')
-        break;
-      default:
-        // router.push('/errors/internal-server-error')
-    }
 
-    // Preserve the full error object so we can access response.data
-    return Promise.reject(error)
+api.interceptors.response.use(function onFulfilled(response) {
+  return response;
+}, async function onRejected(error) {
+  console.log(error.status);
+  
+  const hasToken = typeof document !== 'undefined' && document.cookie.includes('token=');
+  if (error.status === 401) {
+    await api.post('/logout');
   }
-)
-
+  return Promise.reject(error);
+});
 export default api

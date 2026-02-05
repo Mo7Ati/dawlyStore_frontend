@@ -4,6 +4,9 @@ import { inter } from "@/lib/fonts";
 import { LandingNavbar } from "@/components/home/navbar";
 import { LandingFooter } from "@/components/home/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ThemeProvider } from "@/components/theme-provider"
+import AuthProvider from "@/contexts/auth-context";
+
 
 export const metadata: Metadata = {
   title: "Shadcn Dashboard",
@@ -16,13 +19,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} antialiased`} suppressHydrationWarning>
       <body className={inter.className}>
-        <LandingNavbar />
-        <NuqsAdapter>
-          {children}
-        </NuqsAdapter>
-        <LandingFooter />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
+            <NuqsAdapter>
+              <LandingNavbar />
+              {children}
+              <LandingFooter />
+            </NuqsAdapter>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

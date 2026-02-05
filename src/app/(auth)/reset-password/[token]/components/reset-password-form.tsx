@@ -15,7 +15,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/auth-context'
 
 // Define the form schema with Zod
 const resetPasswordFormSchema = z
@@ -64,13 +64,10 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
 
     try {
       await resetPassword({
-        setMessage: setErrorMessage,
-        resetPasswordData: {
-          password: data.password,
-          password_confirmation: data.password_confirmation,
-          email,
-          token,
-        },
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+        email,
+        token,
       })
     } finally {
       setIsLoading(false)

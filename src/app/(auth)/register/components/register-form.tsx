@@ -16,7 +16,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/contexts/auth-context'
 
 // Define the form schema with Zod
 const registerFormSchema = z
@@ -70,13 +70,10 @@ export function RegisterForm() {
 
     try {
       await register({
-        setMessage: setErrorMessage,
-        registerData: {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          password_confirmation: data.password_confirmation,
-        },
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
       })
     } finally {
       setIsLoading(false)

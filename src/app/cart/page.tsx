@@ -13,8 +13,6 @@ export default function ShoppingCart() {
   const summery = useCartSummary();
   const { removeItem, incrementQuantity, decrementQuantity } = useCart();
 
-  console.log(summery);
-
   return (
     <div className='container mx-auto max-w-7xl px-4 py-8'>
       <div className='mb-8 space-y-2 text-center'>

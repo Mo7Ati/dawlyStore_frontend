@@ -23,6 +23,15 @@ export interface RegisterData {
   password_confirmation: string;
 }
 
+export interface ResetPasswordData {
+  email: string;
+  password: string;
+  password_confirmation: string;
+  token: string;
+}
+
+
+
 export interface AuthState {
   customer: Customer | null;
   isAuthenticated: boolean;

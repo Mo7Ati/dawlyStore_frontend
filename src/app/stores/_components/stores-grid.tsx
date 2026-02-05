@@ -26,7 +26,7 @@ const EmptyState = () => (
 
 const StoresGrid = ({ responsePromise, viewMode = 'grid' }: StoresGridProps) => {
     const { data: stores, extra: paginationMeta } = use(responsePromise);
-    console.log(stores);
+
     if (stores.length === 0) {
         return <EmptyState />
     }
