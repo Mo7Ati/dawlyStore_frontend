@@ -150,7 +150,7 @@ export function LandingNavbar() {
           </div>
 
           <Button variant="ghost" asChild className="cursor-pointer">
-            <Link href="/auth/sign-in">Sign In</Link>
+            <Link href="/login">Sign In</Link>
           </Button>
           {/* <Button asChild className="cursor-pointer">
             <Link href="/auth/sign-up">Get Started</Link>

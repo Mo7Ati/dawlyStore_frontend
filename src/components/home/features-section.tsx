@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Image3D } from '@/components/image-3d'
 import { FeaturesSectionData } from '@/types/home-types'
+import { checkAuth } from '@/services/auth/auth-service'
 
 const secondaryFeatures = [
   {
@@ -45,6 +46,9 @@ export function FeaturesSection({ features }: { features: FeaturesSectionData[] 
   return (
     <section id="features" className="py-24 sm:py-32 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <Button onClick={() => checkAuth()} variant="outline">
+          fetch user
+        </Button>
         {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center mb-16">
           <Badge variant="outline" className="mb-4">Marketplace Features</Badge>

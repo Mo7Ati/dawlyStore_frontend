@@ -9,10 +9,16 @@ import { Product } from '@/types/product'
 import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
 import { CartItemOption, CartItemAddition } from '@/stores/cart/cart-types'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/hooks/useAuth'
 
 export function ProductOverview({ productPromise }: { productPromise: Promise<Response<Product>> }) {
   const { data: product } = use(productPromise)
 
+  // const { customer } = useAuth({
+  //   middleware: 'auth',
+  // })
+
+  // console.log(customer);
 
   const {
     id,
@@ -30,7 +36,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
   } = product
 
   console.log(product);
-  
+
   // State for selected option (single selection)
   const [selectedOption, setSelectedOption] = useState<CartItemOption | null>(null)
 
@@ -132,7 +138,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             <hr />
 
             {/* Options (Single Selection) */}
-            {options && options.length > 0 && (
+            {/* {options && options.length > 0 && (
               <div className="space-y-3">
                 <h4 className="text-lg font-semibold">
                   Options
@@ -164,10 +170,10 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Additions (Multiple Selection) */}
-            {additions && additions.length > 0 && (
+            {/* {additions && additions.length > 0 && (
               <div className="space-y-3">
                 <h4 className="text-lg font-semibold">
                   Additions
@@ -200,7 +206,9 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
+
+
 
             {/* Actions */}
             <div className="flex gap-4 pt-2">

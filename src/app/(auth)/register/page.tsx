@@ -1,11 +1,11 @@
 import { Card } from '@/components/ui/card'
-import { LoginForm } from './components/login-form'
+import { RegisterForm } from './components/register-form'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
-    <section className="from-background to-muted/50 relative isolate flex min-h-dvh w-full items-center justify-center overflow-hidden bg-linear-to-br">
-      <div className="relative z-10 container mx-auto flex min-h-dvh items-center justify-center px-4">
-        <Card className="relative w-full max-w-md border-none p-8 shadow-2xl">
+    <section className="from-background to-muted/50 relative isolate flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden bg-linear-to-br">
+      <div className="relative z-10 container mx-auto flex min-h-dvh flex-col items-center justify-center px-4 py-12">
+        <Card className="relative w-full max-w-lg border-none p-8 shadow-2xl">
           {/* Header */}
           <div className="mb-8 flex flex-col items-center">
             <div className="my-4 flex justify-center">
@@ -47,16 +47,29 @@ export default function LoginPage() {
               </div>
             </div>
             <h1 className="mb-2 text-center text-2xl font-bold tracking-tight">
-              Welcome Back!
+              Create Your Account
             </h1>
             <p className="text-muted-foreground text-center text-sm">
-              Sign in to continue your journey
+              Get started by filling out the form below
             </p>
           </div>
 
-          {/* Login Form */}
-          <LoginForm />
+          {/* Register Form */}
+          <RegisterForm />
         </Card>
+
+        {/* Terms and Privacy */}
+        <p className="text-muted-foreground relative z-10 mt-8 max-w-lg px-8 text-center text-xs text-balance">
+          By creating an account, you agree to ShadcnStore&apos;s&nbsp;
+          <a href="#" className="hover:text-primary underline underline-offset-4">
+            Terms of Service
+          </a>
+          &nbsp;and&nbsp;
+          <a href="#" className="hover:text-primary underline underline-offset-4">
+            Privacy Policy
+          </a>
+          .
+        </p>
       </div>
     </section>
   )

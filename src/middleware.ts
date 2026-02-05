@@ -1,32 +1,46 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
+// Routes that require authentication
+const protectedRoutes = ['/stores']
+
+// Routes only for guests (redirect to home if authenticated)
+const guestRoutes = ['/login', '/register', '/forgot-password']
+
 export function middleware(request: NextRequest) {
-  // Add custom middleware logic here
-  // For example: authentication, redirects, etc.
-  
-  // Example: Redirect /login to /auth/sign-in
-  // if (request.nextUrl.pathname === '/login') {
-  //   return NextResponse.redirect(new URL('/auth/sign-in', request.url))
-  // }
-  
-  // Example: Redirect /register to /auth/sign-up
-  // if (request.nextUrl.pathname === '/register') {
-  //   return NextResponse.redirect(new URL('/auth/sign-up', request.url))
-  // }
-  
-  return NextResponse.next()
+    const { pathname } = request.nextUrl
+
+
+    const isAuthenticated = request.cookies.has('token');
+
+    // Check if current path is a protected route
+    const isProtectedRoute = protectedRoutes.some(route =>
+        pathname.startsWith(route)
+    )
+
+    // Check if current path is a guest-only route
+    const isGuestRoute = guestRoutes.some(route =>
+        pathname.startsWith(route)
+    )
+
+    // Redirect unauthenticated users away from protected routes
+    if (isProtectedRoute && !isAuthenticated) {
+        const loginUrl = new URL('/login', request.url)
+        loginUrl.searchParams.set('redirect', pathname)
+        return NextResponse.redirect(loginUrl)
+    }
+
+    // Redirect authenticated users away from guest routes (login, signup, etc.)
+    if (isGuestRoute && isAuthenticated) {
+        return NextResponse.redirect(new URL('/', request.url))
+    }
+
+    return NextResponse.next()
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: [
-    // Match all request paths except for the ones starting with:
-    // - api (API routes)
-    // - _next/static (static files)
-    // - _next/image (image optimization files)
-    // - favicon.ico (favicon file)
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+    // Match all routes except static files and api routes
+    matcher: [
+        '/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)',
+    ],
 }
