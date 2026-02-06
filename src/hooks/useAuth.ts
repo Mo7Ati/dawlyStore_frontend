@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import api from '@/lib/api'
+import api from '@/lib/client-api'
 import { useRouter } from 'next/navigation'
 import { Customer } from '@/types/auth'
 import { Response } from '@/types/general'

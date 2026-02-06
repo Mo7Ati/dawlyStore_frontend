@@ -9,6 +9,7 @@ interface HomePageProps {
 }
 
 export function HomePage({ sections }: HomePageProps) {
+  
   return (
     <div className="min-h-screen bg-background">
       {/* Main Content */}

@@ -1,9 +1,9 @@
 import api from "@/lib/api"
 import { Response } from "@/types/general"
-import { StoreBase, StoreFilters, StoresPaginationMeta, Category, StoreOverview } from "@/services/stores/store-types"
-import { StoreCategory } from "@/types/store-category";
+import { StoreCategory } from "@/types/general";
+import { Store, StoreFilters, StoresPaginationMeta } from "@/types/store";
 
-export type StoresResponse = Response<StoreBase[]> & {
+export type StoresResponse = Response<Store[]> & {
     extra: StoresPaginationMeta;
 }
 
@@ -39,7 +39,7 @@ export const getStores = async (filters?: StoreFilters): Promise<StoresResponse>
     return response.data;
 }
 
-export const getStoreById = async (id: number): Promise<Response<StoreOverview>> => {
+export const getStoreById = async (id: string): Promise<Response<Store>> => {
     const response = await api.get(`/stores/${id}`);
     return response.data;
 }

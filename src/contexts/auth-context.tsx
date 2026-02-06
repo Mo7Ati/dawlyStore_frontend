@@ -2,12 +2,13 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Customer, LoginCredentials, RegisterData, ResetPasswordData } from "@/types/auth";
-import api from "@/lib/api";
+import api from "@/lib/client-api";
 import { Response } from "@/types/general";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
     customer: Customer | null;
+    getCsrfToken: () => Promise<string | null>;
     getCustomer: () => Promise<void>;
     login: (loginData: LoginCredentials) => Promise<void>;
     register: (registerData: RegisterData) => Promise<void>;
@@ -26,6 +27,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [customer, setCustomer] = useState<Customer | null>(null);
     const router = useRouter();
 
+    const getCsrfToken = async () => {
+        try {
+            const response = await api.get<Response<string>>('/sanctum/csrf-cookie', {
+                baseURL: 'http://localhost:8000',
+            });
+            return response.data.data;
+        } catch (error) {
+            return null;
+        }
+    };
+
     const getCustomer = async () => {
         try {
             const response = await api.get<Response<Customer>>('/me');
@@ -37,6 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const login = async (loginData: LoginCredentials) => {
         try {
+            await getCsrfToken();
             const response = await api.post<Response<Customer>>('/login', loginData);
             setCustomer(response.data.data);
         } catch (error) {
@@ -46,6 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const register = async (registerData: RegisterData) => {
         try {
+            await getCsrfToken();
             const response = await api.post<Response<Customer>>('/register', registerData);
             setCustomer(response.data.data);
         } catch (error) {
@@ -83,6 +97,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         <AuthContext.Provider
             value={{
                 customer,
+                getCsrfToken,
                 getCustomer,
                 login,
                 register,
