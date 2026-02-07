@@ -30,8 +30,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(function onFulfilled(response) {
   return response;
 }, async function onRejected(error) {
-  if (error.status === 401) {
+  if (error.status === 401 ) {
     redirect('/login');
+  }
+  if (error.status === 404) {
+    redirect('/not-found');
   }
   return Promise.reject(error);
 });

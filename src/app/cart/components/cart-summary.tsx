@@ -39,7 +39,7 @@ export function CartSummary({
         <div className="space-y-2">
           {summary.storeGroups.map((group) => (
             <div
-              key={group.storeId}
+              key={group.store_id}
               className="flex items-center justify-between text-sm"
             >
               <span className="text-muted-foreground">

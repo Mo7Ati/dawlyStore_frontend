@@ -46,6 +46,6 @@ export const getStoreById = async (id: string): Promise<Response<Store>> => {
 
 // Available categories for filter options
 export const getStoreCategories = async (): Promise<Response<StoreCategory[]>> => {
-    const response = await api.get('/stores/categories');
+    const response = await api.get('/store-categories');
     return response.data;
 }

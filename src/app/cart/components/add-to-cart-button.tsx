@@ -12,8 +12,8 @@ import { Product } from "@/types/product";
 interface AddToCartButtonProps {
   product: Product;
   store: { id: string; name: string };
-  selectedOptions?: CartItemOption[];
-  selectedAdditions?: CartItemAddition[];
+  selected_options?: CartItemOption[];
+  selected_additions?: CartItemAddition[];
   quantity?: number;
   variant?: "default" | "outline" | "secondary" | "ghost";
   size?: "default" | "sm" | "lg" | "icon";
@@ -26,8 +26,8 @@ interface AddToCartButtonProps {
 export function AddToCartButton({
   product,
   store,
-  selectedOptions = [],
-  selectedAdditions = [],
+  selected_options = [],
+  selected_additions = [],
   quantity: initialQuantity = 1,
   variant = "default",
   size = "default",
@@ -51,17 +51,17 @@ export function AddToCartButton({
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     const payload: AddToCartPayload = {
-      productId: product.id,
+      product_id: product.id,
       productName: product.name,
       productImageUrl: product.image_url.toString(),
-      storeId: store.id,
+      store_id: store.id,
       storeName: store.name,
       unitPrice: product.price,
       comparePrice: product.compare_price,
       discountPercentage: product.discount_percentage,
       quantity,
-      selectedOptions,
-      selectedAdditions,
+      selected_options,
+      selected_additions,
     };
 
     addItem(payload);

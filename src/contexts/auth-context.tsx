@@ -26,11 +26,11 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [customer, setCustomer] = useState<Customer | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(customer === null ? true : false);
     const router = useRouter();
 
     useEffect(() => {
-        if(customer) return;
+        if (customer) return;
         getCustomer();
     }, []);
 
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const getCustomer = async () => {
         setIsLoading(true);
         try {
-            const response = await api.get<Response<Customer>>('/me');
+            const response = await api.get<Response<Customer>>('/');
             setCustomer(response.data.data);
         } catch (error) {
             console.error(error);
@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             await getCsrfToken();
             const response = await api.post<Response<Customer>>('/login', loginData);
             setCustomer(response.data.data);
+            router.push('/');
         } catch (error) {
             console.error(error);
         }
@@ -71,6 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             await getCsrfToken();
             const response = await api.post<Response<Customer>>('/register', registerData);
             setCustomer(response.data.data);
+            router.push('/');
         } catch (error) {
             console.error(error);
         }
@@ -97,6 +99,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
             await api.post('/logout');
             setCustomer(null);
+            router.push('/');
         } catch (error) {
             console.error(error);
         }

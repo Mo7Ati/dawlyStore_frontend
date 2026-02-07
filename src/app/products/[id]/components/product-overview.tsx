@@ -33,11 +33,11 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
   const [selectedOption, setSelectedOption] = useState<CartItemOption | null>(null)
 
   // State for selected additions (multiple selection)
-  const [selectedAdditions, setSelectedAdditions] = useState<CartItemAddition[]>([])
+  const [selected_additions, setselected_additions] = useState<CartItemAddition[]>([])
 
   // Toggle addition selection
   const toggleAddition = (addition: { id: string; name: string; price: number }) => {
-    setSelectedAdditions((prev) => {
+    setselected_additions((prev) => {
       const exists = prev.find((a) => a.id === addition.id)
       if (exists) {
         return prev.filter((a) => a.id !== addition.id)
@@ -48,7 +48,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
 
   // Check if an addition is selected
   const isAdditionSelected = (additionId: string) => {
-    return selectedAdditions.some((a) => a.id === additionId)
+    return selected_additions.some((a) => a.id === additionId)
   }
 
   // Calculate total price including option and additions
@@ -57,9 +57,9 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
     if (selectedOption) {
       total += selectedOption.price
     }
-    total += selectedAdditions.reduce((sum, add) => sum + add.price, 0)
+    total += selected_additions.reduce((sum, add) => sum + add.price, 0)
     return total
-  }, [price, selectedOption, selectedAdditions])
+  }, [price, selectedOption, selected_additions])
 
   return (
     <section className="py-8 sm:py-16 lg:py-6">
@@ -169,9 +169,9 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
               <div className="space-y-3">
                 <h4 className="text-lg font-semibold">
                   Additions
-                  {selectedAdditions.length > 0 && (
+                  {selected_additions.length > 0 && (
                     <span className="ml-2 text-sm font-normal text-muted-foreground">
-                      — {selectedAdditions.length} selected
+                      — {selected_additions.length} selected
                     </span>
                   )}
                 </h4>
@@ -214,8 +214,8 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                   discountPercentage: discount_percentage,
                 }}
                 store={store}
-                selectedOptions={selectedOption ? [selectedOption] : []}
-                selectedAdditions={selectedAdditions}
+                selected_options={selectedOption ? [selectedOption] : []}
+                selected_additions={selected_additions}
                 showQuantityControls
                 className="flex-1"
               />

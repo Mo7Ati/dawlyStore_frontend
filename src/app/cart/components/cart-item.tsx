@@ -66,9 +66,9 @@ export function CartItem({ item, compact = false }: CartItemProps) {
           </h4>
 
           {/* Selected Options */}
-          {item.selectedOptions.length > 0 && (
+          {item.selected_options.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {item.selectedOptions.map((opt) => (
+              {item.selected_options.map((opt) => (
                 <span
                   key={opt.id}
                   className="rounded-full bg-secondary px-2 py-0.5 text-[10px] text-secondary-foreground"
@@ -81,9 +81,9 @@ export function CartItem({ item, compact = false }: CartItemProps) {
           )}
 
           {/* Selected Additions */}
-          {item.selectedAdditions.length > 0 && (
+          {item.selected_additions.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {item.selectedAdditions.map((add) => (
+              {item.selected_additions.map((add) => (
                 <span
                   key={add.id}
                   className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] text-primary"

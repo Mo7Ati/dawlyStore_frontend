@@ -31,29 +31,31 @@ export const useCart = create<CartStore>()(
       // ============ STATE ============
       items: [],
       lastUpdated: Date.now(),
+      hydrated: false,
+      setHydrated: () => set({ hydrated: true }),
 
       // ============ ACTIONS ============
 
       addItem: (payload: AddToCartPayload) => {
         const {
-          productId,
+          product_id,
           productName,
           productImageUrl,
-          storeId,
+          store_id,
           storeName,
           unitPrice,
           comparePrice,
           discountPercentage,
           quantity,
-          selectedOptions = [],
-          selectedAdditions = [],
+          selected_options = [],
+          selected_additions = [],
         } = payload;
 
         const cartItemId = generateCartItemId(
-          productId,
+          product_id,
           storeName,
-          selectedOptions,
-          selectedAdditions
+          selected_options,
+          selected_additions
         );
 
         set((state) => {
@@ -78,17 +80,17 @@ export const useCart = create<CartStore>()(
           // Add new item
           const newItem: CartItem = {
             cartItemId,
-            productId,
+            product_id,
             productName,
             productImageUrl,
-            storeId,
+            store_id,
             storeName,
             unitPrice,
             comparePrice,
             discountPercentage,
             quantity,
-            selectedOptions,
-            selectedAdditions,
+            selected_options,
+            selected_additions,
             addedAt: Date.now(),
           };
 
@@ -146,9 +148,9 @@ export const useCart = create<CartStore>()(
         }
       },
 
-      removeStoreItems: (storeId: string) => {
+      removeStoreItems: (store_id: string) => {
         set((state) => ({
-          items: state.items.filter((item) => item.storeId !== storeId),
+          items: state.items.filter((item) => item.store_id !== store_id),
           lastUpdated: Date.now(),
         }));
       },
@@ -167,8 +169,12 @@ export const useCart = create<CartStore>()(
       version: 1,
       partialize: (state) => ({
         items: state.items,
+        hydrated: state.hydrated,
         lastUpdated: state.lastUpdated,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated()
+      },
     }
   )
 );
@@ -197,9 +203,9 @@ function computeCartSummary(items: CartItem[]): CartSummary {
   const storeMap = new Map<string, CartItem[]>();
 
   for (const item of items) {
-    const storeItems = storeMap.get(item.storeId) || [];
+    const storeItems = storeMap.get(item.store_id) || [];
     storeItems.push(item);
-    storeMap.set(item.storeId, storeItems);
+    storeMap.set(item.store_id, storeItems);
   }
 
   // Build store groups with computed subtotals
@@ -207,12 +213,12 @@ function computeCartSummary(items: CartItem[]): CartSummary {
   let grandTotal = 0;
   let totalItems = 0;
 
-  for (const [storeId, storeItems] of storeMap) {
+  for (const [store_id, storeItems] of storeMap) {
     const subtotal = calculateStoreSubtotal(storeItems);
     const itemCount = storeItems.reduce((sum, item) => sum + item.quantity, 0);
 
     storeGroups.push({
-      storeId,
+      store_id,
       storeName: storeItems[0].storeName,
       items: storeItems,
       subtotal,
@@ -279,22 +285,22 @@ export function useIsCartEmpty(): boolean {
 /**
  * Get items for a specific store
  */
-export function useStoreItems(storeId: string): CartItem[] {
+export function useStoreItems(store_id: string): CartItem[] {
   const items = useCart(useShallow((state) => state.items));
 
   return useMemo(
-    () => items.filter((item) => item.storeId === storeId),
-    [items, storeId]
+    () => items.filter((item) => item.store_id === store_id),
+    [items, store_id]
   );
 }
 
 /**
- * Check if a product is in cart (by productId and storeId)
+ * Check if a product is in cart (by product_id and store_id)
  */
-export function useIsInCart(productId: string, storeId: string): boolean {
+export function useIsInCart(product_id: string, store_id: string): boolean {
   return useCart((state) =>
     state.items.some(
-      (item) => item.productId === productId && item.storeId === storeId
+      (item) => item.product_id === product_id && item.store_id === store_id
     )
   );
 }
@@ -314,17 +320,24 @@ export function useCartItem(cartItemId: string): CartItem | undefined {
 /**
  * Get all stores in cart
  */
-export function useCartStores(): { storeId: string; storeName: string }[] {
+export function useCartStores(): { store_id: string; storeName: string }[] {
   const items = useCart(useShallow((state) => state.items));
 
   return useMemo(() => {
     const storeMap = new Map<string, string>();
     for (const item of items) {
-      storeMap.set(item.storeId, item.storeName);
+      storeMap.set(item.store_id, item.storeName);
     }
-    return Array.from(storeMap.entries()).map(([storeId, storeName]) => ({
-      storeId,
+    return Array.from(storeMap.entries()).map(([store_id, storeName]) => ({
+      store_id,
       storeName,
     }));
   }, [items]);
+}
+
+/**
+ * Check if cart is hydrated
+ */
+export function useCartHydrated(): boolean {
+  return useCart((state) => state.hydrated)
 }

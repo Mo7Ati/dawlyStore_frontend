@@ -28,8 +28,8 @@ function CartItemRow({ item, storeName }: { item: CartItem; storeName: string })
             <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-medium line-clamp-1">{item.productName}</h4>
                 <p className="text-xs text-muted-foreground">
-                    {item.selectedOptions.length > 0
-                        ? item.selectedOptions.map(opt => opt.name).join(', ')
+                    {item.selected_options.length > 0
+                        ? item.selected_options.map(opt => opt.name).join(', ')
                         : storeName}
                 </p>
                 <p className="text-sm font-semibold mt-0.5">${item.unitPrice.toFixed(2)}</p>

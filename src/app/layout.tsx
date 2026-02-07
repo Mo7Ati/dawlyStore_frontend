@@ -4,7 +4,8 @@ import { inter } from "@/lib/fonts";
 import { LandingNavbar } from "@/components/home/navbar";
 import { LandingFooter } from "@/components/home/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import AuthProvider from "@/contexts/auth-context";
 
 
@@ -33,6 +34,7 @@ export default function RootLayout({
               {children}
               <LandingFooter />
             </NuqsAdapter>
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>

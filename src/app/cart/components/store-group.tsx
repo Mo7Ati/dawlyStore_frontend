@@ -42,7 +42,7 @@ export function StoreGroup({
             variant="ghost"
             size="sm"
             className="text-muted-foreground hover:text-destructive"
-            onClick={() => removeStoreItems(group.storeId)}
+            onClick={() => removeStoreItems(group.store_id)}
           >
             <Trash2 className="mr-1 h-4 w-4" />
             Remove all

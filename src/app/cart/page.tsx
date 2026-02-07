@@ -6,12 +6,20 @@ import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-import { useCart, useCartSummary } from '@/stores/cart/use-cart'
-
+import { useCart, useCartHydrated, useCartSummary } from '@/stores/cart/use-cart'
+import { useRouter } from 'next/navigation'
+import { CartSkeleton } from './components/cart-skeleton'
 
 export default function ShoppingCart() {
   const summery = useCartSummary();
   const { removeItem, incrementQuantity, decrementQuantity } = useCart();
+  const router = useRouter();
+  const hydrated = useCartHydrated();
+
+  if (!hydrated) {
+    return <CartSkeleton />;
+  }
+
 
   return (
     <div className='container mx-auto max-w-7xl px-4 py-8'>
@@ -54,11 +62,11 @@ export default function ShoppingCart() {
                     <div className='flex items-start justify-between'>
                       <div>
                         <h3 className='text-foreground text-lg font-medium'>{item.productName}</h3>
-                        <Link href={`/stores/${item.storeId}`}>
+                        <Link href={`/stores/${item.store_id}`}>
                           <p className='text-muted-foreground mt-1 text-sm'>{item.storeName}</p>
                         </Link>
                         <p className='text-muted-foreground mt-1 text-sm'>
-                          {item.selectedOptions.map(option => option.name).join(', ')} {item.selectedAdditions.map(addition => addition.name).join(', ')}
+                          {item.selected_options.map(option => option.name).join(', ')} {item.selected_additions.map(addition => addition.name).join(', ')}
                         </p>
                       </div>
                       <Button
@@ -154,6 +162,7 @@ export default function ShoppingCart() {
                 size='lg'
                 className='mt-4 w-full cursor-pointer text-base font-medium'
                 disabled={summery.items.length === 0}
+                onClick={() => router.push('/checkout')}
               >
                 <ShoppingBag className='me-2 size-5' />
                 Proceed to Checkout
