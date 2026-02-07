@@ -1,13 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { Customer, LoginCredentials, RegisterData, ResetPasswordData } from "@/types/auth";
-import api from "@/lib/client-api";
+import api from "@/lib/api";
 import { Response } from "@/types/general";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
     customer: Customer | null;
+    isLoading: boolean;
     getCsrfToken: () => Promise<string | null>;
     getCustomer: () => Promise<void>;
     login: (loginData: LoginCredentials) => Promise<void>;
@@ -25,7 +26,13 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [customer, setCustomer] = useState<Customer | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        if(customer) return;
+        getCustomer();
+    }, []);
 
     const getCsrfToken = async () => {
         try {
@@ -39,12 +46,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     const getCustomer = async () => {
+        setIsLoading(true);
         try {
             const response = await api.get<Response<Customer>>('/me');
             setCustomer(response.data.data);
         } catch (error) {
             console.error(error);
         }
+        setIsLoading(false);
     };
 
     const login = async (loginData: LoginCredentials) => {
@@ -97,6 +106,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         <AuthContext.Provider
             value={{
                 customer,
+                isLoading,
                 getCsrfToken,
                 getCustomer,
                 login,

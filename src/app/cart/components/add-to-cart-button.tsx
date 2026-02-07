@@ -8,17 +8,9 @@ import { AddToCartPayload, CartItemOption, CartItemAddition } from "@/stores/car
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Product } from "@/types/product";
-import { Store } from "@/types/store";
 
 interface AddToCartButtonProps {
-  product: {
-    id: string;
-    name: string;
-    image_url: string;
-    price: number;
-    comparePrice: number | null;
-    discountPercentage: number | null;
-  };
+  product: Product;
   store: { id: string; name: string };
   selectedOptions?: CartItemOption[];
   selectedAdditions?: CartItemAddition[];
@@ -65,8 +57,8 @@ export function AddToCartButton({
       storeId: store.id,
       storeName: store.name,
       unitPrice: product.price,
-      comparePrice: product.comparePrice,
-      discountPercentage: product.discountPercentage,
+      comparePrice: product.compare_price,
+      discountPercentage: product.discount_percentage,
       quantity,
       selectedOptions,
       selectedAdditions,
@@ -100,7 +92,7 @@ export function AddToCartButton({
         size="icon"
         className={cn(
           "transition-all",
-          justAdded && "bg-green-500 hover:bg-green-600",
+          // justAdded && "bg-green-500 hover:bg-green-600",
           className
         )}
         onClick={handleAddToCart}
@@ -152,7 +144,7 @@ export function AddToCartButton({
         size={size}
         className={cn(
           "flex-1 transition-all",
-          justAdded && "bg-green-500 hover:bg-green-600"
+          // justAdded && "bg-green-500 hover:bg-green-600"
         )}
         onClick={handleAddToCart}
         disabled={disabled || isAdding}

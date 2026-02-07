@@ -1,7 +1,5 @@
-'use server'
-
 import axios from 'axios'
-import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation';
 
 const api = axios.create({
   baseURL: 'http://localhost:8000/api/customer',
@@ -11,14 +9,16 @@ const api = axios.create({
     'Referer': 'http://localhost:3000',
   },
   timeout: 10000,
+  withCredentials: true,
+  withXSRFToken: true,
 })
 
 api.interceptors.request.use(
   async (config) => {
-    const cookieStore = await cookies();
-    const cookieHeader = cookieStore.getAll().map((c) => `${c.name}=${c.value}`).join('; ');
-    if (cookieHeader) {
-      config.headers.set('Cookie', cookieHeader);
+    if (typeof window === 'undefined') {
+      const { cookies } = await import('next/headers')
+      const cookieStore = await cookies()
+      config.headers['Cookie'] = cookieStore.toString()
     }
     return config;
   }, (error) => {
@@ -31,7 +31,7 @@ api.interceptors.response.use(function onFulfilled(response) {
   return response;
 }, async function onRejected(error) {
   if (error.status === 401) {
-    // await api.post('/logout');
+    redirect('/login');
   }
   return Promise.reject(error);
 });

@@ -1,4 +1,4 @@
-import api from "@/lib/client-api";
+import api from "@/lib/api";
 import {
   CheckoutRequest,
   CheckoutResponse,

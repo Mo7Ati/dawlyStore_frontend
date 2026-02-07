@@ -77,7 +77,7 @@ const smoothScrollTo = (targetId: string) => {
 export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const { customer, logout } = useAuth()
+  const { customer, logout, isLoading } = useAuth()
   const router = useRouter()
 
   // Auth loading state: user is undefined while SWR is fetching
@@ -163,18 +163,18 @@ export function LandingNavbar() {
           </div>
 
           {/* Auth State: Loading / Authenticated / Not Authenticated */}
-          {/* <div>
+          <div>
             {isLoading ? (
               // Skeleton while checking auth state
               <Skeleton className="h-9 w-9 rounded-full" />
-            ) : user ? (
+            ) : customer ? (
               // User Profile Dropdown
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="cursor-pointer rounded-full">
                     <Avatar className="h-8 w-8">
                       <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
-                        {getUserInitials(user.name)}
+                        {getUserInitials(customer.name)}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -182,8 +182,8 @@ export function LandingNavbar() {
                 <DropdownMenuContent className="w-56" align="end" sideOffset={8}>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.name}</p>
-                      <p className="text-xs text-muted-foreground leading-none">{user.email}</p>
+                      <p className="text-sm font-medium leading-none">{customer.name}</p>
+                      <p className="text-xs text-muted-foreground leading-none">{customer.email}</p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -211,7 +211,7 @@ export function LandingNavbar() {
                 <Link href="/login">Sign In</Link>
               </Button>
             )}
-          </div> */}
+          </div>
         </div>
 
         {/* Mobile Menu */}
