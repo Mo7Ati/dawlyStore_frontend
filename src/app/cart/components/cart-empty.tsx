@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, ArrowRight, Store } from "lucide-react";
+import { ShoppingCart, ArrowRight, Store, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface CartEmptyProps {
   className?: string;
@@ -19,35 +20,42 @@ export function CartEmpty({
   showActions = true,
 }: CartEmptyProps) {
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center py-12 text-center",
-        className
-      )}
-    >
-      <div className="mb-6 rounded-full bg-muted p-6">
-        <ShoppingCart className="h-12 w-12 text-muted-foreground" />
-      </div>
+    <>
+      <Card className='border-dashed'>
+        <CardContent className='flex flex-col items-center justify-center py-12 text-center'>
+          <div
+            className={cn(
+              "flex flex-col items-center justify-center py-12 text-center",
+              className
+            )}
+          >
+            <div className="mb-6 rounded-full bg-muted p-6">
+              <ShoppingCart className="h-12 w-12 text-muted-foreground" />
+            </div>
 
-      <h3 className="mb-2 text-xl font-semibold">{title}</h3>
-      <p className="mb-6 max-w-sm text-muted-foreground">{description}</p>
+            <h3 className="mb-2 text-xl font-semibold">{title}</h3>
+            <p className="mb-6 max-w-sm text-muted-foreground">{description}</p>
 
-      {showActions && (
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Button asChild>
-            <Link href="/stores">
-              <Store className="mr-2 h-4 w-4" />
-              Browse Stores
-            </Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href="/products">
-              Explore Products
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-      )}
-    </div>
+            {showActions && (
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button asChild>
+                  <Link href="/stores">
+                    <Store className="mr-2 h-4 w-4" />
+                    Browse Stores
+                  </Link>
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link href="/products">
+                    Explore Products
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </div>
+
+        </CardContent>
+      </Card>
+    </>
   );
 }

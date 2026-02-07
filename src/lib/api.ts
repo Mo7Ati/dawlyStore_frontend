@@ -30,6 +30,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(function onFulfilled(response) {
   return response;
 }, async function onRejected(error) {
+  console.error(error.response);
   if (error.status === 401 ) {
     redirect('/login');
   }

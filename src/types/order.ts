@@ -1,12 +1,14 @@
 import { Product } from "./product";
 
-export type OrderStatus =
-  | "pending"
-  | "confirmed"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled";
+export type OrderStatus = {
+  value: string;
+  label: string;
+};
+
+export type PaymentStatus = {
+  value: string;
+  label: string;
+};
 
 export type Order = {
   id: number;
@@ -14,7 +16,6 @@ export type Order = {
   total: number;
   created_at: string;
   updated_at?: string;
-  /** Optional display fields; adjust to match backend */
   order_number?: string;
   item_count?: number;
 };
@@ -32,6 +33,7 @@ export type OrderItem = {
   id?: number;
   product_id?: string | number;
   product_data: Product;
+  product: Product;
   quantity: number;
   unit_price: number;
 };
@@ -43,7 +45,8 @@ export type CustomerOrder = {
   store: OrderStore;
   items: OrderItem[];
   total: number;
-  status?: OrderStatus;
+  status: OrderStatus;
+  payment_status: PaymentStatus;
   order_number?: string;
   created_at?: string;
 };
@@ -53,7 +56,6 @@ export type CheckoutGroup = {
   checkout_group_id: string;
   created_at: string;
   group_total: number;
-  payment_status: string;
   orders_count: number;
   orders: CustomerOrder[];
 };
