@@ -3,7 +3,7 @@ import StoreOverview from './components/store-overview'
 
 const StorePage = async (props: PageProps<'/stores/[id]'>) => {
     const { id } = await props.params
-    const storePromise = getStoreById(Number(id))
+    const storePromise = getStoreById(id)
     return (
         <div>
             <StoreOverview storePromise={storePromise} />

@@ -1,15 +1,15 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { StoreProduct } from '@/services/stores/store-types'
+import { Product } from '@/types/product'
 import Image from 'next/image'
 import Link from 'next/link'
 
 interface StoreProductCardProps {
-    product: StoreProduct
+    product: Product
 }
 
 const StoreProductCard = ({ product }: StoreProductCardProps) => {
-    const { id, name, description, price, compare_price, image_url } = product
+    const { id, name, description, price, compare_price, images } = product
 
     const hasDiscount = compare_price && compare_price > price
     const discountPercentage = hasDiscount
@@ -21,9 +21,9 @@ const StoreProductCard = ({ product }: StoreProductCardProps) => {
             <Card className="group h-full overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                 {/* Product Image */}
                 <div className="relative aspect-square overflow-hidden bg-muted">
-                    {image_url ? (
+                    {images.length > 0 ? (
                         <Image
-                            src={image_url.toString()}
+                            src={images[0]}
                             alt={name}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-105"

@@ -1,12 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Package } from 'lucide-react'
-import { ProductBase } from '@/types/general'
+import { Product } from '@/types/product'
 import ProductCard from '@/components/home/product-card'
-import { Category } from '@/services/stores/store-types'
+import { Category } from '@/types/general'
 
 interface CategoryTabsProps {
     categories: Category[]
-    products: Record<string, ProductBase[]>
+    products: Record<string, Product[]>
 }
 
 const CategoryTabs = ({ categories, products }: CategoryTabsProps) => {
