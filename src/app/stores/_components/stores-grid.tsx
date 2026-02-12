@@ -2,7 +2,7 @@
 
 import StoreCard from '@/components/home/store-card'
 import { StoresResponse } from '@/services/stores/store-service'
-import { ViewMode } from '@/services/stores/store-types'
+import { ViewMode } from '@/types/store'
 import { Store as StoreIcon } from 'lucide-react'
 import { use } from 'react'
 import StoresPagination from './stores-pagination'
