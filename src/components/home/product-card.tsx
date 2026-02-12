@@ -13,8 +13,8 @@ type ProductCardProps = {
 
 const ProductCard = ({ product, storeId, storeName }: ProductCardProps) => {
     const router = useRouter()
-    const addItem = useCart((state) => state.addItem)
-
+    console.log(product);
+    
     return (
         <div
             data-slot="card"
@@ -31,7 +31,7 @@ const ProductCard = ({ product, storeId, storeName }: ProductCardProps) => {
                         loading="lazy"
                         width="500"
                         height="500"
-                        src={product.image_url?.toString()}
+                        src={product.images[0]}
                     />
                     <div className="absolute start-2 top-2 z-20">
                         <span data-slot="badge"

@@ -30,8 +30,14 @@ import { Button } from '@/components/ui/button'
 import StoreCard from './store-card'
 import { Store } from '@/types/store'
 
+interface StoreListProps {
+    stores: Store[],
+    title: string,
+    description: string,
+}
 
-export function StoreList({ data }: { data: Store[] }) {
+
+export function StoreList({ data }: { data: StoreListProps }) {
     const [api, setApi] = React.useState<CarouselApi | null>(null)
     const [current, setCurrent] = React.useState(0)
 
@@ -52,7 +58,8 @@ export function StoreList({ data }: { data: Store[] }) {
         <section className='py-12 lg:py-20'>
             <div className='container mx-auto max-w-7xl px-6 lg:px-16'>
                 <header className='mb-16 text-center'>
-                    <h2 className='text-3xl font-bold text-balance md:text-4xl'>Our Clients Review</h2>
+                    <h2 className='text-3xl font-bold text-balance md:text-4xl'>{data.title}</h2>
+                    <p className='text-muted-foreground text-base text-pretty'>{data.description}</p>
                 </header>
 
                 <Carousel
@@ -71,7 +78,7 @@ export function StoreList({ data }: { data: Store[] }) {
                     }}
                 >
                     <CarouselContent className='-ml-1'>
-                        {data.map(store => (
+                        {data.stores.map(store => (
                             <CarouselItem key={store.id} className='basis-full px-4 last:pe-0 sm:basis-1/2 lg:basis-1/3'>
                                 {
                                     <StoreCard key={store.id} store={store} />
@@ -82,7 +89,7 @@ export function StoreList({ data }: { data: Store[] }) {
                     <CarouselPrevious variant='outline' className='hidden cursor-pointer lg:flex' />
                     <CarouselNext variant='outline' className='hidden cursor-pointer lg:flex' />
                     <div className='mt-8 flex items-center justify-center gap-2'>
-                        {data.map((_, index) => (
+                        {data.stores.map((_, index) => (
                             <Button
                                 variant='ghost'
                                 key={index}

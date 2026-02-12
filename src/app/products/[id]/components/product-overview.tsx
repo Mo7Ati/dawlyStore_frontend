@@ -8,7 +8,7 @@ import { Response } from '@/types/general'
 import { Product } from '@/types/product'
 import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
 import { CartItemOption, CartItemAddition } from '@/stores/cart/cart-types'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 export function ProductOverview({ productPromise }: { productPromise: Promise<Response<Product>> }) {
   const { data: product } = use(productPromise)
@@ -21,19 +21,23 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
     compare_price,
     discount_percentage,
     rating,
-    image_url,
+    images,
     additions,
     options,
     store,
     category,
   } = product
 
+  const hasImages = images && images.length > 0
 
   // State for selected option (single selection)
   const [selectedOption, setSelectedOption] = useState<CartItemOption | null>(null)
 
   // State for selected additions (multiple selection)
   const [selected_additions, setselected_additions] = useState<CartItemAddition[]>([])
+
+  // State for selected image in gallery
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
 
   // Toggle addition selection
   const toggleAddition = (addition: { id: string; name: string; price: number }) => {
@@ -66,16 +70,44 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 xl:gap-24">
           {/* LEFT – GALLERY */}
-          <div className="flex flex-col gap-6">
-            <div className="relative w-full overflow-hidden rounded-md bg-gray-100 h-[560px]">
-              <Image
-                src={image_url?.toString()}
-                alt={name}
-                fill
-                className="object-cover"
-                priority
-              />
+          <div className="flex flex-col gap-3">
+            <div className="relative w-full overflow-hidden rounded-xl bg-muted h-[460px] sm:h-[520px]">
+              {hasImages && (
+                <Image
+                  src={images[selectedImageIndex] ?? images[0]}
+                  alt={name}
+                  fill
+                  className="object-cover transition-transform duration-300"
+                  priority
+                />
+              )}
             </div>
+
+            {hasImages && images.length > 1 && (
+              <div className="mt-1 flex gap-2 overflow-x-auto pb-1">
+                {images.map((image, index) => {
+                  const isActive = selectedImageIndex === index
+                  return (
+                    <button
+                      key={image + index}
+                      type="button"
+                      onClick={() => setSelectedImageIndex(index)}
+                      className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border bg-gray-100 transition-all duration-200 ${isActive
+                          ? 'border-primary ring-2 ring-primary/40 scale-[1.02]'
+                          : 'border-transparent hover:border-primary/60 hover:brightness-105'
+                        }`}
+                    >
+                      <Image
+                        src={image}
+                        alt={`${name} thumbnail ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </button>
+                  )
+                })}
+              </div>
+            )}
           </div>
 
           {/* RIGHT – DETAILS */}
@@ -205,14 +237,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             {/* Actions */}
             <div className="flex gap-4 pt-2">
               <AddToCartButton
-                product={{
-                  id: id.toString(),
-                  name,
-                  image_url,
-                  price,
-                  comparePrice: compare_price,
-                  discountPercentage: discount_percentage,
-                }}
+                product={product}
                 store={store}
                 selected_options={selectedOption ? [selectedOption] : []}
                 selected_additions={selected_additions}

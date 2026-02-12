@@ -1,22 +1,21 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { StoreOverview } from '@/services/stores/store-types'
+import { Store } from '@/types/store'
 import { MapPin, Phone, Clock, Twitter, Facebook, Instagram } from 'lucide-react'
 import Link from 'next/link'
 
 interface StoreHeaderProps {
-    store: StoreOverview
+    store: Store
 }
 
 const StoreHeader = ({ store }: StoreHeaderProps) => {
     const {
         name,
-        image_url,
+        logo,
         description,
         address,
         phone,
-        social_media,
         delivery_time,
         keywords,
     } = store
@@ -29,7 +28,7 @@ const StoreHeader = ({ store }: StoreHeaderProps) => {
                     <div className="flex items-center gap-4">
                         <Avatar className="size-20 ring-2 ring-border">
                             <AvatarImage
-                                src={image_url.toString()}
+                                src={logo}
                                 alt={name}
                                 className="object-cover"
                             />
@@ -85,7 +84,7 @@ const StoreHeader = ({ store }: StoreHeaderProps) => {
                                 ))}
                             </div>
                         )}
-                        
+
                         {/* Social Media Links */}
                         {/* {social_media && (
                             <div className="flex items-center gap-3 mt-2">

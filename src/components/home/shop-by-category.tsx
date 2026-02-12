@@ -4,15 +4,23 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { CategoryListSectionData } from '@/types/home-types'
 
-export function ShopByCategories({ data }: { data: CategoryListSectionData[] }) {
+interface ShopByCategoriesProps {
+    categories: CategoryListSectionData[],
+    title: string,
+    description: string,
+}
+
+export function ShopByCategories({ data }: { data: ShopByCategoriesProps }) {
+    console.log(data);
     return (
         <section className="mx-auto max-w-7xl px-8 py-12">
             <header className="mb-8 text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-balance">Explore Popular Categories</h2>
+                {data.title && <h2 className="text-3xl font-bold tracking-tight text-balance">{data.title}</h2>}
+                {data.description && <p className='text-muted-foreground text-base text-pretty'>{data.description}</p>}
             </header>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
                 {
-                    data.map((category) => (
+                    data.categories.map((category) => (
                         <div
                             key={category.id}
                             data-slot="card"
@@ -26,10 +34,10 @@ export function ShopByCategories({ data }: { data: CategoryListSectionData[] }) 
                                             className="absolute inset-0 z-10 bg-linear-to-b from-black/10 via-black/20 to-black/60 transition-colors group-hover:to-black/70">
                                         </div>
                                         <Image
+                                            src={category.image}
                                             alt={category.name}
                                             className="duration- 300 size-full object-cover grayscale transition-all group-hover:scale-110 group-hover:grayscale-0"
                                             width="200" height="200" loading="lazy"
-                                            src={category.image_url?.toString()}
                                         />
                                     </div>
                                     <h3

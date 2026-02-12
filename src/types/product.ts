@@ -17,7 +17,7 @@ export interface Product {
     is_active: boolean
     is_accepted: boolean
 
-    image_url: string
+    images: string[]
     quantity: number
 
     rating: Rating

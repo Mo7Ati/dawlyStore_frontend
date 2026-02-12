@@ -1,44 +1,50 @@
-import React from 'react';
+"use client"
+
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, MapPin, Store } from 'lucide-react';
-import { ViewMode } from '@/services/stores/store-types';
+import { ViewMode } from '@/types/store';
 import { Store as StoreType } from '@/types/store';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: ViewMode }) => {
+    const logoSrc = store.logo ? store.logo : 'https://img.freepik.com/premium-vector/store-bag-shopping-store-logo-design_92167-793.jpg?semt=ais_user_personalization&w=740&q=80';
+    console.log(logoSrc);
+    const router = useRouter();
+    // const statusConfig = {
+    //     open: {
+    //         label: 'Open',
+    //         className: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20',
+    //         dotColor: 'bg-emerald-500',
+    //     },
+    //     closed: {
+    //         label: 'Closed',
+    //         className: 'bg-slate-500/10 text-slate-700 border-slate-500/20',
+    //         dotColor: 'bg-slate-500',
+    //     },
+    //     busy: {
+    //         label: 'Busy',
+    //         className: 'bg-amber-500/10 text-amber-700 border-amber-500/20',
+    //         dotColor: 'bg-amber-500',
+    //     },
+    // };
 
-    const statusConfig = {
-        open: {
-            label: 'Open',
-            className: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20',
-            dotColor: 'bg-emerald-500',
-        },
-        closed: {
-            label: 'Closed',
-            className: 'bg-slate-500/10 text-slate-700 border-slate-500/20',
-            dotColor: 'bg-slate-500',
-        },
-        busy: {
-            label: 'Busy',
-            className: 'bg-amber-500/10 text-amber-700 border-amber-500/20',
-            dotColor: 'bg-amber-500',
-        },
-    };
 
-    
-    const currentStatus = statusConfig[store.is_active ? 'open' : 'closed'];
-    // Grid View (Vertical Layout)
     if (viewMode === 'grid') {
         return (
-            <Card className="group cursor-pointer hover:shadow-lg transition-shadow">
+            <Card className="group cursor-pointer hover:shadow-lg transition-shadow" onClick={() => router.push(`/stores/${store.id}`)}>
                 <div className="p-6 space-y-4">
                     {/* Logo Section */}
                     <div className="flex justify-center">
                         <div className="w-20 h-20 rounded-xl overflow-hidden border">
-                            <img
-                                src={store.image_url.toString()}
+                            <Image
+                                src={logoSrc}
                                 alt={`${store.name} logo`}
                                 className="w-full h-full object-cover"
+                                width={80}
+                                height={80}
                             />
                         </div>
                     </div>
@@ -46,9 +52,9 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                     {/* Store Name & Status */}
                     <div className="text-center space-y-2">
                         <h3 className="text-xl font-semibold">{store.name}</h3>
-                        <Badge variant="outline">
+                        {/* <Badge variant="outline">
                             {currentStatus.label}
-                        </Badge>
+                        </Badge> */}
                     </div>
 
                     {/* Description */}
@@ -83,6 +89,20 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                             </div>
                         </div>
                     </div>
+
+                    {/* Browse Products Button */}
+                    <div className="pt-2 flex justify-center">
+                        <Button
+                            variant="default"
+                            size="sm"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                router.push(`/stores/${store.id}`);
+                            }}
+                        >
+                            Browse products
+                        </Button>
+                    </div>
                 </div>
             </Card>
         );
@@ -90,15 +110,15 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
 
     // List View (Horizontal Layout)
     return (
-        <Card className="group cursor-pointer hover:shadow-lg transition-shadow">
+        <Card className="group hover:shadow-lg transition-shadow">
             <div className="p-5">
                 <div className="flex items-center gap-6">
                     {/* Logo Section */}
                     <div className="shrink-0">
                         <div className="w-24 h-24 rounded-xl overflow-hidden border">
                             <img
-                                src={store.image_url.toString()}
-                                alt={`${name} logo`}
+                                src={logoSrc}
+                                alt={`${store.name} logo`}
                                 className="w-full h-full object-cover"
                             />
                         </div>
@@ -109,9 +129,9 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                         {/* Store Name & Status */}
                         <div className="flex items-center gap-3 flex-wrap">
                             <h3 className="text-2xl font-semibold">{store.name}</h3>
-                            <Badge variant="outline">
+                            {/* <Badge variant="outline">
                                 {currentStatus.label}
-                            </Badge>
+                            </Badge> */}
                         </div>
 
                         {/* Description */}
@@ -142,6 +162,17 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                                     <p className="text-sm font-medium">{store.delivery_time} mins</p>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Browse Products Button */}
+                        <div className="pt-2">
+                            <Button
+                                variant="default"
+                                size="sm"
+                                onClick={() => router.push(`/stores/${store.id}`)}
+                            >
+                                Browse products
+                            </Button>
                         </div>
                     </div>
                 </div>

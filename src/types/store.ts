@@ -1,4 +1,4 @@
-import { Rating, StoreCategory, Category } from "./general"
+import { Rating, StoreCategory, Category, Media } from "./general"
 import { Product } from "./product"
 
 export type StoreStatus = 'open' | 'closed';
@@ -10,7 +10,7 @@ export type Store = {
     address: string | null
     description: string | null
 
-    keywords: string[] | string | null
+    keywords: string[] | null
     social_media: Record<string, string> | null
 
     email: string | null
@@ -25,7 +25,7 @@ export type Store = {
     rating: Rating
 
     created_at: string | null
-    image_url: string
+    logo: string
 
     category?: StoreCategory
     products?: Product[]

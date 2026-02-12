@@ -21,5 +21,16 @@ export type StoreCategory = {
     id: string;
     name: string;
     description: string;
-    image_url: URL;
+    image: Media | null;
+}
+
+export type Media = {
+    id: number | string;
+    name: string;
+    url: string;
+    type: string;
+    uuid: string;
+    size: number;
+    mime_type: string;
+    file_name: string;
 }

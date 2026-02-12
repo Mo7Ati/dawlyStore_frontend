@@ -24,7 +24,7 @@ export type HeroSectionData = {
 export type CategoryListSectionData = {
     id: number;
     name: string;
-    image_url: URL;
+    image: string;
 }
 
 export type CTASectionData = {

@@ -53,7 +53,7 @@ export function AddToCartButton({
     const payload: AddToCartPayload = {
       product_id: product.id,
       productName: product.name,
-      productImageUrl: product.image_url.toString(),
+      productImageUrl: product.images[0],
       store_id: store.id,
       storeName: store.name,
       unitPrice: product.price,

@@ -14,8 +14,10 @@ const nextConfig: NextConfig = {
         hostname: 'ui.shadcn.com',
       },
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000',
+        pathname: '/storage/**',
       },
       {
         protocol: 'https',
@@ -24,9 +26,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'media.istockphoto.com',
-      },
+      }
     ],
     formats: ['image/webp', 'image/avif'],
+    dangerouslyAllowLocalIP: true,
   },
 
   // Headers for better security and performance
