@@ -3,6 +3,9 @@ import { getAddresses } from "@/services/address/address-service";
 import { AddressesContent } from "./components/addresses-content";
 import { AddressesFallback } from "./components/addresses-fallback";
 
+// Addresses require auth; do not prerender at build time
+export const dynamic = "force-dynamic";
+
 export default function ProfileAddressesPage() {
   const addressesPromise = getAddresses();
 

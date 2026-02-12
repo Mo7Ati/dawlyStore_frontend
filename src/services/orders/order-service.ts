@@ -1,5 +1,4 @@
 import api from "@/lib/api";
-import type { Order } from "@/types/order";
 import type { CustomerOrdersData } from "@/types/order";
 import type { Response } from "@/types/general";
 
