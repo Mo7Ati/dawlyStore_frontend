@@ -12,12 +12,12 @@ import {
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
 import { Search, ChevronDown, X, SlidersHorizontal, LayoutGrid, List } from 'lucide-react'
-import { ViewMode } from '@/services/stores/store-types'
+import { ViewMode } from '@/types/store'
 import { debounce, parseAsString, useQueryState } from 'nuqs'
 import { cn } from '@/lib/utils'
 import { Response } from '@/types/general'
 import CategoriesFilter from './categories-filter'
-import { StoreCategory } from '@/types/store-category'
+import { StoreCategory } from '@/types/general'
 
 
 const categories = [

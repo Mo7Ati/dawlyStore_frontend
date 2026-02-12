@@ -4,10 +4,10 @@ import { Suspense, useState } from 'react'
 import StoresFilters from './stores-filters'
 import StoresGrid from './stores-grid'
 import { StoresResponse } from '@/services/stores/store-service'
-import { ViewMode } from '@/services/stores/store-types'
+import { ViewMode } from '@/types/store'
 import StoresSkeleton from './stores-skeleton'
 import { Response } from '@/types/general'
-import { StoreCategory } from '@/types/store-category'
+import { StoreCategory } from '@/types/general'
 
 interface StoresContainerProps {
     storesResponsePromise: Promise<StoresResponse>

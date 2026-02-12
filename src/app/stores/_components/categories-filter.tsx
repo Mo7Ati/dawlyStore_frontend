@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronDown } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Response } from '@/types/general'
-import { StoreCategory } from '@/types/store-category'
+import { StoreCategory } from '@/types/general'
 
 
 interface CategoriesFilterProps {
