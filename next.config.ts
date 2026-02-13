@@ -14,8 +14,14 @@ const nextConfig: NextConfig = {
         hostname: 'ui.shadcn.com',
       },
       {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8000',
+        pathname: '/storage/**',
+      },
+      {
         protocol: 'https',
-        hostname: 'last1-jhdqagld.on-forge.com',
+        hostname: 'manage.dawly.store',
       },
       {
         protocol: 'https',

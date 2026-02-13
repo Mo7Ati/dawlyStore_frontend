@@ -32,10 +32,7 @@ const categories = [
 ]
 
 const sortOptions = [
-    { id: 'featured', label: 'Featured' },
     { id: 'newest', label: 'Newest' },
-    { id: 'price-low', label: 'Price: Low to High' },
-    { id: 'price-high', label: 'Price: High to Low' },
     { id: 'rating', label: 'Customer Rating' },
 ]
 
@@ -57,9 +54,9 @@ export default function StoresFilters({ viewMode, setViewMode, categoriesRespons
 
 
     const activeFilters = []
-    if (selectedCategory !== 'all') {
-        const category = categories.find(c => c.id === selectedCategory)
-        if (category) activeFilters.push({ type: 'category', label: category.name, value: selectedCategory })
+    if (selectedCategory && selectedCategory !== 'all') {
+        const category = categories.find(c => c.name === selectedCategory)
+        activeFilters.push({ type: 'category', label: category?.name ?? selectedCategory, value: selectedCategory })
     }
 
     if (searchQuery) {
@@ -91,22 +88,27 @@ export default function StoresFilters({ viewMode, setViewMode, categoriesRespons
                 <div className='mb-6 space-y-4'>
                     {/* Search and Sort Row     */}
                     <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-                        {/* Search */}
-                        <div className='relative max-w-md flex-1'>
-                            <Search className='text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2' />
-                            <Input
-                                placeholder='Search products...'
-                                value={searchQuery || ''}
-                                onChange={e => setSearchQuery(e.target.value, {
-                                    // Send immediate update if resetting, otherwise debounce at 500ms
-                                    limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
-                                })}
-                                className='pl-10'
-                            />
+                        {/* Search + Category Filter */}
+                        <div className='flex flex-wrap items-center gap-3 max-w-2xl flex-1'>
+                            <div className='relative min-w-[200px] flex-1'>
+                                <Search className='text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2' />
+                                <Input
+                                    placeholder='Search products...'
+                                    value={searchQuery || ''}
+                                    onChange={e => setSearchQuery(e.target.value, {
+                                        limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
+                                    })}
+                                    className='pl-10'
+                                />
+                            </div>
+                            <Suspense fallback={<div className='h-9 w-24 rounded-md bg-muted animate-pulse' />}>
+                                <CategoriesFilter categoriesResponsePromise={categoriesResponsePromise} selectedCategory={selectedCategory || 'all'} setSelectedCategory={setSelectedCategory} />
+                            </Suspense>
                         </div>
 
-                        {/* Sort Dropdown */}
+                        {/* Sort and View Mode Row */}
                         <div className='flex justify-center gap-4'>
+                            {/* Sort Dropdown */}
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant='outline' className='w-full cursor-pointer sm:w-auto'>
@@ -160,14 +162,6 @@ export default function StoresFilters({ viewMode, setViewMode, categoriesRespons
                         </div>
                     </div>
 
-                    {/* Category and Price Filter Row */}
-                    <div className='flex flex-wrap gap-3'>
-                        {/* Category Dropdown */}
-                        <Suspense fallback={<div>Loading categories...</div>}>
-                            <CategoriesFilter categoriesResponsePromise={categoriesResponsePromise} selectedCategory={selectedCategory || 'all'} setSelectedCategory={setSelectedCategory} />
-                        </Suspense>
-                    </div>
-
                     {/* Active Filters */}
                     {activeFilters.length > 0 && (
                         <div className='flex flex-wrap items-center gap-2'>
@@ -197,21 +191,6 @@ export default function StoresFilters({ viewMode, setViewMode, categoriesRespons
                         </div>
                     )}
                 </div>
-
-                {/* Results Summary */}
-                {/* <div className='bg-muted/50 rounded-lg border p-4'>
-                    <div className='flex items-center justify-between'>
-                        <div className='flex items-center gap-4'>
-                            <span className='text-sm font-medium'>
-                                Showing {categories.find(c => c.id === selectedCategory)?.count || 1247} results
-                            </span>
-                            {searchQuery && <span className='text-muted-foreground text-sm'>for "{searchQuery}"</span>}
-                        </div>
-                        <div className='text-muted-foreground text-xs'>
-                            Sorted by {sortOptions.find(s => s.id === selectedSort)?.label}
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </section>
     )

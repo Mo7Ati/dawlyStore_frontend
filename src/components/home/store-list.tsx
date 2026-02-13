@@ -29,6 +29,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Button } from '@/components/ui/button'
 import StoreCard from './store-card'
 import { Store } from '@/types/store'
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 
 interface StoreListProps {
     stores: Store[],
@@ -61,6 +63,16 @@ export function StoreList({ data }: { data: StoreListProps }) {
                     <h2 className='text-3xl font-bold text-balance md:text-4xl'>{data.title}</h2>
                     <p className='text-muted-foreground text-base text-pretty'>{data.description}</p>
                 </header>
+
+                <div className='mb-8 flex justify-end'>
+                    <Link
+                        href="/stores"
+                        className='group inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 transition-colors hover:underline'
+                    >
+                        Browse All Stores
+                        <ArrowRight className='size-4 transition-transform group-hover:translate-x-0.5' aria-hidden />
+                    </Link>
+                </div>
 
                 <Carousel
                     className='w-full'

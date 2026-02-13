@@ -11,26 +11,7 @@ import { Button } from '@/components/ui/button';
 
 const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: ViewMode }) => {
     const logoSrc = store.logo ? store.logo : 'https://img.freepik.com/premium-vector/store-bag-shopping-store-logo-design_92167-793.jpg?semt=ais_user_personalization&w=740&q=80';
-    console.log(logoSrc);
     const router = useRouter();
-    // const statusConfig = {
-    //     open: {
-    //         label: 'Open',
-    //         className: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20',
-    //         dotColor: 'bg-emerald-500',
-    //     },
-    //     closed: {
-    //         label: 'Closed',
-    //         className: 'bg-slate-500/10 text-slate-700 border-slate-500/20',
-    //         dotColor: 'bg-slate-500',
-    //     },
-    //     busy: {
-    //         label: 'Busy',
-    //         className: 'bg-amber-500/10 text-amber-700 border-amber-500/20',
-    //         dotColor: 'bg-amber-500',
-    //     },
-    // };
-
 
     if (viewMode === 'grid') {
         return (
@@ -91,10 +72,10 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                     </div>
 
                     {/* Browse Products Button */}
-                    <div className="pt-2 flex justify-center">
+                    <div className="pt-5 flex justify-center">
                         <Button
                             variant="default"
-                            size="sm"
+                            size="lg"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 router.push(`/stores/${store.id}`);

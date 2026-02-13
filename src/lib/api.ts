@@ -6,7 +6,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    // 'Referer': process.env.NEXT_PUBLIC_FRONTEND_URL,
+    'Referer': `${process.env.NEXT_PUBLIC_FRONTEND_URL}`,
   },
   timeout: 10000,
   withCredentials: true,
@@ -31,7 +31,7 @@ api.interceptors.response.use(function onFulfilled(response) {
   return response;
 }, async function onRejected(error) {
   console.error(error.response);
-  if (error.status === 401 ) {
+  if (error.status === 401) {
     redirect('/login');
   }
   if (error.status === 404) {

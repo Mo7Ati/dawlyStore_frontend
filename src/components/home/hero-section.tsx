@@ -21,20 +21,19 @@ export function HeroSection({ data }: { data: HeroSectionData }) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="mx-auto max-w-4xl text-center">
           {/* Announcement Badge */}
-          <div className="mb-8 flex justify-center">
+          {/* <div className="mb-8 flex justify-center">
             <Badge variant="outline" className="px-4 py-2 border-foreground">
               <Star className="w-3 h-3 mr-2 fill-current" />
               New: Featured Stores
               <ArrowRight className="w-3 h-3 ml-2" />
             </Badge>
-          </div>
+          </div> */}
 
           {/* Main Headline */}
           <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            {title}
-            {/* <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              
-            </span> */}
+            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              {title}
+            </span>
           </h1>
 
           {/* Subheading */}
@@ -45,16 +44,16 @@ export function HeroSection({ data }: { data: HeroSectionData }) {
           {/* CTA Buttons */}
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" className="text-base cursor-pointer" asChild>
-              <Link href="/auth/sign-up">
+              <Link href="/stores">
                 Browse Stores
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" size="lg" className="text-base cursor-pointer" asChild>
-              <a href="#">
+              <Link href="become-vendor">
                 <Play className="mr-2 h-4 w-4" />
-                Start Selling
-              </a>
+                Join as a Vendor
+              </Link>
             </Button>
           </div>
         </div>
@@ -91,7 +90,7 @@ export function HeroSection({ data }: { data: HeroSectionData }) {
 
               {/* Overlay play button for demo */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <Button
+                {/* <Button
                   size="lg"
                   className="rounded-full h-16 w-16 p-0 cursor-pointer hover:scale-105 transition-transform"
                   asChild
@@ -99,7 +98,7 @@ export function HeroSection({ data }: { data: HeroSectionData }) {
                   <a href="#" aria-label="Watch demo video">
                     <Play className="h-6 w-6 fill-current" />
                   </a>
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>

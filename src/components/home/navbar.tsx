@@ -108,10 +108,10 @@ export function LandingNavbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <Link href="https://shadcnstore.com" className="flex items-center space-x-2 cursor-pointer" target='_blank' rel="noopener noreferrer">
+          <Link href="/" className="flex items-center space-x-2 cursor-pointer"  rel="noopener noreferrer">
             <Logo size={32} />
             <span className="font-bold">
-              ShadcnStore
+              Dawly Store
             </span>
           </Link>
         </div>

@@ -21,11 +21,6 @@ const StoreOverview = ({ storePromise }: StoreOverviewProps) => {
 
                 {/* Products by Category */}
                 <div className="mt-8">
-                    {/* <CategoryTabs
-                        categories={store.categories}
-                        products={store.products}
-                    /> */}
-
                     <ProductsGrid
                         categories={store.categories ?? []}
                         products={store.products ?? []}

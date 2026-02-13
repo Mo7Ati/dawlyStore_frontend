@@ -14,18 +14,30 @@ interface CategoriesFilterProps {
     setSelectedCategory: (category: string) => void
 }
 
+const ALL_VALUE = 'all'
+const ALL_LABEL = 'All'
+
 const CategoriesFilter = ({ categoriesResponsePromise, selectedCategory, setSelectedCategory }: CategoriesFilterProps) => {
     const { data: categories } = use(categoriesResponsePromise);
+    const displayLabel = selectedCategory === ALL_VALUE
+        ? ALL_LABEL
+        : (categories.find(c => c.name === selectedCategory)?.name ?? selectedCategory);
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant='outline' size='sm' className='cursor-pointer'>
-                    Category: {categories.find(c => c.id === selectedCategory)?.name}
+                <Button variant='outline' size='sm' className='cursor-pointer shrink-0'>
+                    Category: {displayLabel}
                     <ChevronDown className='ms-2 size-4' />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56'>
+                <DropdownMenuItem
+                    onClick={() => setSelectedCategory(ALL_VALUE)}
+                    className={selectedCategory === ALL_VALUE ? 'bg-accent' : ''}
+                >
+                    {ALL_LABEL}
+                </DropdownMenuItem>
                 {categories.map(category => (
                     <DropdownMenuItem
                         key={category.id}

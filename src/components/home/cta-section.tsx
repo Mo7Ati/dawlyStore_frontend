@@ -35,18 +35,6 @@ export function CTASection({ data }: { data: CTASectionData }) {
 
               {/* Main Content */}
               <div className='space-y-6'>
-                {/* <h1 className='text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl'>
-                  Supercharge your team&apos;s
-                  <span className='flex sm:inline-flex justify-center'>
-                    <span className='relative mx-2'>
-                      <span className='bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'>
-                        performance
-                      </span>
-                      <div className='absolute start-0 -bottom-2 h-1 w-full bg-gradient-to-r from-primary/30 to-secondary/30' />
-                    </span>
-                    today
-                  </span>
-                </h1> */}
                 <h1 className='text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl'>
                   {data.title}
                 </h1>
@@ -59,18 +47,11 @@ export function CTASection({ data }: { data: CTASectionData }) {
               {/* CTA Buttons */}
               <div className='flex flex-col justify-center gap-4 sm:flex-row sm:gap-6'>
                 <Button size='lg' className='cursor-pointer px-8 py-6 text-lg font-medium' asChild>
-                  <Link href='/vendor/register'>
+                  <Link href='/become-vendor'>
                     <Handshake className='me-2 size-5' />
                     Become A Vendor
                   </Link>
                 </Button>
-                {/* <Button variant='outline' size='lg' className='cursor-pointer px-8 py-6 text-lg font-medium group' asChild>
-                  <a href='https://github.com/silicondeck/shadcn-dashboard-landing-template' target='_blank' rel='noopener noreferrer'>
-                    <Github className='me-2 size-5' />
-                    View on GitHub
-                    <ArrowRight className='ms-2 size-4 transition-transform group-hover:translate-x-1' />
-                  </a>
-                </Button> */}
               </div>
 
               {/* Trust Indicators */}

@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button"
 import { Product } from "@/types/product"
 import { Store } from "@/types/store"
 import { Category } from "@/types/general"
+import EmptyProducts from "./empty-products"
 
 interface ProductsGridProps {
     products: Product[]
     categories: Category[]
     store: Store
 }
+
+
 
 export default function ProductsGrid({ products, categories, store }: ProductsGridProps) {
     const [search, setSearch] = useQueryState('search', parseAsString.withOptions({ shallow: false }))
@@ -76,11 +79,12 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
                                         {categories.map((cat) => (
                                             <Button
                                                 key={cat.id}
-                                                className="rounded-md border p-2 text-xs hover:bg-accent text-left cursor-pointer"
+                                                title={cat.name}
+                                                className="min-w-0 rounded-md border p-2 text-xs hover:bg-accent text-left cursor-pointer truncate"
                                                 onClick={() => setCategory(cat.id)}
                                                 variant={category === cat.id ? "default" : "outline"}
                                             >
-                                                {cat.name}
+                                                <span className="truncate">{cat.name}</span>
                                             </Button>
                                         ))}
                                     </div>
@@ -98,19 +102,31 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
                                             type="number"
                                             placeholder="Min"
                                             className="h-9 w-full rounded-md border px-3 text-sm"
-                                            value={minPrice || ''}
-                                            onChange={(e) => setMinPrice(Number(e.target.value), {
-                                                limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
-                                            })}
+                                            value={minPrice ?? ''}
+                                            onChange={(e) => {
+                                                const v = e.target.value
+                                                if (v === '') {
+                                                    setMinPrice(null)
+                                                } else {
+                                                    const n = Number(v)
+                                                    if (!Number.isNaN(n)) setMinPrice(n, { limitUrlUpdates: debounce(1000) })
+                                                }
+                                            }}
                                         />
                                         <Input
                                             type="number"
                                             placeholder="Max"
                                             className="h-9 w-full rounded-md border px-3 text-sm"
-                                            value={maxPrice || ''}
-                                            onChange={(e) => setMaxPrice(Number(e.target.value), {
-                                                limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
-                                            })}
+                                            value={maxPrice ?? ''}
+                                            onChange={(e) => {
+                                                const v = e.target.value
+                                                if (v === '') {
+                                                    setMaxPrice(null)
+                                                } else {
+                                                    const n = Number(v)
+                                                    if (!Number.isNaN(n)) setMaxPrice(n, { limitUrlUpdates: debounce(1000) })
+                                                }
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -121,37 +137,21 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
 
                     {/* Products */}
                     <div className="lg:col-span-3">
-                        {/* <div className="bg-card mb-6 rounded-xl border py-6 shadow-sm">
-                            <div className="px-6 flex items-center justify-between">
-                                <div>
-                                    <h2 className="text-lg font-semibold">Product Results</h2>
-                                    <p className="text-sm text-muted-foreground">
-                                        Showing all products
-                                    </p>
-                                </div>
-                                <div className="text-end">
-                                    <div className="text-lg font-bold">1,247</div>
-                                    <div className="text-xs text-muted-foreground">
-                                        products found
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
-
-                        {/* Grid */}
-                        {/*  */}
-                        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {
-                                products.map((product) => (
+                        {/* Grid or empty state */}
+                        {products.length === 0 ? (
+                            <EmptyProducts />
+                        ) : (
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                                {products.map((product) => (
                                     <ProductCard
                                         key={product.id}
                                         product={product}
                                         storeId={store.id}
                                         storeName={store.name}
                                     />
-                                ))
-                            }
-                        </div>
+                                ))}
+                            </div>
+                        )}
 
                     </div>
                 </div>
