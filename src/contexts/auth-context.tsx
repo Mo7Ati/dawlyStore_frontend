@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const getCsrfToken = async () => {
         try {
             const response = await api.get<Response<string>>('/sanctum/csrf-cookie', {
-                baseURL: 'http://localhost:8000',
+                baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
             });
             return response.data.data;
         } catch (error) {

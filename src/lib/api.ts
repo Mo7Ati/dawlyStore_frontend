@@ -2,11 +2,11 @@ import axios from 'axios'
 import { redirect } from 'next/navigation';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/customer',
+  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/customer`,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Referer': 'http://localhost:3000',
+    // 'Referer': process.env.NEXT_PUBLIC_FRONTEND_URL,
   },
   timeout: 10000,
   withCredentials: true,

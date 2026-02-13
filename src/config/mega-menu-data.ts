@@ -82,7 +82,7 @@ export const vendorItems: MenuItem[] = [
   {
     title: "Vendor Dashboard",
     description: "Manage your store and orders",
-    href: "http://localhost:8000/store",
+    href: `${process.env.NEXT_PUBLIC_BACKEND_URL}/store`,
     icon: LayoutDashboard,
   },
 ]
