@@ -10,8 +10,20 @@ import AuthProvider from "@/contexts/auth-context";
 
 
 export const metadata: Metadata = {
-  title: "Shadcn Dashboard",
-  description: "A dashboard built with Next.js and shadcn/ui",
+  title: "Dawly Store",
+  description: "A platform for buying and selling products online with a focus on quality and customer satisfaction",
+  keywords: ["Dawly Store", "Buy Products", "Sell Products", "Online Shopping", "Quality Products", "Customer Satisfaction"],
+  openGraph: {
+    title: "Dawly Store",
+    description: "A platform for buying and selling products online with a focus on quality and customer satisfaction",
+    images: "/logo.png",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dawly Store",
+    description: "A platform for buying and selling products online with a focus on quality and customer satisfaction",
+    images: "/logo.png",
+  },
 };
 
 export default function RootLayout({
