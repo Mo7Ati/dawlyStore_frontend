@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useAuth } from '@/contexts/auth-context'
+import { toast } from 'sonner'
 
 // Define the form schema with Zod
 const resetPasswordFormSchema = z
@@ -69,6 +70,9 @@ export function ResetPasswordForm({ email, token }: ResetPasswordFormProps) {
         email,
         token,
       })
+      toast.success('Password reset successfully, you can now login with your new password');
+    } catch (error) {
+      setErrorMessage(error as string);
     } finally {
       setIsLoading(false)
     }

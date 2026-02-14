@@ -55,16 +55,17 @@ export function LoginForm() {
 
   // Handle form submission
   async function onSubmit(data: LoginFormValues) {
-    setIsLoading(true)
-    setErrorMessage(null)
+    setIsLoading(true);
 
     try {
       await login({
         email: data.email,
         password: data.password,
-      })
+      });
+    } catch (error) {
+      setErrorMessage(error as string);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 

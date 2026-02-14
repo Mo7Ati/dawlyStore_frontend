@@ -75,10 +75,14 @@ export function RegisterForm() {
         password: data.password,
         password_confirmation: data.password_confirmation,
       })
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error as string);
     } finally {
       setIsLoading(false)
     }
   }
+console.log(errorMessage);
 
   return (
     <Form {...form}>

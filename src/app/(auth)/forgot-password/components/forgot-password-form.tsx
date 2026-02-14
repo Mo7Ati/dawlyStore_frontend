@@ -52,9 +52,9 @@ export function ForgotPasswordForm() {
     try {
       await forgotPassword(data.email)
       // If no error was set, show success message
-      if (!errorMessage) {
-        setSuccessMessage('If an account exists with this email, you will receive a password reset link.')
-      }
+      setSuccessMessage('If an account exists with this email, you will receive a password reset link.')
+    } catch (error) {
+      setErrorMessage(error as string);
     } finally {
       setIsLoading(false)
     }

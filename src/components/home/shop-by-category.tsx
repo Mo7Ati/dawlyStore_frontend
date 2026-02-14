@@ -11,7 +11,6 @@ interface ShopByCategoriesProps {
 }
 
 export function ShopByCategories({ data }: { data: ShopByCategoriesProps }) {
-    console.log(data);
     return (
         <section className="mx-auto max-w-7xl px-8 py-12">
             <header className="mb-8 text-center">

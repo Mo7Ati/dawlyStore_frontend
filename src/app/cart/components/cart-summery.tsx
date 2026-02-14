@@ -16,9 +16,6 @@ const CartSummary = () => {
     const summery = useCartSummary();
     const router = useRouter();
 
-    console.log(summery);
-
-
     return (
         <div className='w-full space-y-4 lg:w-96'>
             <Card className='sticky top-4 gap-0'>

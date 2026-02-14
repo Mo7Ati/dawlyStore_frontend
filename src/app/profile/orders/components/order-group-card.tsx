@@ -18,7 +18,6 @@ interface OrderGroupCardProps {
 export function OrderGroupCard({ group }: OrderGroupCardProps) {
   const firstOrder = group.orders[0];
   const paymentStatus = firstOrder?.payment_status;
-  console.log(group);
 
   return (
     <Card className="overflow-hidden">

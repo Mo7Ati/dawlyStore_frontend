@@ -22,8 +22,6 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
   const product = item.product;
   const lineTotal = item.unit_price * item.quantity;
 
-  console.log(item);
-
   return (
     <div className="flex gap-3 border-b border-border/60 py-4 last:border-b-0">
       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted aspect-square">

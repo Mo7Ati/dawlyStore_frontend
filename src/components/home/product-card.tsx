@@ -13,7 +13,6 @@ type ProductCardProps = {
 
 const ProductCard = ({ product, storeId, storeName }: ProductCardProps) => {
     const router = useRouter()
-    console.log(product);
     
     return (
         <div

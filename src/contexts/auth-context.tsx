@@ -51,48 +51,33 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             const response = await api.get<Response<Customer>>('/');
             setCustomer(response.data.data);
         } catch (error) {
+            // console.log('here');
             console.error(error);
         }
         setIsLoading(false);
     };
 
     const login = async (loginData: LoginCredentials) => {
-        try {
-            await getCsrfToken();
-            const response = await api.post<Response<Customer>>('/login', loginData);
-            setCustomer(response.data.data);
-            router.push('/');
-        } catch (error) {
-            console.error(error);
-        }
+        await getCsrfToken();
+        const response = await api.post<Response<Customer>>('/login', loginData);
+        setCustomer(response.data.data);
+        router.push('/');
     };
 
     const register = async (registerData: RegisterData) => {
-        try {
-            await getCsrfToken();
-            const response = await api.post<Response<Customer>>('/register', registerData);
-            setCustomer(response.data.data);
-            router.push('/');
-        } catch (error) {
-            console.error(error);
-        }
+        await getCsrfToken();
+        const response = await api.post<Response<Customer>>('/register', registerData);
+        setCustomer(response.data.data);
+        router.push('/');
     };
 
     const forgotPassword = async (email: string) => {
-        try {
-            await api.post<Response<Customer>>('/forgot-password', { email });
-        } catch (error) {
-            console.error(error);
-        }
+        await api.post<Response<Customer>>('/forgot-password', { email });
     };
 
     const resetPassword = async (resetPasswordData: ResetPasswordData) => {
-        try {
-            const response = await api.post<Response<Customer>>('/reset-password', resetPasswordData);
-            router.push('/login?reset=' + btoa(response.data.status));
-        } catch (error) {
-            console.error(error);
-        }
+        const response = await api.post<Response<Customer>>('/reset-password', resetPasswordData);
+        router.push('/login?reset=' + btoa(response.data.status));
     };
 
     const logout = async () => {
