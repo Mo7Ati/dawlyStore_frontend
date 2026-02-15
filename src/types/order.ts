@@ -24,7 +24,7 @@ export type Order = {
 export type OrderStore = {
   id: number | string;
   name: string;
-  image_url?: string;
+  logo?: string;
   address?: string | null;
 };
 

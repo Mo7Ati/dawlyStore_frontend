@@ -69,7 +69,7 @@ export function OrderGroupCard({ group }: OrderGroupCardProps) {
               ))}
             </div>
           </CardContent>
-          <CardFooter className="flex flex-row items-center justify-between border-t border-border/60 pt-4 text-sm">
+          {/* <CardFooter className="flex flex-row items-center justify-between border-t border-border/60 pt-4 text-sm">
             <Link
               href="#"
               className="font-medium text-foreground hover:underline"
@@ -77,7 +77,7 @@ export function OrderGroupCard({ group }: OrderGroupCardProps) {
               View order details
               <ChevronRight className="ml-0.5 inline-block h-4 w-4" />
             </Link>
-          </CardFooter>
+          </CardFooter> */}
         </CollapsibleContent>
       </Collapsible>
     </Card>

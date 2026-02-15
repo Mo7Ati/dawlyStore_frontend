@@ -15,7 +15,7 @@ export function OrderStoreGroup({ order }: OrderStoreGroupProps) {
     <div className="rounded-xl border border-border/80 bg-card shadow-sm">
       <div className="flex items-center gap-2 border-b border-border/60 px-4 py-3">
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-          <Image src={order.store.image_url ?? ""} alt={order.store.name} width={32} height={32} />
+          <Image src={order.store.logo ?? ""} alt={order.store.name} width={32} height={32} />
         </div>
         <div>
           <h3 className="font-semibold">{order.store.name}</h3>

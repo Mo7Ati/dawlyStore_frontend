@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode, useEffect } from "react
 import { Customer, LoginCredentials, RegisterData, ResetPasswordData } from "@/types/auth";
 import api from "@/lib/api";
 import { Response } from "@/types/general";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface AuthContextType {
     customer: Customer | null;
@@ -27,6 +27,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [customer, setCustomer] = useState<Customer | null>(null);
     const [isCustomerLoading, setIsCustomerLoading] = useState(true);
+    const searchParams = useSearchParams();
     const router = useRouter();
 
     useEffect(() => {
@@ -60,14 +61,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await getCsrfToken();
         await api.post<Response<Customer>>('/login', loginData);
         getCustomer();
-        router.push('/');
+        const redirect = searchParams.get('redirect');
+        router.push(redirect ?? '/');
     };
 
     const register = async (registerData: RegisterData) => {
         await getCsrfToken();
         const response = await api.post<Response<Customer>>('/register', registerData);
         setCustomer(response.data.data);
-        router.push('/');
+        const redirect = searchParams.get('redirect');
+        router.push(redirect ?? '/');
     };
 
     const forgotPassword = async (email: string) => {
@@ -83,7 +86,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
             await api.post('/logout');
             setCustomer(null);
-            router.push('/');
+            router.refresh();
         } catch (error) {
             console.error(error);
         }

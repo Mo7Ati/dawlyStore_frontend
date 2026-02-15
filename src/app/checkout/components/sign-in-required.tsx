@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "@/components/ui/card";
 import { useCartSummary } from "@/stores/cart/use-cart";
-import { Link } from "lucide-react";
-import { ArrowLeft } from "lucide-react";
-import { LogIn } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, LogIn, User } from "lucide-react";
 
 const SignInRequired = () => {
     const summary = useCartSummary();
-    
+
     return (
         <div className="container mx-auto max-w-4xl px-4 py-6 sm:py-8">
             <div className="mb-6 sm:mb-8">
@@ -44,12 +43,12 @@ const SignInRequired = () => {
                 <CardFooter className="flex flex-col gap-3">
                     <Button className="w-full" size="lg" asChild>
                         <Link href="/login?redirect=/checkout" className="flex items-center justify-center gap-2">
-                            <LogIn className="h-4 w-4" />
+                            <User className="h-4 w-4" />
                             Log in to continue
                         </Link>
                     </Button>
                     <Button variant="outline" className="w-full" asChild>
-                        <Link href="/signup?redirect=/checkout">Create an account</Link>
+                        <Link href="/register?redirect=/checkout">Create an account</Link>
                     </Button>
                 </CardFooter>
             </Card>
