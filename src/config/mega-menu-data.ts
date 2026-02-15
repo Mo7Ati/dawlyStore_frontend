@@ -76,7 +76,7 @@ export const vendorItems: MenuItem[] = [
   {
     title: "Open a Store",
     description: "Start selling on our marketplace",
-    href: "/become-a-vendor",
+    href: "/become-vendor",
     icon: ShoppingBag,
   },
   {

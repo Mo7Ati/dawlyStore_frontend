@@ -13,6 +13,10 @@ import { Response } from "@/types/general";
  * Sends cart items + address_id to the backend.
  * Backend validates everything and creates a Stripe checkout session.
  * Returns the Stripe session URL for redirect.
+ *
+ * Backend should set Stripe success_url and cancel_url to:
+ * - success_url: {FRONTEND_ORIGIN}/checkout/success
+ * - cancel_url:  {FRONTEND_ORIGIN}/checkout/failed
  */
 
 /**
