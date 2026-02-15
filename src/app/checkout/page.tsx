@@ -39,7 +39,7 @@ export default function CheckoutPage() {
   const summary = useCartSummary();
   const isEmpty = summary.isEmpty;
   const { getCheckoutItems } = useCart();
-  const { customer, isLoading: isAuthLoading } = useAuth();
+  const { customer, isCustomerLoading: isAuthLoading } = useAuth();
 
   const [state, setState] = useState<CheckoutState>("loading");
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(

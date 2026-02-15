@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 interface AuthContextType {
     customer: Customer | null;
-    isLoading: boolean;
+    isCustomerLoading: boolean;
     getCsrfToken: () => Promise<string | null>;
     getCustomer: () => Promise<void>;
     login: (loginData: LoginCredentials) => Promise<void>;
@@ -26,7 +26,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [customer, setCustomer] = useState<Customer | null>(null);
-    const [isLoading, setIsLoading] = useState(customer === null ? true : false);
+    const [isCustomerLoading, setIsCustomerLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
@@ -46,21 +46,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     const getCustomer = async () => {
-        setIsLoading(true);
         try {
             const response = await api.get<Response<Customer>>('/');
             setCustomer(response.data.data);
         } catch (error) {
-            // console.log('here');
-            console.error(error);
+            setCustomer(null);
+        } finally {
+            setIsCustomerLoading(false);
         }
-        setIsLoading(false);
     };
 
     const login = async (loginData: LoginCredentials) => {
         await getCsrfToken();
-        const response = await api.post<Response<Customer>>('/login', loginData);
-        setCustomer(response.data.data);
+        await api.post<Response<Customer>>('/login', loginData);
+        getCustomer();
         router.push('/');
     };
 
@@ -94,7 +93,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         <AuthContext.Provider
             value={{
                 customer,
-                isLoading,
+                isCustomerLoading: isCustomerLoading,
                 getCsrfToken,
                 getCustomer,
                 login,

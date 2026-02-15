@@ -31,7 +31,7 @@ const basicInfoSchema = z.object({
 });
 
 const ProfileForm: React.FC = () => {
-    const { customer, isLoading, getCustomer } = useAuth();
+    const { customer, isCustomerLoading: isLoading, getCustomer } = useAuth();
     const router = useRouter();
 
     const form = useForm<BasicInfoValues>({
