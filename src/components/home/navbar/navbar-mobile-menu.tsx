@@ -1,6 +1,6 @@
 "use client"
 
-import { Menu, LayoutDashboard, LogOut, X } from 'lucide-react'
+import { Menu, LogOut, X } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,6 +17,7 @@ import { Logo } from '@/components/logo'
 import { MobileMegaMenu } from '../mobile-mega-menu'
 import { navigationItems, smoothScrollTo, getUserInitials } from './nav-config'
 import { ModeToggle } from '@/components/toggle-theme'
+import { CartIcon } from '@/app/cart/components/cart-icon'
 
 type Customer = {
   name: string
@@ -38,8 +39,6 @@ export function NavbarMobileMenu({
   customer,
   onLogout,
 }: NavbarMobileMenuProps) {
-  console.log(isLoading, customer);
-
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild className="xl:hidden">
@@ -58,6 +57,9 @@ export function NavbarMobileMenu({
               </div>
               <SheetTitle className="text-lg font-semibold">ShadcnStore</SheetTitle>
               <div className="ml-auto flex items-center gap-2">
+                <span onClick={() => setIsOpen(false)}>
+                  <CartIcon asLink href="/cart" className="h-8 w-8" />
+                </span>
                 <ModeToggle />
 
                 <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="cursor-pointer h-8 w-8" aria-label="Close menu">

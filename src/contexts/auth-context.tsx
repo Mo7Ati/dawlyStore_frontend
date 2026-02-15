@@ -5,6 +5,7 @@ import { Customer, LoginCredentials, RegisterData, ResetPasswordData } from "@/t
 import api from "@/lib/api";
 import { Response } from "@/types/general";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface AuthContextType {
     customer: Customer | null;
@@ -65,6 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await getCsrfToken();
         await api.post<Response<Customer>>('/login', loginData);
         getCustomer();
+        toast.success("Signed in successfully");
         const redirect = getRedirectFromUrl();
         router.push(redirect ?? '/');
     };
@@ -73,6 +75,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await getCsrfToken();
         const response = await api.post<Response<Customer>>('/register', registerData);
         setCustomer(response.data.data);
+        toast.success("Account created successfully");
         const redirect = getRedirectFromUrl();
         router.push(redirect ?? '/');
     };
@@ -90,9 +93,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
             await api.post('/logout');
             setCustomer(null);
+            toast.success("Signed out successfully");
             router.refresh();
         } catch (error) {
             console.error(error);
+            toast.error("Failed to sign out");
         }
     };
 
