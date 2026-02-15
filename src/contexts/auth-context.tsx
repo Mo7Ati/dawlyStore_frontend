@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode, useEffect } from "react
 import { Customer, LoginCredentials, RegisterData, ResetPasswordData } from "@/types/auth";
 import api from "@/lib/api";
 import { Response } from "@/types/general";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
     customer: Customer | null;
@@ -24,10 +24,14 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
+function getRedirectFromUrl(): string | null {
+    if (typeof window === "undefined") return null;
+    return new URLSearchParams(window.location.search).get("redirect");
+}
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [customer, setCustomer] = useState<Customer | null>(null);
     const [isCustomerLoading, setIsCustomerLoading] = useState(true);
-    const searchParams = useSearchParams();
     const router = useRouter();
 
     useEffect(() => {
@@ -61,7 +65,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await getCsrfToken();
         await api.post<Response<Customer>>('/login', loginData);
         getCustomer();
-        const redirect = searchParams.get('redirect');
+        const redirect = getRedirectFromUrl();
         router.push(redirect ?? '/');
     };
 
@@ -69,7 +73,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await getCsrfToken();
         const response = await api.post<Response<Customer>>('/register', registerData);
         setCustomer(response.data.data);
-        const redirect = searchParams.get('redirect');
+        const redirect = getRedirectFromUrl();
         router.push(redirect ?? '/');
     };
 
