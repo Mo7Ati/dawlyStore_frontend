@@ -26,8 +26,7 @@ export function ShopByCategories({ data }: { data: ShopByCategoriesProps }) {
                             className="text-card-foreground flex flex-col gap-6 rounded-xl group relative overflow-hidden border-0 bg-transparent py-0 shadow-none transition-all"
                         >
                             <div data-slot="card-content" className="p-0">
-                                <Link href={`/categories/${category.id}`}
-                                    className="flex flex-col items-center text-center no-underline" aria-label={category.name}>
+                                <Link href={`/stores?${category.id}`} className="flex flex-col items-center text-center no-underline" aria-label={category.name}>
                                     <div className="relative aspect-square w-full overflow-hidden rounded-full">
                                         <div
                                             className="absolute inset-0 z-10 bg-linear-to-b from-black/10 via-black/20 to-black/60 transition-colors group-hover:to-black/70">
@@ -54,46 +53,3 @@ export function ShopByCategories({ data }: { data: ShopByCategoriesProps }) {
 }
 
 export default ShopByCategories
-
-// <section classNameName="w-full">
-//     <div classNameName="w-full py-10">
-//         <div classNameName="container mx-auto px-4 sm:px-6 lg:px-8">
-//             <h2 classNameName="text-2xl font-semibold text-center mb-8">
-//                 Explore Popular Categories
-//             </h2>
-//         </div>
-
-//         <div classNameName="w-full overflow-hidden flex justify-center">
-//             <Carousel classNameName="w-full" opts={{
-//                 align: "center",
-//                 dragFree: true,
-//             }}>
-//                 <CarouselContent classNameName="-ml-2 sm:-ml-4 justify-center">
-//                     {categories.map((category) => (
-//                         <CarouselItem
-//                             key={category.id}
-//                             classNameName="pl-2 sm:pl-4 basis-[120px] sm:basis-[140px] md:basis-[200px]"
-//                         >
-//                             <div classNameName="flex flex-col items-center gap-3">
-//                                 {/* Image */}
-//                                 <div classNameName="relative h-24 w-24 sm:h-28 sm:w-28 rounded-full overflow-hidden bg-muted">
-//                                     <Image
-//                                         src={category.image}
-//                                         alt={category.name}
-//                                         fill
-//                                         classNameName="object-cover grayscale hover:grayscale-0 transition"
-//                                     />
-//                                 </div>
-
-//                                 {/* Label */}
-//                                 <span classNameName="text-sm font-medium text-center">
-//                                     {category.name}
-//                                 </span>
-//                             </div>
-//                         </CarouselItem>
-//                     ))}
-//                 </CarouselContent>
-//             </Carousel>
-//         </div>
-//     </div>
-// </section>
