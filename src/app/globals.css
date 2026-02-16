@@ -279,6 +279,8 @@
 
   body {
     @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -312,8 +314,10 @@
   }
 }
 
-/* Smooth scrolling for the entire page */
+/* Smooth scrolling for the entire page; reset margin to avoid gap above content on navigation */
 html {
+  margin: 0;
+  padding: 0;
   scroll-behavior: smooth;
 }
 
