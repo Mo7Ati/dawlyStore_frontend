@@ -314,7 +314,8 @@
 
 /* Smooth scrolling for the entire page */
 html {
-  /* scroll-behavior: smooth; */
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 /* Logo carousel animation */

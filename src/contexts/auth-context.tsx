@@ -73,8 +73,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const register = async (registerData: RegisterData) => {
         await getCsrfToken();
-        const response = await api.post<Response<Customer>>('/register', registerData);
-        setCustomer(response.data.data);
+        await api.post<Response<Customer>>('/register', registerData);
+        getCustomer();
         toast.success("Account created successfully");
         const redirect = getRedirectFromUrl();
         router.push(redirect ?? '/');
