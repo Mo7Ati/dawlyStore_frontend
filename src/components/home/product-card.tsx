@@ -19,7 +19,7 @@ const ProductCard = ({ product, storeId, storeName }: ProductCardProps) => {
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 relative overflow-hidden rounded-md border py-0 shadow-none transition-all hover:shadow-md cursor-pointer"
             onClick={() => {
-                router.push(`/products/${product.id}`)
+                router.push(`/products/${product.slug}`)
             }}
         >
             <div data-slot="card-content" className="px-0">

@@ -19,16 +19,18 @@ const ALL_LABEL = 'All'
 
 const CategoriesFilter = ({ categoriesResponsePromise, selectedCategory, setSelectedCategory }: CategoriesFilterProps) => {
     const { data: categories } = use(categoriesResponsePromise);
+
     const displayLabel = selectedCategory === ALL_VALUE
         ? ALL_LABEL
         : (categories.find(c => c.name === selectedCategory)?.name ?? selectedCategory);
 
+    console.log(categories);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant='outline' size='sm' className='cursor-pointer shrink-0'>
-                    Category: {displayLabel}
-                    <ChevronDown className='ms-2 size-4' />
+                <Button variant='outline' size='sm' className='w-full cursor-pointer shrink-0 justify-between sm:w-auto sm:justify-normal'>
+                    <span className='min-w-0 truncate'>Category: {displayLabel}</span>
+                    <ChevronDown className='ms-2 size-4 shrink-0' />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56'>
@@ -41,13 +43,13 @@ const CategoriesFilter = ({ categoriesResponsePromise, selectedCategory, setSele
                 {categories.map(category => (
                     <DropdownMenuItem
                         key={category.id}
-                        onClick={() => setSelectedCategory(category.name)}
+                        onClick={() => setSelectedCategory(category.slug)}
                         className={selectedCategory === category.name ? 'bg-accent' : ''}
                     >
                         <div className='flex w-full items-center justify-between'>
                             <span>{category.name}</span>
                             <Badge variant='secondary' className='text-xs'>
-                                {/* {category.count} - TODO: Add count */}
+                                {category.stores_count}
                             </Badge>
                         </div>
                     </DropdownMenuItem>

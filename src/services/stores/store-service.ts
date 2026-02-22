@@ -39,8 +39,8 @@ export const getStores = async (filters?: StoreFilters): Promise<StoresResponse>
     return response.data;
 }
 
-export const getStoreById = async (id: string, filters: any): Promise<Response<Store>> => {
-    const response = await api.get(`/stores/${id}`, { params: filters });
+export const getStore = async (slug: string, filters: any): Promise<Response<Store>> => {
+    const response = await api.get(`/stores/${slug}`, { params: filters });
     return response.data;
 }
 

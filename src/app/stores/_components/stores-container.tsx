@@ -15,7 +15,7 @@ interface StoresContainerProps {
 }
 
 const StoresContainer = ({ storesResponsePromise, categoriesResponsePromise }: StoresContainerProps) => {
-    const [viewMode, setViewMode] = useState<ViewMode>('grid')
+    const [viewMode, setViewMode] = useState<ViewMode>('list')
 
     return (
         <div className='min-h-screen'>

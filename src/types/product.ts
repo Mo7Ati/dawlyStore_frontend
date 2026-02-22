@@ -4,6 +4,7 @@ import { Store } from "./store"
 export interface Product {
     id: string
     name: string
+    slug: string
     description: string | null
     keywords: string[] | string | null
 

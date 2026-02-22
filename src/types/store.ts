@@ -7,6 +7,7 @@ export type ViewMode = 'grid' | 'list'
 export type Store = {
     id: string
     name: string
+    slug: string
     address: string | null
     description: string | null
 

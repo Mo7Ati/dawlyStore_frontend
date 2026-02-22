@@ -23,7 +23,7 @@ export function LandingNavbar() {
             rel="noopener noreferrer"
           >
             <Logo size={32} />
-            <span className="font-bold">Dawly Store</span>
+            <span className="font-bold">DawlyStore</span>
           </Link>
         </div>
 

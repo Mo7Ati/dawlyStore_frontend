@@ -7,6 +7,7 @@ import { Product } from "@/types/product"
 import { Store } from "@/types/store"
 import { Category } from "@/types/general"
 import EmptyProducts from "./empty-products"
+import { X } from "lucide-react"
 
 interface ProductsGridProps {
     products: Product[]
@@ -21,6 +22,16 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
     const [category, setCategory] = useQueryState('category', parseAsString.withOptions({ shallow: false }))
     const [minPrice, setMinPrice] = useQueryState('minPrice', parseAsInteger.withOptions({ shallow: false }))
     const [maxPrice, setMaxPrice] = useQueryState('maxPrice', parseAsInteger.withOptions({ shallow: false }))
+
+    const hasActiveFilters = !!(search?.trim() || category || minPrice != null || maxPrice != null)
+    const activeCategoryName = category ? categories.find((c) => c.slug === category)?.name : null
+
+    const clearFilters = () => {
+        setSearch(null)
+        setCategory(null)
+        setMinPrice(null)
+        setMaxPrice(null)
+    }
 
     return (
         <section className="py-8">
@@ -81,8 +92,8 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
                                                 key={cat.id}
                                                 title={cat.name}
                                                 className="min-w-0 rounded-md border p-2 text-xs hover:bg-accent text-left cursor-pointer truncate"
-                                                onClick={() => setCategory(cat.id)}
-                                                variant={category === cat.id ? "default" : "outline"}
+                                                onClick={() => setCategory(cat.slug)}
+                                                variant={category === cat.slug ? "default" : "outline"}
                                             >
                                                 <span className="truncate">{cat.name}</span>
                                             </Button>
@@ -137,6 +148,53 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
 
                     {/* Products */}
                     <div className="lg:col-span-3">
+                        {/* Active filters + Clear */}
+                        {hasActiveFilters && (
+                            <div className="mb-6 flex flex-wrap items-center gap-2">
+                                <span className="text-muted-foreground text-sm">Active Filters:</span>
+                                {search?.trim() && (
+                                    <span className="bg-muted inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium">
+                                        Search: &quot;{search}&quot;
+                                        <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground hover:text-foreground" onClick={() => setSearch(null)}>
+                                            <X className="size-3" />
+                                        </Button>
+                                    </span>
+                                )}
+                                {activeCategoryName && (
+                                    <span className="bg-muted inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium">
+                                        Category: {activeCategoryName}
+                                        <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground hover:text-foreground" onClick={() => setCategory(null)}>
+                                            <X className="size-3" />
+                                        </Button>
+                                    </span>
+                                )}
+                                {minPrice != null && (
+                                    <span className="bg-muted inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium">
+                                        Min: {minPrice}
+                                        <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground hover:text-foreground" onClick={() => setMinPrice(null)}>
+                                            <X className="size-3" />
+                                        </Button>
+                                    </span>
+                                )}
+                                {maxPrice != null && (
+                                    <span className="bg-muted inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-medium">
+                                        Max: {maxPrice}
+                                        <Button variant="ghost" size="sm" className="h-7 text-xs text-muted-foreground hover:text-foreground" onClick={() => setMaxPrice(null)}>
+                                            <X className="size-3" />
+                                        </Button>
+                                    </span>
+                                )}
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-7 text-xs text-muted-foreground hover:text-foreground"
+                                    onClick={clearFilters}
+                                >
+                                    Clear all
+                                </Button>
+                            </div>
+                        )}
+
                         {/* Grid or empty state */}
                         {products.length === 0 ? (
                             <EmptyProducts />

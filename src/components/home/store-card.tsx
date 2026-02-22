@@ -1,21 +1,19 @@
 "use client"
 
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Clock, MapPin, Store } from 'lucide-react';
+import { Clock, MapPin } from 'lucide-react';
 import { ViewMode } from '@/types/store';
 import { Store as StoreType } from '@/types/store';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-
 const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: ViewMode }) => {
     const logoSrc = store.logo ? store.logo : 'https://img.freepik.com/premium-vector/store-bag-shopping-store-logo-design_92167-793.jpg?semt=ais_user_personalization&w=740&q=80';
     const router = useRouter();
 
     if (viewMode === 'grid') {
         return (
-            <Card className="group cursor-pointer hover:shadow-lg transition-shadow" onClick={() => router.push(`/stores/${store.id}`)}>
+            <Card className="group hover:shadow-lg transition-shadow">
                 <div className="p-6 space-y-4">
                     {/* Logo Section */}
                     <div className="flex justify-center">
@@ -78,7 +76,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                             size="lg"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                router.push(`/stores/${store.id}`);
+                                router.push(`/stores/${store.slug}`);
                             }}
                         >
                             Browse products
@@ -89,18 +87,20 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
         );
     }
 
-    // List View (Horizontal Layout)
+    // List View (Horizontal on desktop, stacked on mobile)
     return (
         <Card className="group hover:shadow-lg transition-shadow">
             <div className="p-5">
-                <div className="flex items-center gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                     {/* Logo Section */}
-                    <div className="shrink-0">
-                        <div className="w-24 h-24 rounded-xl overflow-hidden border">
-                            <img
+                    <div className="shrink-0 flex justify-center sm:justify-start">
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border">
+                            <Image
                                 src={logoSrc}
                                 alt={`${store.name} logo`}
                                 className="w-full h-full object-cover"
+                                width={96}
+                                height={96}
                             />
                         </div>
                     </div>
@@ -109,10 +109,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                     <div className="flex-1 min-w-0 space-y-3">
                         {/* Store Name & Status */}
                         <div className="flex items-center gap-3 flex-wrap">
-                            <h3 className="text-2xl font-semibold">{store.name}</h3>
-                            {/* <Badge variant="outline">
-                                {currentStatus.label}
-                            </Badge> */}
+                            <h3 className="text-xl sm:text-2xl font-semibold">{store.name}</h3>
                         </div>
 
                         {/* Description */}
@@ -120,22 +117,22 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                             {store.description}
                         </p>
 
-                        {/* Info Row */}
-                        <div className="flex items-center gap-6 flex-wrap">
+                        {/* Info Row - stacks on mobile */}
+                        <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-6">
                             {/* Address */}
-                            <div className="flex items-center gap-2.5">
-                                <div className="flex-shrink-0 w-9 h-9 rounded-lg border flex items-center justify-center">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                                <div className="shrink-0 w-9 h-9 rounded-lg border flex items-center justify-center">
                                     <MapPin className="w-4 h-4" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-xs font-medium text-muted-foreground">Location</p>
-                                    <p className="text-sm truncate max-w-xs">{store.address}</p>
+                                    <p className="text-sm truncate">{store.address}</p>
                                 </div>
                             </div>
 
                             {/* Delivery Time */}
-                            <div className="flex items-center gap-2.5">
-                                <div className="flex-shrink-0 w-9 h-9 rounded-lg border flex items-center justify-center">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                                <div className="shrink-0 w-9 h-9 rounded-lg border flex items-center justify-center">
                                     <Clock className="w-4 h-4" />
                                 </div>
                                 <div className="flex-1 min-w-0">
@@ -144,17 +141,17 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Browse Products Button */}
-                        <div className="pt-2">
-                            <Button
-                                variant="default"
-                                size="sm"
-                                onClick={() => router.push(`/stores/${store.id}`)}
-                            >
-                                Browse products
-                            </Button>
-                        </div>
+                    <div className="pt-0 sm:pt-2 shrink-0 w-full sm:w-auto">
+                        <Button
+                            variant="default"
+                            size="sm"
+                            className="w-full sm:w-auto"
+                            onClick={() => router.push(`/stores/${store.slug}`)}
+                        >
+                            Browse products
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -164,4 +161,5 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
 
 }
 
-export default StoreCard   
+export default StoreCard
+

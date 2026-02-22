@@ -65,7 +65,7 @@ export function LandingFooter() {
               </a>
             </div>
             <p className="text-muted-foreground mb-6 max-lg:text-center max-lg:flex max-lg:justify-center">
-              Dawly Store is a platform for buying and selling products online with a focus on quality and customer satisfaction.
+              DawlyStore is a platform for buying and selling products online with a focus on quality and customer satisfaction.
             </p>
             <div className="flex space-x-4 max-lg:justify-center">
               {socialLinks.map((social) => (

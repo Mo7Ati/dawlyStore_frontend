@@ -23,6 +23,7 @@ export type HeroSectionData = {
 
 export type CategoryListSectionData = {
     id: number;
+    slug: string;
     name: string;
     image: string;
 }

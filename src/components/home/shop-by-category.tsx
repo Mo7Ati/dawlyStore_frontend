@@ -26,7 +26,7 @@ export function ShopByCategories({ data }: { data: ShopByCategoriesProps }) {
                             className="text-card-foreground flex flex-col gap-6 rounded-xl group relative overflow-hidden border-0 bg-transparent py-0 shadow-none transition-all"
                         >
                             <div data-slot="card-content" className="p-0">
-                                <Link href={`/stores?${category.id}`} className="flex flex-col items-center text-center no-underline" aria-label={category.name}>
+                                <Link href={`/stores?${category.slug}`} className="flex flex-col items-center text-center no-underline" aria-label={category.name}>
                                     <div className="relative aspect-square w-full overflow-hidden rounded-full">
                                         <div
                                             className="absolute inset-0 z-10 bg-linear-to-b from-black/10 via-black/20 to-black/60 transition-colors group-hover:to-black/70">

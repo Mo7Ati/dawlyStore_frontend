@@ -1,10 +1,11 @@
-import { getStoreById } from '@/services/stores/store-service'
+import { getStore } from '@/services/stores/store-service'
 import StoreOverview from './components/store-overview'
 
-const StorePage = async (props: PageProps<'/stores/[id]'>) => {
-    const { id } = await props.params
+const StorePage = async (props: PageProps<'/stores/[slug]'>) => {
+    const { slug } = await props.params
     const filters = await props.searchParams
-    const storePromise = getStoreById(id , filters)
+    const storePromise = getStore(slug, filters)
+
     return (
         <div>
             <StoreOverview storePromise={storePromise} />

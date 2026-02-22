@@ -66,12 +66,12 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
   }, [price, selectedOption, selected_additions])
 
   return (
-    <section className="py-8 sm:py-16 lg:py-6">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8 xl:gap-24">
+    <section className="py-6 sm:py-10 md:py-12 lg:py-8">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 md:gap-8 xl:gap-24">
           {/* LEFT – GALLERY */}
-          <div className="flex flex-col gap-3">
-            <div className="relative w-full overflow-hidden rounded-xl bg-muted h-[460px] sm:h-[520px]">
+          <div className="flex flex-col gap-2 sm:gap-3">
+            <div className="relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-muted h-[280px] min-[480px]:h-[340px] sm:h-[380px] md:h-[460px] lg:h-[520px]">
               {hasImages && (
                 <Image
                   src={images[selectedImageIndex] ?? images[0]}
@@ -84,7 +84,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             </div>
 
             {hasImages && images.length > 1 && (
-              <div className="mt-1 flex gap-2 overflow-x-auto pb-1">
+              <div className="mt-1 flex gap-1.5 sm:gap-2 overflow-x-auto pb-1">
                 {images.map((image, index) => {
                   const isActive = selectedImageIndex === index
                   return (
@@ -92,9 +92,9 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                       key={image + index}
                       type="button"
                       onClick={() => setSelectedImageIndex(index)}
-                      className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border bg-gray-100 transition-all duration-200 ${isActive
-                          ? 'border-primary ring-2 ring-primary/40 scale-[1.02]'
-                          : 'border-transparent hover:border-primary/60 hover:brightness-105'
+                      className={`relative h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 shrink-0 overflow-hidden rounded-md border bg-gray-100 transition-all duration-200 ${isActive
+                        ? 'border-primary ring-2 ring-primary/40 scale-[1.02]'
+                        : 'border-transparent hover:border-primary/60 hover:brightness-105'
                         }`}
                     >
                       <Image
@@ -111,25 +111,25 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
           </div>
 
           {/* RIGHT – DETAILS */}
-          <div className="space-y-6 py-5">
+          <div className="space-y-4 sm:space-y-6 py-2 sm:py-5">
 
             {/* Breadcrumb with Store & Category */}
-            <nav className="text-muted-foreground text-sm flex items-center gap-1">
-              <Link href={`/stores/${store.id}`} className="hover:text-foreground transition">
+            <nav className="text-muted-foreground text-xs sm:text-sm flex flex-wrap items-center gap-x-1 gap-y-0.5">
+              <Link href={`/stores/${store.slug}`} className="hover:text-foreground transition">
                 {store.name}
               </Link>
               <span>{">"}</span>
-              <Link href={`/stores/${store.id}?category=${category.id}`} className="hover:text-foreground transition">
+              <Link href={`/stores/${store.slug}?category=${category.slug}`} className="hover:text-foreground transition">
                 {category.name}
               </Link>
               <span>{">"}</span>
-              <span className="text-foreground">{name}</span>
+              <span className="text-foreground truncate min-w-0">{name}</span>
             </nav>
 
             {/* Rating */}
-            <div className="flex w-fit items-center gap-2 rounded border px-3 py-1.5">
+            <div className="flex w-fit items-center gap-2 rounded border px-2.5 sm:px-3 py-1.5">
               {rating?.value && (
-                <span className="text-lg font-medium">4.8</span> //{rating.value.toFixed(1)}
+                <span className="text-base sm:text-lg font-medium">4.8</span> //{rating.value.toFixed(1)}
               )}
               <span className="text-muted-foreground text-sm">
                 {rating?.count} Reviews
@@ -137,8 +137,8 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             </div>
 
             {/* Price */}
-            <div className="flex items-center gap-3">
-              <h4 className="text-3xl font-bold">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <h4 className="text-2xl sm:text-3xl font-bold">
                 ${totalPrice.toFixed(2)}
               </h4>
               {compare_price && compare_price > price && (
@@ -155,7 +155,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
               )}
             </div>
 
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm sm:text-base">
               {description}
             </p>
 
@@ -235,16 +235,16 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
 
 
             {/* Actions */}
-            <div className="flex gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
               <AddToCartButton
                 product={product}
                 store={store}
                 selected_options={selectedOption ? [selectedOption] : []}
                 selected_additions={selected_additions}
                 showQuantityControls
-                className="flex-1"
+                className="w-full sm:flex-1 min-w-0"
               />
-              <button className="rounded-md bg-secondary px-6 py-2 hover:bg-secondary/80 transition">
+              <button className="rounded-md bg-secondary px-6 py-2.5 sm:py-2 hover:bg-secondary/80 transition w-full sm:w-auto shrink-0">
                 Wish List
               </button>
             </div>
@@ -253,16 +253,16 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
 
             {/* Info Boxes */}
             <div className="rounded-md border divide-y">
-              <div className="flex items-center gap-6 px-6 py-4">
-                <span className="text-lg font-semibold">Free Delivery</span>
-                <span className="text-muted-foreground text-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 px-4 sm:px-6 py-3 sm:py-4">
+                <span className="text-base sm:text-lg font-semibold shrink-0">Free Delivery</span>
+                <span className="text-muted-foreground text-xs sm:text-sm">
                   Enter your postal code for delivery availability
                 </span>
               </div>
 
-              <div className="flex items-center gap-6 px-6 py-4">
-                <span className="text-lg font-semibold">Return Delivery</span>
-                <span className="text-muted-foreground text-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 px-4 sm:px-6 py-3 sm:py-4">
+                <span className="text-base sm:text-lg font-semibold shrink-0">Return Delivery</span>
+                <span className="text-muted-foreground text-xs sm:text-sm">
                   Free 30 Days Delivery Returns. <a className="underline cursor-pointer">Details</a>
                 </span>
               </div>

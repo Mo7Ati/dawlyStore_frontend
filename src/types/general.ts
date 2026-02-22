@@ -13,6 +13,7 @@ export interface Rating {
 
 export type Category = {
     id: string;
+    slug: string;
     name: string;
     description: string;
 }
@@ -20,6 +21,8 @@ export type Category = {
 export type StoreCategory = {
     id: string;
     name: string;
+    slug: string;
+    stores_count: number;
     description: string;
     image: Media | null;
 }

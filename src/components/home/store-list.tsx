@@ -27,10 +27,11 @@ type CarouselApi = {
 }
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
-import StoreCard from './store-card'
+// import StoreCard from './store-card'
 import { Store } from '@/types/store'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import StoreCard from './store-card'
 
 interface StoreListProps {
     stores: Store[],
@@ -93,7 +94,7 @@ export function StoreList({ data }: { data: StoreListProps }) {
                         {data.stores.map(store => (
                             <CarouselItem key={store.id} className='basis-full px-4 last:pe-0 sm:basis-1/2 lg:basis-1/3'>
                                 {
-                                    <StoreCard key={store.id} store={store} />
+                                    <StoreCard key={store.id} store={store} viewMode='grid' />
                                 }
                             </CarouselItem>
                         ))}

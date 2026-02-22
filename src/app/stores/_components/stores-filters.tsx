@@ -50,7 +50,6 @@ export default function StoresFilters({ viewMode, setViewMode, categoriesRespons
     )
 
     const [selectedCategory, setSelectedCategory] = useQueryState('category', parseAsString.withOptions({ shallow: false }))
-    const [selectedSort, setSelectedSort] = useQueryState('sort', parseAsString.withOptions({ shallow: false }))
 
 
     const activeFilters = []
@@ -74,120 +73,69 @@ export default function StoresFilters({ viewMode, setViewMode, categoriesRespons
     }
 
     return (
-        <section className='py-8'>
-            <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+        <section className='py-4 sm:py-6 lg:py-8'>
+            <div className='mx-auto max-w-7xl px-3 sm:px-6 lg:px-8'>
                 {/* Header */}
-                <div className='mb-8'>
-                    <h2 className='text-3xl font-bold tracking-tight text-balance'>Browse Stores</h2>
-                    <p className='text-muted-foreground mt-2'>
-                        Browse our collection of {categories.find(c => c.id === selectedCategory)?.count || 1247} stores
+                <div className='mb-4 sm:mb-6 lg:mb-8'>
+                    <h2 className='text-2xl font-bold tracking-tight text-balance sm:text-3xl'>Browse Stores</h2>
+                    <p className='text-muted-foreground mt-1.5 text-sm sm:mt-2 sm:text-base'>
+                        Browse our collection of stores
                     </p>
                 </div>
 
                 {/* Horizontal Filter Bar */}
-                <div className='mb-6 space-y-4'>
-                    {/* Search and Sort Row     */}
-                    <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+                <div className='mb-4 space-y-3 sm:mb-6 sm:space-y-4'>
+                    {/* Search and Sort Row */}
+                    <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
                         {/* Search + Category Filter */}
-                        <div className='flex flex-wrap items-center gap-3 max-w-2xl flex-1'>
-                            <div className='relative min-w-[200px] flex-1'>
-                                <Search className='text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2' />
+                        <div className='flex w-full min-w-0 flex-col gap-3 sm:max-w-2xl sm:flex-1 sm:flex-row sm:flex-wrap sm:items-center'>
+                            <div className='relative w-full min-w-0 sm:min-w-[180px] sm:flex-1'>
+                                <Search className='text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2 shrink-0' />
                                 <Input
-                                    placeholder='Search products...'
+                                    placeholder='Search stores...'
                                     value={searchQuery || ''}
                                     onChange={e => setSearchQuery(e.target.value, {
                                         limitUrlUpdates: e.target.value === '' ? undefined : debounce(1000)
                                     })}
-                                    className='pl-10'
+                                    className='h-9 w-full min-w-0 pl-9 sm:h-10 sm:pl-10'
                                 />
                             </div>
-                            <Suspense fallback={<div className='h-9 w-24 rounded-md bg-muted animate-pulse' />}>
-                                <CategoriesFilter categoriesResponsePromise={categoriesResponsePromise} selectedCategory={selectedCategory || 'all'} setSelectedCategory={setSelectedCategory} />
-                            </Suspense>
-                        </div>
-
-                        {/* Sort and View Mode Row */}
-                        <div className='flex justify-center gap-4'>
-                            {/* Sort Dropdown */}
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant='outline' className='w-full cursor-pointer sm:w-auto'>
-                                        <SlidersHorizontal className='me-2 size-4' />
-                                        Sort: {sortOptions.find(s => s.id === selectedSort)?.label}
-                                        <ChevronDown className='ms-2 size-4' />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align='end' className='w-56'>
-                                    {sortOptions.map(option => (
-                                        <DropdownMenuItem
-                                            key={option.id}
-                                            onClick={() => setSelectedSort(option.id)}
-                                            className={selectedSort === option.id ? 'bg-accent' : ''}
-                                        >
-                                            {option.label}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-
-                            {/* View Mode Toggle */}
-                            <div className='flex items-center justify-end mb-6'>
-                                <div className='flex items-center gap-1 bg-muted rounded-lg p-1'>
-                                    <Button
-                                        variant='ghost'
-                                        size='sm'
-                                        onClick={() => setViewMode('grid')}
-                                        className={cn(
-                                            'cursor-pointer h-8 px-3',
-                                            viewMode === 'grid' && 'bg-background shadow-sm'
-                                        )}
-                                    >
-                                        <LayoutGrid className='size-4' />
-                                        <span className='sr-only'>Grid view</span>
-                                    </Button>
-                                    <Button
-                                        variant='ghost'
-                                        size='sm'
-                                        onClick={() => setViewMode('list')}
-                                        className={cn(
-                                            'cursor-pointer h-8 px-3',
-                                            viewMode === 'list' && 'bg-background shadow-sm'
-                                        )}
-                                    >
-                                        <List className='size-4' />
-                                        <span className='sr-only'>List view</span>
-                                    </Button>
-                                </div>
+                            <div className='w-full shrink-0 sm:w-auto'>
+                                <Suspense fallback={<div className='h-9 w-full rounded-md bg-muted animate-pulse sm:w-36' />}>
+                                    <CategoriesFilter categoriesResponsePromise={categoriesResponsePromise} selectedCategory={selectedCategory || 'all'} setSelectedCategory={setSelectedCategory} />
+                                </Suspense>
                             </div>
                         </div>
                     </div>
 
                     {/* Active Filters */}
                     {activeFilters.length > 0 && (
-                        <div className='flex flex-wrap items-center gap-2'>
-                            <span className='text-muted-foreground text-sm font-medium'>Active filters:</span>
-                            {activeFilters.map((filter, index) => (
-                                <Badge key={index} variant='secondary'>
-                                    {filter.label}
-                                    <Button
-                                        variant='ghost'
-                                        size='sm'
-                                        className='h-auto cursor-pointer !p-1 text-inherit'
-                                        onClick={() => clearFilter(filter.type)}
-                                    >
-                                        <X className='size-3' />
-                                    </Button>
-                                </Badge>
-                            ))}
-                            <DropdownMenuSeparator className='mx-2' />
-                            <Button
-                                variant='ghost'
-                                size='sm'
-                                onClick={clearAllFilters}
-                                className='text-muted-foreground h-auto cursor-pointer p-1.5 text-xs'
-                            >
-                                Clear all
-                            </Button>
+                        <div className='flex min-w-0 flex-wrap items-center gap-x-2 gap-y-2'>
+                            <span className='text-muted-foreground w-full shrink-0 text-sm font-medium sm:w-auto'>Active filters:</span>
+                            <div className='flex min-w-0 flex-1 flex-wrap items-center gap-2'>
+                                {activeFilters.map((filter, index) => (
+                                    <Badge key={index} variant='secondary' className='max-w-full shrink-0'>
+                                        <span className='truncate'>{filter.label}</span>
+                                        <Button
+                                            variant='ghost'
+                                            size='sm'
+                                            className='h-auto shrink-0 cursor-pointer p-1! text-inherit'
+                                            onClick={() => clearFilter(filter.type)}
+                                        >
+                                            <X className='size-3' />
+                                        </Button>
+                                    </Badge>
+                                ))}
+                                <DropdownMenuSeparator className='mx-0 sm:mx-2' />
+                                <Button
+                                    variant='ghost'
+                                    size='sm'
+                                    onClick={clearAllFilters}
+                                    className='text-muted-foreground h-auto shrink-0 cursor-pointer p-1.5 text-xs'
+                                >
+                                    Clear all
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </div>

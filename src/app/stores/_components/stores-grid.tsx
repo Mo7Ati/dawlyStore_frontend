@@ -1,11 +1,11 @@
 'use client'
 
-import StoreCard from '@/components/home/store-card'
 import { StoresResponse } from '@/services/stores/store-service'
 import { ViewMode } from '@/types/store'
 import { Store as StoreIcon } from 'lucide-react'
 import { use } from 'react'
 import StoresPagination from './stores-pagination'
+import StoreCard from '@/components/home/store-card'
 
 interface StoresGridProps {
     responsePromise: Promise<StoresResponse>
@@ -36,13 +36,13 @@ const StoresGrid = ({ responsePromise, viewMode = 'grid' }: StoresGridProps) => 
                 viewMode === 'grid' ? (
                     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
                         {stores.map(store => (
-                            <StoreCard key={store.id} store={store} viewMode={viewMode} />
+                            <StoreCard key={store.id} store={store} viewMode='grid' />
                         ))}
                     </div>
                 ) : (
                     <div className='flex flex-col gap-4'>
                         {stores.map(store => (
-                            <StoreCard key={store.id} store={store} viewMode={viewMode} />
+                            <StoreCard key={store.id} store={store} viewMode='list' />
                         ))}
                     </div>
                 )
