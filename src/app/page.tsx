@@ -20,7 +20,13 @@ export const metadata: Metadata = {
 }
 
 export default async function LandingPage() {
-  const { data: sections } = await getSections()
+  let sections: Awaited<ReturnType<typeof getSections>>['data'] = []
+  try {
+    const result = await getSections()
+    sections = result?.data ?? []
+  } catch {
+    // During build or when backend is unavailable, render with empty sections
+  }
 
   return (
     <HomePage sections={sections} />
