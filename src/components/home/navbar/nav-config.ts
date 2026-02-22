@@ -12,8 +12,8 @@ export const navigationItems: NavigationItem[] = [
   { name: 'Home', href: '/' },
   { name: 'Features', href: '/#features' },
   { name: 'Marketplace', href: '/marketplace', hasMegaMenu: true },
-  { name: 'FAQ', href: '#faq' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'FAQ', href: '/faq' },
+  { name: 'Contact', href: '/contact' },
 ] as const
 
 /**

@@ -23,6 +23,7 @@ const footerLinks = {
     { name: 'Browse Categories', href: '/categories' },
   ],
   resources: [
+    { name: 'FAQ', href: '/faq' },
     { name: 'Contact Us', href: '/contact' },
   ],
   legal: [

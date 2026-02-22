@@ -93,7 +93,7 @@ const FaqSection = () => {
               Still have questions? We&apos;re here to help.
             </p>
             <Button className='cursor-pointer' asChild>
-              <a href="#contact">
+              <a href="/contact">
                 Contact Support
               </a>
             </Button>
