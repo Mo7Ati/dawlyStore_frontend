@@ -11,6 +11,7 @@ import { NavbarMobileMenu } from './navbar-mobile-menu'
 export function LandingNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false)
   const { customer, logout, isCustomerLoading: isLoading } = useAuth()
 
   return (
@@ -32,6 +33,8 @@ export function LandingNavbar() {
         <NavbarDesktopActions
           isCartOpen={isCartOpen}
           setIsCartOpen={setIsCartOpen}
+          isWishlistOpen={isWishlistOpen}
+          setIsWishlistOpen={setIsWishlistOpen}
           isLoading={isLoading}
           customer={customer}
           onLogout={logout}

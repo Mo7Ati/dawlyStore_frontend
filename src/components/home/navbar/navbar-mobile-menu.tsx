@@ -18,6 +18,7 @@ import { MobileMegaMenu } from '../mobile-mega-menu'
 import { navigationItems, smoothScrollTo, getUserInitials } from './nav-config'
 import { ModeToggle } from '@/components/toggle-theme'
 import { CartIcon } from '@/app/cart/components/cart-icon'
+import { WishlistIcon } from '@/components/wishlist-icon'
 
 type Customer = {
   name: string
@@ -57,6 +58,9 @@ export function NavbarMobileMenu({
               </div>
               <SheetTitle className="text-lg font-semibold">DawlyStore</SheetTitle>
               <div className="ml-auto flex items-center gap-2">
+                <span onClick={() => setIsOpen(false)}>
+                  <WishlistIcon asLink href="/wishlist" className="h-8 w-8" />
+                </span>
                 <span onClick={() => setIsOpen(false)}>
                   <CartIcon asLink href="/cart" className="h-8 w-8" />
                 </span>

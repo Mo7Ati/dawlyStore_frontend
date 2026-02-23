@@ -3,12 +3,15 @@
 import { useState, use, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Check } from 'lucide-react'
+import { Check, Heart } from 'lucide-react'
 import { Response } from '@/types/general'
 import { Product } from '@/types/product'
 import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
 import { CartItemOption, CartItemAddition } from '@/stores/cart/cart-types'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/contexts/auth-context'
+import { useIsInWishlist, useWishlistActions } from '@/stores/wishlist/use-wishlist'
+import { buildWishlistItem } from '@/services/wishlist/wishlist-service'
 
 export function ProductOverview({ productPromise }: { productPromise: Promise<Response<Product>> }) {
   const { data: product } = use(productPromise)
@@ -29,6 +32,9 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
   } = product
 
   const hasImages = images && images.length > 0
+  const { customer } = useAuth()
+  const inWishlist = useIsInWishlist(id, store.id)
+  const { toggleItem } = useWishlistActions(!!customer)
 
   // State for selected option (single selection)
   const [selectedOption, setSelectedOption] = useState<CartItemOption | null>(null)
@@ -244,9 +250,15 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                 showQuantityControls
                 className="w-full sm:flex-1 min-w-0"
               />
-              <button className="rounded-md bg-secondary px-6 py-2.5 sm:py-2 hover:bg-secondary/80 transition w-full sm:w-auto shrink-0">
-                Wish List
-              </button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full sm:w-auto shrink-0"
+                onClick={() => toggleItem(buildWishlistItem(product, store))}
+              >
+                <Heart className={`h-4 w-4 mr-2 ${inWishlist ? 'fill-red-500 text-red-500' : ''}`} />
+                {inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+              </Button>
             </div>
 
             <hr />

@@ -1,10 +1,12 @@
 "use client"
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useCart } from '@/stores/cart/use-cart'
 import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
 import { Product } from '@/types/product'
 import { Store } from '@/types/store'
+import { useAuth } from '@/contexts/auth-context'
+import { useIsInWishlist, useWishlistActions } from '@/stores/wishlist/use-wishlist'
+import { buildWishlistItem } from '@/services/wishlist/wishlist-service'
 
 type ProductCardProps = {
     product: Product
@@ -13,6 +15,10 @@ type ProductCardProps = {
 
 const ProductCard = ({ product, store }: ProductCardProps) => {
     const router = useRouter()
+    const { customer } = useAuth()
+    const storeId = store?.id ?? product.store_id ?? ''
+    const inWishlist = useIsInWishlist(product.id, storeId)
+    const { toggleItem } = useWishlistActions(!!customer)
 
     return (
         <div
@@ -71,16 +77,21 @@ const ProductCard = ({ product, store }: ProductCardProps) => {
                                 <path d="M6 5v14"></path>
                                 <rect width="12" height="18" x="10" y="3" rx="2"></rect>
                             </svg>
-                            <span className="ms-6 text-xs whitespace-nowrap opacity-0 group-hover:opacity-100">View Product</span></button></div><button data-slot="button"
-                                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([className*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 bg-background/80 absolute end-2 top-2 z-20 size-8 cursor-pointer rounded-full p-0 backdrop-blur-xs"
-                                aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-
-                                    className="lucide lucide-heart size-4 transition-colors text-red-500 hover:fill-red-500">
-                            <path
-                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z">
-                            </path>
-                        </svg></button>
+                            <span className="ms-6 text-xs whitespace-nowrap opacity-0 group-hover:opacity-100">View Product</span></button></div>
+                    <button
+                        type="button"
+                        data-slot="button"
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([className*='size-'])]:size-4 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 bg-background/80 absolute end-2 top-2 z-20 size-8 cursor-pointer rounded-full p-0 backdrop-blur-xs"
+                        aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            toggleItem(buildWishlistItem(product, store))
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" className={`lucide lucide-heart size-4 transition-colors text-red-500 hover:fill-red-500 ${inWishlist ? 'fill-red-500' : 'fill-none'}`}>
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                    </button>
                 </div>
                 <div className="p-4">
                     <div className="space-y-2">

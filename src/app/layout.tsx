@@ -6,7 +6,8 @@ import { LandingFooter } from "@/components/home/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import AuthProvider from "@/contexts/auth-context";
+import AuthProvider from "@/contexts/auth-context"
+import { WishlistSync } from "@/components/wishlist-sync";
 
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
+            <WishlistSync />
             <NuqsAdapter>
               <LandingNavbar />
               {children}
