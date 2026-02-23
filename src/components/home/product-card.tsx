@@ -4,22 +4,22 @@ import { useRouter } from 'next/navigation'
 import { useCart } from '@/stores/cart/use-cart'
 import { AddToCartButton } from '@/app/cart/components/add-to-cart-button'
 import { Product } from '@/types/product'
+import { Store } from '@/types/store'
 
 type ProductCardProps = {
     product: Product
-    storeId?: string
-    storeName?: string
+    store?: Store
 }
 
-const ProductCard = ({ product, storeId, storeName }: ProductCardProps) => {
+const ProductCard = ({ product, store }: ProductCardProps) => {
     const router = useRouter()
-    
+
     return (
         <div
             data-slot="card"
             className="bg-card text-card-foreground flex flex-col gap-6 relative overflow-hidden rounded-md border py-0 shadow-none transition-all hover:shadow-md cursor-pointer"
             onClick={() => {
-                router.push(`/products/${product.slug}`)
+                router.push(`/stores/${store?.slug ?? product.store.slug}/products/${product.slug}`)
             }}
         >
             <div data-slot="card-content" className="px-0">
@@ -92,7 +92,7 @@ const ProductCard = ({ product, storeId, storeName }: ProductCardProps) => {
                         {product.discount_percentage && <span className="text-sm">({product.discount_percentage}%OFF)</span>}
                     </div>
                     <div className='mt-4' onClick={(e) => e.stopPropagation()}>
-                        <AddToCartButton product={product} store={{ id: storeId ?? product.store_id ?? 'unknown', name: storeName ?? product.store?.name ?? 'Unknown Store' }} />
+                        <AddToCartButton product={product} store={{ id: store?.id ?? product.store_id ?? 'unknown', name: store?.name ?? product.store?.name ?? 'Unknown Store' }} />
                     </div>
                 </div>
             </div>

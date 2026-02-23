@@ -204,8 +204,7 @@ export default function ProductsGrid({ products, categories, store }: ProductsGr
                                     <ProductCard
                                         key={product.id}
                                         product={product}
-                                        storeId={store.id}
-                                        storeName={store.name}
+                                        store={store}
                                     />
                                 ))}
                             </div>
