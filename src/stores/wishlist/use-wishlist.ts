@@ -131,23 +131,40 @@ export function useWishlistActions(isLoggedIn: boolean) {
     if (isLoggedIn) {
       try {
         await addToWishlistApi(item.product_id);
+        toast.success("Added to wishlist", {
+          description: item.product_name,
+        });
       } catch {
         getItems().setItems(prev);
         toast.error("Could not update wishlist. Try again.");
       }
+    } else {
+      toast.success("Added to wishlist", {
+        description: item.product_name,
+      });
     }
   };
 
   const removeItem = async (product_id: string, store_id: string) => {
     const prev = [...getItems().items];
+    const removed = prev.find(
+      (i) => i.product_id === product_id && i.store_id === store_id
+    );
     removeItemLocal(product_id, store_id);
     if (isLoggedIn) {
       try {
         await removeFromWishlistApi(product_id);
+        toast.success("Removed from wishlist", {
+          description: removed?.product_name ?? "Item removed",
+        });
       } catch {
         getItems().setItems(prev);
         toast.error("Could not update wishlist. Try again.");
       }
+    } else {
+      toast.success("Removed from wishlist", {
+        description: removed?.product_name ?? "Item removed",
+      });
     }
   };
 

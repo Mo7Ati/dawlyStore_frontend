@@ -133,14 +133,14 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
             </nav>
 
             {/* Rating */}
-            <div className="flex w-fit items-center gap-2 rounded border px-2.5 sm:px-3 py-1.5">
+            {/* <div className="flex w-fit items-center gap-2 rounded border px-2.5 sm:px-3 py-1.5">
               {rating?.value && (
                 <span className="text-base sm:text-lg font-medium">4.8</span> //{rating.value.toFixed(1)}
               )}
               <span className="text-muted-foreground text-sm">
                 {rating?.count} Reviews
               </span>
-            </div>
+            </div> */}
 
             {/* Price */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -150,7 +150,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
               {compare_price && compare_price > price && (
                 <>
                   <span className="line-through text-muted-foreground">
-                    MRP ${compare_price.toFixed(2)}
+                    ${compare_price.toFixed(2)}
                   </span>
                   {typeof discount_percentage === 'number' && (
                     <span className="rounded-full bg-green-600/10 px-2 py-0.5 text-xs font-medium text-green-600">
