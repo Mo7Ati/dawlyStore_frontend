@@ -26,33 +26,30 @@ function CartItemRow({ item, storeName }: { item: CartItem; storeName: string })
 
             {/* Product Info */}
             <div className="flex-1 min-w-0">
-                <h4 className="text-sm font-medium line-clamp-1">{item.productName}</h4>
-                <p className="text-xs text-muted-foreground">
-                    {item.selected_options.length > 0
-                        ? item.selected_options.map(opt => opt.name).join(', ')
-                        : storeName}
-                </p>
+                <h4 className="text-sm font-medium break-words">{item.productName}</h4>
                 <p className="text-sm font-semibold mt-0.5">${item.unitPrice.toFixed(2)}</p>
             </div>
 
             {/* Quantity Controls */}
-            <div className="flex items-center gap-1 text-muted-foreground">
+            <div className="flex items-center gap-0.5 text-muted-foreground">
                 <Button
                     variant="outline"
                     size="icon"
+                    className="size-7"
                     onClick={() => decrementQuantity(item.cartItemId)}
                     aria-label="Decrease quantity"
                 >
-                    <Minus className="h-4 w-4" />
+                    <Minus className="h-3 w-3" />
                 </Button>
-                <span className="w-6 text-center text-sm text-foreground">{item.quantity}</span>
+                <span className="w-5 text-center text-xs text-foreground tabular-nums">{item.quantity}</span>
                 <Button
                     variant="outline"
                     size="icon"
+                    className="size-7"
                     onClick={() => incrementQuantity(item.cartItemId)}
                     aria-label="Increase quantity"
                 >
-                    <Plus className="h-4 w-4" />
+                    <Plus className="h-3 w-3" />
                 </Button>
             </div>
 
@@ -60,10 +57,11 @@ function CartItemRow({ item, storeName }: { item: CartItem; storeName: string })
             <Button
                 variant="destructive"
                 size="icon"
+                className="size-7"
                 onClick={() => removeItem(item.cartItemId)}
                 aria-label="Remove item"
             >
-                <X className="h-4 w-4" />
+                <X className="h-3 w-3" />
             </Button>
         </div>
     )
