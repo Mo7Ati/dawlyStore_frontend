@@ -19,10 +19,10 @@ import {
 import api from '@/lib/api'
 
 const contactFormSchema = z.object({
-  firstName: z.string().min(2, {
+  first_name: z.string().min(2, {
     message: 'First name must be at least 2 characters.',
   }),
-  lastName: z.string().min(2, {
+  last_name: z.string().min(2, {
     message: 'Last name must be at least 2 characters.',
   }),
   email: z.string().email({
@@ -45,8 +45,8 @@ export function ContactForm() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
       subject: '',
       message: '',
@@ -86,7 +86,7 @@ export function ContactForm() {
         <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
-            name="firstName"
+            name="first_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First name</FormLabel>
@@ -104,7 +104,7 @@ export function ContactForm() {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name="last_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last name</FormLabel>

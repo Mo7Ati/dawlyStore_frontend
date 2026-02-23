@@ -105,7 +105,7 @@ interface CategoryLinkProps {
 function CategoryLink({ category }: CategoryLinkProps) {
   return (
     <Link
-      href={`/stores?category=${category.id}`}
+      href={`/stores?category=${category.slug}`}
       className={cn(
         "group flex items-center gap-3 rounded-lg p-2 -mx-2",
         "transition-colors hover:bg-accent focus:bg-accent focus:outline-none",
@@ -143,19 +143,6 @@ function CategoriesList() {
       {displayCategories.map((category) => (
         <CategoryLink key={category.id} category={category} />
       ))}
-      {hasMore && (
-        <Link
-          href="/stores"
-          className={cn(
-            "group flex items-center gap-3 rounded-lg p-2 -mx-2 mt-2",
-            "transition-colors hover:bg-accent focus:bg-accent focus:outline-none",
-            "text-sm font-medium text-primary"
-          )}
-        >
-          <Grid3X3 className="h-4 w-4" />
-          View All Categories
-        </Link>
-      )}
     </div>
   )
 }
@@ -203,13 +190,13 @@ function CategoriesColumn() {
 export function MegaMenu() {
   return (
     <div className="w-[900px] max-w-[95vw] p-6 bg-background">
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid grid-cols-3 gap-8">
         {/* Column 1: Browse Marketplace */}
-        <MenuColumn title="Browse Marketplace">
+        {/* <MenuColumn title="Browse Marketplace">
           {browseMarketplaceItems.map((item) => (
             <MenuItemLink key={item.title} item={item} />
           ))}
-        </MenuColumn>
+        </MenuColumn> */}
 
         {/* Column 2: Categories (Lazy Loaded) */}
         <CategoriesColumn />

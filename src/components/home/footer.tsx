@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/logo'
 import { Github, Twitter, Linkedin, Youtube, Heart } from 'lucide-react'
+import Link from "next/link"
 
 const newsletterSchema = z.object({
   email: z.string().email({
@@ -19,16 +20,13 @@ const footerLinks = {
     { name: 'Browse Stores', href: '/stores' },
     { name: 'Become a Store Owner', href: '/become-vendor' },
   ],
-  categories: [
-    { name: 'Browse Categories', href: '/categories' },
-  ],
   resources: [
     { name: 'FAQ', href: '/faq' },
     { name: 'Contact Us', href: '/contact' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy-policy' },
-    { name: 'Terms of Service', href: '/terms-of-service' },
+    // { name: 'Terms of Service', href: '/terms-of-service' },
   ],
 }
 
@@ -60,10 +58,10 @@ export function LandingFooter() {
           {/* Brand Column */}
           <div className="col-span-4 lg:col-span-2 max-w-2xl">
             <div className="flex items-center space-x-2 mb-4 max-lg:justify-center">
-              <a href="https://shadcnstore.com" target='_blank' className="flex items-center space-x-2 cursor-pointer">
+              <Link href="/" target='_blank' className="flex items-center space-x-2 cursor-pointer">
                 <Logo size={32} />
                 <span className="font-bold text-xl">DawlyStore</span>
-              </a>
+              </Link>
             </div>
             <p className="text-muted-foreground mb-6 max-lg:text-center max-lg:flex max-lg:justify-center">
               DawlyStore is a platform for buying and selling products online with a focus on quality and customer satisfaction.
@@ -90,28 +88,12 @@ export function LandingFooter() {
             <ul className="space-y-3">
               {footerLinks.stores.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className='max-md:col-span-2 lg:col-span-1'>
-            <h4 className="font-semibold mb-4">Categories</h4>
-            <ul className="space-y-3">
-              {footerLinks.categories.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -122,12 +104,12 @@ export function LandingFooter() {
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -138,12 +120,12 @@ export function LandingFooter() {
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -156,26 +138,17 @@ export function LandingFooter() {
         <div className="flex flex-col lg:flex-row justify-between items-center gap-2">
           <div className="flex flex-col sm:flex-row items-center gap-2 text-muted-foreground text-sm">
             <div className="flex items-center gap-1">
-              <span>Made with</span>
-              <Heart className="h-4 w-4 text-red-500 fill-current" />
-              <span>by</span>
-              <a href="https://shadcnstore.com" target='_blank' className="font-semibold text-foreground hover:text-primary transition-colors cursor-pointer">
+              <Link href="/" target='_blank' className="font-semibold text-foreground hover:text-primary transition-colors cursor-pointer">
                 DawlyStore
-              </a>
+              </Link>
             </div>
             <span className="hidden sm:inline">•</span>
             <span>© {new Date().getFullYear()} Dawly Store</span>
           </div>
           <div className="flex items-center space-x-4 text-sm text-muted-foreground mt-4 md:mt-0">
-            <a href="#privacy" className="hover:text-foreground transition-colors">
+            <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
               Privacy Policy
-            </a>
-            <a href="#terms" className="hover:text-foreground transition-colors">
-              Terms of Service
-            </a>
-            <a href="#cookies" className="hover:text-foreground transition-colors">
-              Cookie Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>

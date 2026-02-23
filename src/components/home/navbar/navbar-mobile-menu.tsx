@@ -55,7 +55,7 @@ export function NavbarMobileMenu({
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Logo size={16} />
               </div>
-              <SheetTitle className="text-lg font-semibold">ShadcnStore</SheetTitle>
+              <SheetTitle className="text-lg font-semibold">DawlyStore</SheetTitle>
               <div className="ml-auto flex items-center gap-2">
                 <span onClick={() => setIsOpen(false)}>
                   <CartIcon asLink href="/cart" className="h-8 w-8" />

@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card'
 import { RegisterForm } from './components/register-form'
+import Link from 'next/link'
 
 export default function RegisterPage() {
   return (
@@ -60,14 +61,10 @@ export default function RegisterPage() {
 
         {/* Terms and Privacy */}
         <p className="text-muted-foreground relative z-10 mt-8 max-w-lg px-8 text-center text-xs text-balance">
-          By creating an account, you agree to ShadcnStore&apos;s&nbsp;
-          <a href="#" className="hover:text-primary underline underline-offset-4">
-            Terms of Service
-          </a>
-          &nbsp;and&nbsp;
-          <a href="#" className="hover:text-primary underline underline-offset-4">
+          By creating an account, you agree to DawlyStore&apos;s&nbsp;
+          <Link href="/privacy-policy" className="hover:text-primary underline underline-offset-4">
             Privacy Policy
-          </a>
+          </Link>
           .
         </p>
       </div>

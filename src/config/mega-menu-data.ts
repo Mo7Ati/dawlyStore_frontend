@@ -92,21 +92,15 @@ export const vendorItems: MenuItem[] = [
  */
 export const resourceItems: MenuItem[] = [
   {
-    title: "How It Works",
-    description: "Learn about our marketplace",
-    href: "/how-it-works",
-    icon: HelpCircle,
-  },
-  {
     title: "Vendor Guide",
     description: "Everything you need to succeed",
     href: "/vendor-guide",
     icon: BookOpen,
   },
   {
-    title: "Help Center",
+    title: "Contact",
     description: "Get support and answers",
-    href: "/help",
+    href: "/contact",
     icon: Headphones,
   },
 ]
