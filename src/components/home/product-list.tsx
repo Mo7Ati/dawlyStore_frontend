@@ -1,3 +1,5 @@
+"use client";
+
 import ProductCard from './product-card'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Product } from '@/types/product'

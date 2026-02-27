@@ -24,6 +24,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                                 className="w-full h-full object-cover"
                                 width={80}
                                 height={80}
+                                sizes="80px"
                             />
                         </div>
                     </div>
@@ -101,6 +102,7 @@ const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: 
                                 className="w-full h-full object-cover"
                                 width={96}
                                 height={96}
+                                sizes="(min-width: 640px) 96px, 80px"
                             />
                         </div>
                     </div>

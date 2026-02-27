@@ -40,6 +40,7 @@ const ProductCard = ({ product, store }: ProductCardProps) => {
                         loading="lazy"
                         width={500}
                         height={500}
+                        sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
                         src={imageSrc}
                     />
 
