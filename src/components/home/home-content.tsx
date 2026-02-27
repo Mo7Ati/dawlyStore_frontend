@@ -1,5 +1,3 @@
-"use client"
-
 import SectionsRenderer from './sections-renderer'
 import { Section } from '@/types/home-types'
 

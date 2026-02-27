@@ -101,15 +101,15 @@ export function StoreList({ data }: { data: StoreListProps }) {
                     </CarouselContent>
                     <CarouselPrevious variant='outline' className='hidden cursor-pointer lg:flex' />
                     <CarouselNext variant='outline' className='hidden cursor-pointer lg:flex' />
-                    <div className='mt-8 flex items-center justify-center gap-2'>
+                    <div className='mt-8 flex items-center justify-center gap-3'>
                         {data.stores.map((_, index) => (
                             <Button
                                 variant='ghost'
                                 key={index}
                                 onClick={() => api?.scrollTo(index)}
                                 className={cn(
-                                    'size-2 cursor-pointer rounded-full !p-0 transition-all',
-                                    current === index ? 'bg-foreground w-6' : 'bg-muted',
+                                    'h-6 w-6 cursor-pointer rounded-full p-1 transition-all',
+                                    current === index ? 'bg-foreground/80' : 'bg-muted',
                                 )}
                                 aria-label={`Go to slide ${index + 1}`}
                                 aria-current={current === index ? 'true' : 'false'}

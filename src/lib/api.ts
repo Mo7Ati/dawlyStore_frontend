@@ -6,7 +6,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Origin': `${process.env.NEXT_PUBLIC_FRONTEND_URL}`,
   },
   timeout: 10000,
   withCredentials: true,

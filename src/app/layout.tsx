@@ -45,7 +45,9 @@ export default function RootLayout({
             <WishlistSync />
             <NuqsAdapter>
               <LandingNavbar />
-              {children}
+              <main id="main-content">
+                {children}
+              </main>
               <LandingFooter />
             </NuqsAdapter>
             <Toaster />
