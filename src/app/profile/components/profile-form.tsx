@@ -27,7 +27,7 @@ type BasicInfoValues = z.infer<typeof basicInfoSchema>;
 const basicInfoSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
     email: z.string().email("Please enter a valid email address"),
-    phone: z.string().optional(),
+    phone_number: z.string().optional(),
 });
 
 const ProfileForm: React.FC = () => {
@@ -39,7 +39,7 @@ const ProfileForm: React.FC = () => {
         defaultValues: {
             name: "",
             email: "",
-            phone: "",
+            phone_number: "",
         },
     });
 
@@ -56,7 +56,7 @@ const ProfileForm: React.FC = () => {
             form.reset({
                 name: customer.name || "",
                 email: customer.email || "",
-                phone: customer.phone || "",
+                phone_number: customer.phone_number || "",
             });
         }
     }, [customer, form]);
@@ -68,19 +68,8 @@ const ProfileForm: React.FC = () => {
 
     const onSubmit = async (data: BasicInfoValues) => {
         try {
-            // Optional: only send changed fields
-            const changedData: Partial<BasicInfoValues> = {};
-            if (data.name !== customer.name) changedData.name = data.name;
-            if (data.email !== customer.email) changedData.email = data.email;
-            if (data.phone !== customer.phone) changedData.phone = data.phone || undefined;
-
-            if (Object.keys(changedData).length === 0) {
-                toast.info("No changes detected");
-                return;
-            }
-
             // Disable inputs while submitting handled by formState.isSubmitting
-            await updateProfile(changedData);
+            await updateProfile(data);
 
             // Refresh user data in context
             await getCustomer();
@@ -155,7 +144,7 @@ const ProfileForm: React.FC = () => {
                 {/* Phone Field */}
                 <FormField
                     control={form.control}
-                    name="phone"
+                    name="phone_number"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Phone (optional)</FormLabel>

@@ -6,7 +6,7 @@ export interface Customer {
   id: number;
   name: string;
   email: string;
-  phone?: string;
+  phone_number?: string;
   email_verified_at?: string;
   created_at: string;
   updated_at: string;
