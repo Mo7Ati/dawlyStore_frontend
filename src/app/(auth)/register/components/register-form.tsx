@@ -82,7 +82,6 @@ export function RegisterForm() {
       setIsLoading(false)
     }
   }
-console.log(errorMessage);
 
   return (
     <Form {...form}>

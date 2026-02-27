@@ -24,7 +24,6 @@ const CategoriesFilter = ({ categoriesResponsePromise, selectedCategory, setSele
         ? ALL_LABEL
         : (categories.find(c => c.name === selectedCategory)?.name ?? selectedCategory);
 
-    console.log(categories);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
