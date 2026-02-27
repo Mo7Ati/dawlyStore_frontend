@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -22,14 +21,6 @@ import SignInRequired from "./components/sign-in-required";
 import CartItems from "../cart/components/cart-items";
 import OrderSummery from "./components/order-summery";
 
-export const metadata: Metadata = {
-  title: "Checkout - DawlyStore",
-  description: "Secure checkout for your DawlyStore order.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 type CheckoutState =
   | "loading"

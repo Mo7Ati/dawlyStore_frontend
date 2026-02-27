@@ -1,20 +1,11 @@
 'use client';
 
-import type { Metadata } from "next";
 import { useCartHydrated, useCartSummary } from "@/stores/cart/use-cart";
 import { CartSkeleton } from "./components/cart-skeleton";
 import CartSummary from "./components/cart-summery";
 import { CartEmpty } from "./components/cart-empty";
 import CartItems from "./components/cart-items";
 
-export const metadata: Metadata = {
-  title: "Shopping Cart - DawlyStore",
-  description: "Review the items in your DawlyStore shopping cart before checkout.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export default function ShoppingCart() {
   const summery = useCartSummary();
