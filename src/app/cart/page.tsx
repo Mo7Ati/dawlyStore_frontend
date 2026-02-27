@@ -1,10 +1,20 @@
-'use client'
+'use client';
 
-import { useCartHydrated, useCartSummary } from '@/stores/cart/use-cart'
-import { CartSkeleton } from './components/cart-skeleton'
-import CartSummary from './components/cart-summery'
-import { CartEmpty } from './components/cart-empty'
-import CartItems from './components/cart-items'
+import type { Metadata } from "next";
+import { useCartHydrated, useCartSummary } from "@/stores/cart/use-cart";
+import { CartSkeleton } from "./components/cart-skeleton";
+import CartSummary from "./components/cart-summery";
+import { CartEmpty } from "./components/cart-empty";
+import CartItems from "./components/cart-items";
+
+export const metadata: Metadata = {
+  title: "Shopping Cart - DawlyStore",
+  description: "Review the items in your DawlyStore shopping cart before checkout.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function ShoppingCart() {
   const summery = useCartSummary();
@@ -15,20 +25,16 @@ export default function ShoppingCart() {
   }
 
   return (
-    <div className='container mx-auto max-w-7xl px-4 py-8'>
-      <div className='flex flex-col gap-8 lg:flex-row'>
-        <div className='flex-1 space-y-6'>
+    <div className="container mx-auto max-w-7xl px-4 py-8">
+      <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="flex-1 space-y-6">
           {/* Cart Items */}
-          {summery.isEmpty ? (
-            <CartEmpty />
-          ) : (
-            <CartItems />
-          )}
+          {summery.isEmpty ? <CartEmpty /> : <CartItems />}
         </div>
 
         {/* Order Summary */}
         <CartSummary />
       </div>
     </div>
-  )
+  );
 }

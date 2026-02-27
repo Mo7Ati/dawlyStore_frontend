@@ -1,4 +1,11 @@
-import { BecomeVendorForm } from './components/become-vendor-form'
+import type { Metadata } from "next";
+import { BecomeVendorForm } from "./components/become-vendor-form";
+
+export const metadata: Metadata = {
+  title: "Become a Vendor - DawlyStore",
+  description:
+    "Apply to become a vendor on DawlyStore and start selling your products in our multi-vendor online marketplace.",
+};
 
 export default function BecomeVendorPage() {
   return (
@@ -15,5 +22,5 @@ export default function BecomeVendorPage() {
         <BecomeVendorForm />
       </div>
     </section>
-  )
+  );
 }
