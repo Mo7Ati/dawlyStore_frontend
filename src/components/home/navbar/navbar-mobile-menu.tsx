@@ -78,7 +78,7 @@ export function NavbarMobileMenu({
             <nav className="p-4 space-y-1" aria-label="Mobile navigation">
               {/* Static Navigation Items */}
               {navigationItems.filter(item => !item.hasMegaMenu).map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer"
@@ -91,7 +91,7 @@ export function NavbarMobileMenu({
                   }}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
 
               {/* Marketplace Mega Menu (Accordion Style) */}

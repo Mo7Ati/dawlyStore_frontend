@@ -28,7 +28,7 @@ function WishlistDropdownRow({
         onClick={(e) => e.stopPropagation()}
       >
         <Image
-          src={item.product_image_url || "/placeholder.svg"}
+          src={item.product_image_url ?? "/fallback.png"}
           alt={item.product_name}
           fill
           className="object-cover"

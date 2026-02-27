@@ -191,24 +191,17 @@ export function MegaMenu() {
   return (
     <div className="w-[900px] max-w-[95vw] p-6 bg-background">
       <div className="grid grid-cols-3 gap-8">
-        {/* Column 1: Browse Marketplace */}
-        {/* <MenuColumn title="Browse Marketplace">
-          {browseMarketplaceItems.map((item) => (
-            <MenuItemLink key={item.title} item={item} />
-          ))}
-        </MenuColumn> */}
-
-        {/* Column 2: Categories (Lazy Loaded) */}
+        {/* Column 1: Categories (Lazy Loaded) */}
         <CategoriesColumn />
 
-        {/* Column 3: For Vendors */}
+        {/* Column 2: For Vendors */}
         <MenuColumn title="For Vendors">
           {vendorItems.map((item) => (
             <MenuItemLink key={item.title} item={item} />
           ))}
         </MenuColumn>
 
-        {/* Column 4: Resources */}
+        {/* Column 3: Resources */}
         <MenuColumn title="Resources">
           {resourceItems.map((item) => (
             <MenuItemLink key={item.title} item={item} />
@@ -224,3 +217,4 @@ export function MegaMenu() {
 // ============================================================================
 
 export { MenuItemLink, CategoriesList, CategoriesSkeleton }
+

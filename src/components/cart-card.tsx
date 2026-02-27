@@ -15,8 +15,8 @@ function CartItemRow({ item, storeName }: { item: CartItem; storeName: string })
         <div className="flex items-start gap-3 py-3">
             {/* Product Image */}
             <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md bg-muted">
-                <Image
-                    src={item.productImageUrl}
+                <Image  
+                    src={item.productImageUrl ?? "/fallback.png"}
                     alt={item.productName}
                     fill
                     className="object-cover"

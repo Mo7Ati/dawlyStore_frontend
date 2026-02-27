@@ -26,7 +26,7 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
     <div className="flex gap-3 border-b border-border/60 py-4 last:border-b-0">
       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-muted aspect-square">
         <Image
-          src={product.images[0]}
+          src={product.images[0] ?? "/fallback.png"}
           alt={product.name}
           fill
           className="object-cover"

@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 const StoreCard = ({ store, viewMode = 'grid' }: { store: StoreType, viewMode?: ViewMode }) => {
-    const logoSrc = store.logo ? store.logo : 'https://img.freepik.com/premium-vector/store-bag-shopping-store-logo-design_92167-793.jpg?semt=ais_user_personalization&w=740&q=80';
+    const logoSrc = store.logo || '/fallback.png';
     const router = useRouter();
 
     if (viewMode === 'grid') {

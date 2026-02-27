@@ -205,7 +205,7 @@ function MobileCategoriesSkeleton() {
  */
 function MobileCategoriesSection({ onItemClick }: MobileCategoriesListProps) {
   return (
-    <MobileMenuSection title="Categories">
+    <MobileMenuSection title="Categories" defaultOpen={true}>
       <Suspense fallback={<MobileCategoriesSkeleton />}>
         <MobileCategoriesList onItemClick={onItemClick} />
       </Suspense>
@@ -225,11 +225,11 @@ export function MobileMegaMenu({ onItemClick }: MobileMegaMenuProps) {
   return (
     <div className="space-y-1">
       {/* Browse Marketplace Section */}
-      <MobileMenuSection title="Browse Marketplace" defaultOpen>
+      {/* <MobileMenuSection title="Browse Marketplace" defaultOpen>
         {browseMarketplaceItems.map((item) => (
           <MobileMenuItem key={item.title} item={item} onItemClick={onItemClick} />
         ))}
-      </MobileMenuSection>
+      </MobileMenuSection> */}
 
       {/* Categories Section (Lazy Loaded) */}
       <MobileCategoriesSection onItemClick={onItemClick} />

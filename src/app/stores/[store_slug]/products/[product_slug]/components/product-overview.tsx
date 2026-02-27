@@ -31,7 +31,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
     category,
   } = product
 
-  const hasImages = images && images.length > 0
+  const hasMoreImages = images && images.length > 1
   const { customer } = useAuth()
   const inWishlist = useIsInWishlist(id, store.id)
   const { toggleItem } = useWishlistActions(!!customer)
@@ -78,21 +78,21 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
           {/* LEFT – GALLERY */}
           <div className="flex flex-col gap-2 sm:gap-3">
             <div className="relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-muted h-[280px] min-[480px]:h-[340px] sm:h-[380px] md:h-[460px] lg:h-[520px]">
-              {hasImages && (
-                <Image
-                  src={images[selectedImageIndex] ?? images[0]}
-                  alt={name}
-                  fill
-                  className="object-cover transition-transform duration-300"
-                  priority
-                />
-              )}
+              <Image
+                src={images[selectedImageIndex] ?? "/fallback.png"}
+                alt={name}
+                fill
+                className="object-cover transition-transform duration-300"
+                priority
+              />
             </div>
 
-            {hasImages && images.length > 1 && (
-              <div className="mt-1 flex gap-1.5 sm:gap-2 overflow-x-auto pb-1">
+            {hasMoreImages && (
+              <div className="mt-1 flex gap-1.5 sm:gap-2 overflow-x-auto p-5 ">
                 {images.map((image, index) => {
                   const isActive = selectedImageIndex === index
+                  const imageSrc = image ?? "/fallback.png"
+
                   return (
                     <button
                       key={image + index}
@@ -104,7 +104,7 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                         }`}
                     >
                       <Image
-                        src={image}
+                        src={imageSrc}
                         alt={`${name} thumbnail ${index + 1}`}
                         fill
                         className="object-cover"
@@ -113,7 +113,8 @@ export function ProductOverview({ productPromise }: { productPromise: Promise<Re
                   )
                 })}
               </div>
-            )}
+            )
+            }
           </div>
 
           {/* RIGHT – DETAILS */}

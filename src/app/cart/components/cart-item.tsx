@@ -40,7 +40,7 @@ export function CartItem({ item, compact = false }: CartItemProps) {
         )}
       >
         <Image
-          src={item.productImageUrl}
+          src={item.productImageUrl ?? "/fallback.png"}
           alt={item.productName}
           fill
           className="object-cover"
