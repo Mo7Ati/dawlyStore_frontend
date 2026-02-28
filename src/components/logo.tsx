@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils"
 import * as React from "react"
 
 interface LogoProps extends React.SVGProps<SVGSVGElement> {
@@ -12,7 +13,7 @@ export function Logo({ size = 24, className, ...props }: LogoProps) {
       viewBox="0 0 32 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={cn("text-primary", className)}
       {...props}
     >
       <path
