@@ -1,3 +1,5 @@
+'use client'
+
 import { Suspense } from "react";
 import { getAddresses } from "@/services/address/address-service";
 import { AddressesContent } from "./components/addresses-content";
