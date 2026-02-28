@@ -24,13 +24,13 @@ export function StoreGroup({
   return (
     <div className="rounded-xl border bg-card shadow-sm">
       {/* Store Header */}
-      <div className="flex items-center justify-between border-b px-4 py-3">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+      <div className="flex flex-col gap-2 border-b px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
             <Store className="h-4 w-4 text-primary" />
           </div>
-          <div>
-            <h3 className="font-semibold">{group.storeName}</h3>
+          <div className="min-w-0">
+            <h3 className="truncate font-semibold">{group.storeName}</h3>
             <p className="text-xs text-muted-foreground">
               {group.itemCount} {group.itemCount === 1 ? "item" : "items"}
             </p>
@@ -41,11 +41,12 @@ export function StoreGroup({
           <Button
             variant="ghost"
             size="sm"
-            className="text-muted-foreground hover:text-destructive"
+            className="w-fit shrink-0 text-muted-foreground hover:text-destructive"
             onClick={() => removeStoreItems(group.store_id)}
           >
             <Trash2 className="mr-1 h-4 w-4" />
-            Remove all
+            <span className="hidden sm:inline">Remove all</span>
+            <span className="sm:hidden">Remove</span>
           </Button>
         )}
       </div>

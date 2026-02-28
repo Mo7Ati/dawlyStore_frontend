@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await getCsrfToken();
         await api.post<Response<Customer>>('/login', loginData);
         getCustomer();
-        toast.success("Signed in successfully");
+        toast.success("Logged in successfully");
         const redirect = getRedirectFromUrl();
         router.push(redirect ?? '/');
     };
@@ -93,10 +93,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
             await api.post('/logout');
             setCustomer(null);
-            toast.success("Signed out successfully");
+            toast.success("Logged out successfully");
             router.refresh();
         } catch (error) {
-            console.error(error);
             toast.error("Failed to sign out");
         }
     };

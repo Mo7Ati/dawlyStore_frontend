@@ -82,8 +82,8 @@ export default function CheckoutPage() {
   // Show loading until cart is hydrated (avoids flash of empty cart)
   if (!hydrated || state === "loading" || state === "checking_auth") {
     return (
-      <div className="container mx-auto flex max-w-4xl items-center justify-center px-4 py-20">
-        <Loader2 className="mr-2 h-6 w-6 animate-spin text-muted-foreground" />
+      <div className="container mx-auto flex max-w-4xl flex-col items-center justify-center gap-3 px-4 py-20 sm:flex-row sm:gap-2">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground sm:mr-2" />
         <span className="text-muted-foreground">Loading checkout...</span>
       </div>
     );
@@ -105,10 +105,10 @@ export default function CheckoutPage() {
 
   // Ready: show checkout UI
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-6 sm:py-8">
+    <div className="container mx-auto max-w-7xl px-4 py-6 pb-24 sm:py-8 sm:pb-8">
       {/* Header */}
-      <header className="mb-6 sm:mb-8">
-        <Button variant="ghost" size="icon" className="mb-2 sm:mb-0" asChild>
+      <header className="mb-6 flex flex-col gap-3 sm:mb-8 sm:gap-2">
+        <Button variant="ghost" size="icon" className="-ml-2 w-fit" asChild>
           <Link href="/cart" aria-label="Back to cart">
             <ArrowLeft className="h-5 w-5" />
           </Link>
@@ -123,13 +123,14 @@ export default function CheckoutPage() {
 
       {state === "error" && (
         <Alert variant="destructive" className="mb-4 sm:mb-6">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="h-4 w-4 shrink-0" />
           <AlertTitle>Error</AlertTitle>
-          <AlertDescription className="flex flex-wrap items-center gap-2">
-            <span className="flex-1">{errorMessage}</span>
+          <AlertDescription className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <span className="flex-1 min-w-0">{errorMessage}</span>
             <Button
               variant="outline"
               size="sm"
+              className="w-full sm:w-auto shrink-0"
               onClick={() => setState("ready")}
             >
               Try again
@@ -139,8 +140,8 @@ export default function CheckoutPage() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-        {/* Left: Address + order items */}
-        <div className="space-y-6 lg:col-span-2">
+        {/* Left: Address + order items — order-2 on mobile so summary appears first */}
+        <div className="order-2 space-y-6 lg:order-1 lg:col-span-2">
           <AddressSelector
             selectedAddressId={selectedAddressId}
             onSelect={setSelectedAddressId}
@@ -149,8 +150,36 @@ export default function CheckoutPage() {
           <CartItems />
         </div>
 
-        {/* Right: Order summary (sticky on desktop) */}
+        {/* Right: Order summary (sticky on desktop, first on mobile) */}
         <OrderSummery handleCheckout={handleCheckout} selectedAddressId={selectedAddressId} state={state} />
+      </div>
+
+      {/* Mobile sticky bottom bar — keeps CTA visible while scrolling */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t bg-background/95 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] backdrop-blur supports-backdrop-filter:bg-background/80 lg:hidden">
+        <div className="container mx-auto flex max-w-7xl items-center justify-between gap-4">
+          <div>
+            <p className="text-xs text-muted-foreground">Estimated total</p>
+            <p className="text-lg font-bold text-primary">${summary.grandTotal.toFixed(2)}</p>
+          </div>
+          <Button
+            className="min-w-[140px] shrink-0"
+            size="lg"
+            onClick={handleCheckout}
+            disabled={!selectedAddressId || state === "processing"}
+          >
+            {state === "processing" ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Redirecting…
+              </>
+            ) : (
+              <>
+                Proceed to payment
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );

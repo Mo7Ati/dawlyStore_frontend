@@ -35,7 +35,8 @@ api.interceptors.response.use(function onFulfilled(response) {
   if (error.status === 404) {
     redirect('/not-found');
   }
-  return Promise.reject(error.response.data.message);
+  const message = error.response?.data?.message ?? error.message ?? "Request failed";
+  return Promise.reject(message);
 });
 export default api
 

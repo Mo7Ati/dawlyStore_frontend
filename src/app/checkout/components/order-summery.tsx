@@ -21,7 +21,7 @@ const OrderSummery = (
     }: OrderSummeryProps) => {
     const summary = useCartSummary();
     return (
-        <div className="lg:col-span-1">
+        <div className="order-1 lg:order-2 lg:col-span-1">
             <div className="sticky top-4 space-y-4">
                 <Card>
                     <CardHeader className="pb-2 sm:pb-4">
@@ -32,9 +32,9 @@ const OrderSummery = (
                             {summary.storeGroups.map((group) => (
                                 <div
                                     key={group.store_id}
-                                    className="flex items-center justify-between text-sm"
+                                    className="flex items-center justify-between gap-2 text-sm"
                                 >
-                                    <span className="truncate text-muted-foreground pr-2">
+                                    <span className="min-w-0 truncate text-muted-foreground">
                                         {group.storeName}
                                     </span>
                                     <span className="shrink-0 font-medium">
@@ -65,11 +65,11 @@ const OrderSummery = (
 
                         <Separator />
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-2">
                             <span className="text-base font-semibold sm:text-lg">
                                 Estimated total
                             </span>
-                            <span className="text-xl font-bold text-primary sm:text-2xl">
+                            <span className="shrink-0 text-xl font-bold text-primary sm:text-2xl">
                                 ${summary.grandTotal.toFixed(2)}
                             </span>
                         </div>

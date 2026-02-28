@@ -97,7 +97,7 @@ export function CartItem({ item, compact = false }: CartItemProps) {
         </div>
 
         {/* Price and Quantity Controls */}
-        <div className="mt-2 flex items-center justify-between gap-2">
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           {/* Quantity Controls */}
           <div className="flex items-center gap-1">
             <Button

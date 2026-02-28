@@ -33,10 +33,10 @@ export function BecomeVendorForm() {
     setIsLoading(true)
 
     try {
-      const res = await api.post('/become-vendor', { name: data.name, email: data.email })
+      await api.post('/become-vendor', { name: data.name, email: data.email })
       setResult({ message: 'We Will contact you soon', success: true })
-    } catch {
-      setResult({ message: "Something went wrong. Please try again Later.", success: false })
+    } catch (error) {
+      setResult({ message: error as string, success: false })
     } finally {
       setIsLoading(false)
     }
