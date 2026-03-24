@@ -30,7 +30,11 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'media.istockphoto.com',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: '*.laravel.cloud',
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     dangerouslyAllowLocalIP: true,
